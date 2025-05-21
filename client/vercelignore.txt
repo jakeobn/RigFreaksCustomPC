@@ -1,0 +1,25 @@
+# Ignore server-related files
+/server
+/backups
+/scripts
+/.github
+/migrations
+/node_modules
+/.git
+
+# Ignore config files not needed for frontend
+*.config.js
+*.config.ts
+!vite.config.ts
+!tailwind.config.ts
+!postcss.config.js
+drizzle.config.ts
+
+# Ignore build artifacts
+dist
+build
+
+# Ignore environment files (they'll be set in Vercel dashboard)
+.env
+.env.*
+!.env.production
