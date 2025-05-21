@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="800px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>RAM</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M2,4 C2,2.8954305 2.8954305,2 4,2 L20,2 C21.1045695,2 22,2.8954305 22,4 L22,20 C22,21.1045695 21.1045695,22 20,22 L4,22 C2.8954305,22 2,21.1045695 2,20 L2,4 Z" fill="#FF00FF" />
+        <path d="M4,4 L20,4 L20,20 L4,20 L4,4 Z" fill="#000000" />
+        <path d="M6,6 L7,6 L7,18 L6,18 L6,6 Z" fill="#00FFFF" />
+        <path d="M9,6 L10,6 L10,18 L9,18 L9,6 Z" fill="#00FFFF" />
+        <path d="M12,6 L13,6 L13,18 L12,18 L12,6 Z" fill="#00FFFF" />
+        <path d="M15,6 L16,6 L16,18 L15,18 L15,6 Z" fill="#00FFFF" />
+        <path d="M18,6 L19,6 L19,18 L18,18 L18,6 Z" fill="#00FFFF" />
+    </g>
+</svg>

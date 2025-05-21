@@ -1,0 +1,157 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_primary }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- capture seo_title -%}
+      {%- if template == 'search' and search.performed == true -%}
+        {{ 'search.results.title' | t: terms: search.terms }} - {{ shop.name }}
+      {%- else -%}
+        {{ page_title }}{% if current_tags %} &ndash; {{ 'general.meta.tagged_as' | t }}: {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+      {%- endif -%}
+    {%- endcapture -%}
+    <title>{{ seo_title }}</title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:title" content="{{ seo_title | escape }}">
+    {%- if page_description -%}
+      <meta property="og:description" content="{{ page_description | escape }}">
+    {%- endif -%}
+    {%- if settings.share_image -%}
+      <meta property="og:image" content="{{ settings.share_image | image_url }}">
+    {%- endif -%}
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ canonical_url }}">
+    <meta property="twitter:title" content="{{ seo_title | escape }}">
+    {%- if page_description -%}
+      <meta property="twitter:description" content="{{ page_description | escape }}">
+    {%- endif -%}
+    {%- if settings.share_image -%}
+      <meta property="twitter:image" content="{{ settings.share_image | image_url }}">
+    {%- endif -%}
+
+    <!-- Schema.org markup for Google+ -->
+    <meta itemprop="name" content="{{ seo_title | escape }}">
+    {%- if page_description -%}
+      <meta itemprop="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+    {%- if settings.share_image -%}
+      <meta itemprop="image" content="{{ settings.share_image | image_url }}">
+    {%- endif -%}
+
+    {{ content_for_header }}
+
+    {% comment %} Theme Styles {% endcomment %}
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+    {% style %}
+      :root {
+        --color-primary: {{ settings.color_primary }};
+        --color-secondary: {{ settings.color_secondary }};
+        --color-accent: {{ settings.color_accent }};
+        --color-background: {{ settings.color_background }};
+        --color-text: {{ settings.color_text }};
+        --color-border: {{ settings.color_border }};
+        --color-button: {{ settings.color_button }};
+        --color-button-text: {{ settings.color_button_text }};
+        --color-card-background: {{ settings.color_card_background }};
+        --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+        --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+        --border-radius: {{ settings.border_radius }}px;
+        --button-border-radius: {{ settings.button_border_radius }}px;
+        --card-border-radius: {{ settings.card_border_radius }}px;
+      }
+
+      body {
+        font-family: var(--font-body);
+        color: var(--color-text);
+        background-color: var(--color-background);
+        line-height: 1.5;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-heading);
+        font-weight: {{ settings.heading_weight }};
+      }
+
+      .page-width {
+        max-width: {{ settings.page_width }}px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @media screen and (min-width: 750px) {
+        .page-width {
+          padding: 0 40px;
+        }
+      }
+
+      .visually-hidden {
+        position: absolute !important;
+        overflow: hidden;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        clip: rect(0 0 0 0);
+        word-wrap: normal !important;
+      }
+    {% endstyle %}
+
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+      
+      // Theme settings from Shopify admin
+      window.theme = {
+        moneyFormat: {{ shop.money_format | json }},
+        strings: {
+          addToCart: {{ 'products.product.add_to_cart' | t | json }},
+          soldOut: {{ 'products.product.sold_out' | t | json }},
+          unavailable: {{ 'products.product.unavailable' | t | json }}
+        }
+      };
+    </script>
+  </head>
+
+  <body class="template-{{ template | split: '.' | first }}">
+    <a class="visually-hidden" href="#main-content">
+      {{ 'accessibility.skip_to_content' | t }}
+    </a>
+
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+
+    <main id="main-content" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% render 'footer' %}
+
+    {% if settings.enable_quick_view %}
+      {% section 'quick-view' %}
+    {% endif %}
+
+    {% if settings.enable_cart_drawer %}
+      {% render 'cart-drawer' %}
+    {% endif %}
+
+    {{ 'theme.js' | asset_url | script_tag }}
+  </body>
+</html>

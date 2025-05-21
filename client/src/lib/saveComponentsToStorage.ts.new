@@ -1,0 +1,45 @@
+// Function to save the current state of components to localStorage with backup
+const saveComponentsToStorage = () => {
+  try {
+    // Add a timestamp to track when the data was last updated
+    const timestamp = Date.now();
+    const dataWithTimestamp = {
+      components: allComponents,
+      lastUpdated: timestamp
+    };
+    
+    // Save data with timestamp
+    const componentsData = JSON.stringify(dataWithTimestamp);
+    
+    // Save to localStorage for persistence
+    localStorage.setItem('rigfreaks-components', componentsData);
+    
+    // Create a backup at the same time
+    localStorage.setItem('rigfreaks-components-backup', componentsData);
+    
+    // Also store in sessionStorage for current session
+    sessionStorage.setItem('rigfreaks-components', componentsData);
+    
+    // Save the timestamp separately for easy access
+    localStorage.setItem('rigfreaks-components-timestamp', timestamp.toString());
+    
+    // Additionally store in a global variable that can be accessed
+    if (typeof window !== 'undefined') {
+      (window as any).__rigfreaksComponents = allComponents;
+      (window as any).__rigfreaksComponentsTimestamp = timestamp;
+      
+      console.log(`Component data saved with backup at: ${new Date(timestamp).toLocaleTimeString()}`);
+      
+      // Dispatch a custom event to notify other components in the same tab
+      const updateEvent = new CustomEvent('rigfreaks-components-updated', { 
+        detail: { timestamp: timestamp } 
+      });
+      window.dispatchEvent(updateEvent);
+      
+      // Mark that we have custom components
+      localStorage.setItem('rigfreaks-has-custom-components', 'true');
+    }
+  } catch (error) {
+    console.error('Error saving components to storage:', error);
+  }
+};

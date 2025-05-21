@@ -1,0 +1,49 @@
+{
+  "name": "Policy Page",
+  "sections": {
+    "policy-header": {
+      "type": "page-header",
+      "settings": {
+        "show_title": true,
+        "title_size": "large",
+        "text_alignment": "center",
+        "show_breadcrumbs": true,
+        "show_page_image": false,
+        "padding_top": 60,
+        "padding_bottom": 40
+      }
+    },
+    "policy-content": {
+      "type": "policy-content",
+      "settings": {
+        "max_width": "medium",
+        "content_alignment": "left",
+        "show_table_of_contents": true,
+        "enable_section_anchors": true,
+        "last_updated_text": "Last updated: ",
+        "last_updated_date": "",
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    },
+    "policy-cta": {
+      "type": "cta",
+      "settings": {
+        "title": "Have Questions?",
+        "subtitle": "If you have any questions about our policies, please contact us",
+        "button_text": "Contact Us",
+        "button_link": "/pages/contact",
+        "text_alignment": "center",
+        "background_color": "#111111",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "policy-header",
+    "policy-content",
+    "policy-cta"
+  ]
+}

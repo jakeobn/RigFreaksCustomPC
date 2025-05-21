@@ -1,0 +1,160 @@
+{%- style -%}
+  .page-header {
+    text-align: {{ section.settings.text_alignment }};
+    padding: {{ section.settings.padding_top | append: 'px' }} 0 {{ section.settings.padding_bottom | append: 'px' }};
+    background-color: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+    border-bottom: 1px solid {{ section.settings.border_color }};
+  }
+
+  .page-header h1 {
+    margin-bottom: 0;
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: {{ section.settings.heading_weight }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .page-header h1 {
+      font-size: {{ section.settings.heading_size_mobile }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="page-header">
+  <h1>{{ page.title }}</h1>
+  {% if section.settings.show_date %}
+    <div class="page-date text-subdued">
+      <small>{{ section.settings.last_modified_text }}: {{ page.published_at | date: section.settings.date_format }}</small>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Page Header",
+  "settings": [
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#222222"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 20,
+      "max": 72,
+      "step": 2,
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size on mobile",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show last modified date",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "last_modified_text",
+      "label": "Last modified text",
+      "default": "Last updated"
+    },
+    {
+      "type": "text",
+      "id": "date_format",
+      "label": "Date format",
+      "default": "%B %d, %Y",
+      "info": "Example: January 1, 2023. [Available formats](https://shopify.dev/api/liquid/filters/date-filters)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page Header"
+    }
+  ]
+}
+{% endschema %}

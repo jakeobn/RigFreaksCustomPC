@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="800px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Motherboard</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M2,2 L22,2 L22,22 L2,22 L2,2 Z" fill="#FF00FF" />
+        <path d="M4,4 L20,4 L20,20 L4,20 L4,4 Z" fill="#000000" />
+        
+        <!-- CPU Socket -->
+        <path d="M7,7 L13,7 L13,13 L7,13 L7,7 Z" fill="#00FFFF" />
+        
+        <!-- RAM Slots -->
+        <path d="M15,7 L17,7 L17,17 L15,17 L15,7 Z" fill="#00FFFF" />
+        <path d="M18,7 L20,7 L20,17 L18,17 L18,7 Z" fill="#00FFFF" />
+        
+        <!-- PCIe Slots -->
+        <path d="M4,15 L13,15 L13,16 L4,16 L4,15 Z" fill="#FF00FF" />
+        <path d="M4,17 L13,17 L13,18 L4,18 L4,17 Z" fill="#FF00FF" />
+        <path d="M4,19 L13,19 L13,20 L4,20 L4,19 Z" fill="#FF00FF" />
+        
+        <!-- Heatsinks -->
+        <path d="M5,5 L6,5 L6,6 L5,6 L5,5 Z" fill="#FF00FF" />
+        <path d="M14,5 L15,5 L15,6 L14,6 L14,5 Z" fill="#FF00FF" />
+    </g>
+</svg>

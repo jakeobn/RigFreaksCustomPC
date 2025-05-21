@@ -1,0 +1,215 @@
+{
+  "name": "Checkout Success",
+  "sections": {
+    "order-confirmation": {
+      "type": "order-confirmation",
+      "settings": {
+        "title": "Thank You For Your Order!",
+        "subtitle": "Your order has been received and is being processed",
+        "show_order_number": true,
+        "show_order_date": true,
+        "show_shipping_address": true,
+        "show_billing_address": true,
+        "show_payment_method": true,
+        "show_customer_info": true,
+        "padding_top": 60,
+        "padding_bottom": 40
+      }
+    },
+    "order-summary": {
+      "type": "order-summary",
+      "settings": {
+        "title": "Order Summary",
+        "show_product_images": true,
+        "show_variant_info": true,
+        "show_quantities": true,
+        "show_prices": true,
+        "show_totals": true,
+        "show_shipping_info": true,
+        "show_payment_info": true,
+        "padding_top": 40,
+        "padding_bottom": 60
+      }
+    },
+    "next-steps": {
+      "type": "next-steps",
+      "blocks": {
+        "step-0": {
+          "type": "step",
+          "settings": {
+            "icon": "mail",
+            "title": "Check Your Email",
+            "text": "We've sent a confirmation to your email address with your order details."
+          }
+        },
+        "step-1": {
+          "type": "step",
+          "settings": {
+            "icon": "truck",
+            "title": "Track Your Order",
+            "text": "You'll receive shipping confirmation and tracking information once your order ships."
+          }
+        },
+        "step-2": {
+          "type": "step",
+          "settings": {
+            "icon": "user",
+            "title": "Create an Account",
+            "text": "Set up an account to track your order and make future purchases easier.",
+            "button_text": "Create Account",
+            "button_link": "/account/register"
+          }
+        },
+        "step-3": {
+          "type": "step",
+          "settings": {
+            "icon": "headphones",
+            "title": "Need Help?",
+            "text": "Our support team is here to assist you with any questions about your order.",
+            "button_text": "Contact Support",
+            "button_link": "/pages/contact"
+          }
+        }
+      },
+      "block_order": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "settings": {
+        "title": "What's Next?",
+        "layout": "grid",
+        "columns": 4,
+        "show_icons": true,
+        "padding_top": 40,
+        "padding_bottom": 60
+      }
+    },
+    "build-timeline": {
+      "type": "build-timeline",
+      "blocks": {
+        "step-0": {
+          "type": "step",
+          "settings": {
+            "title": "Order Received",
+            "text": "We've received your order and are preparing it for processing",
+            "status": "completed"
+          }
+        },
+        "step-1": {
+          "type": "step",
+          "settings": {
+            "title": "Order Processing",
+            "text": "Components are being gathered and prepared for assembly",
+            "status": "pending"
+          }
+        },
+        "step-2": {
+          "type": "step",
+          "settings": {
+            "title": "Building",
+            "text": "Your PC is being assembled by our expert technicians",
+            "status": "pending"
+          }
+        },
+        "step-3": {
+          "type": "step",
+          "settings": {
+            "title": "Testing",
+            "text": "Rigorous testing to ensure everything works perfectly",
+            "status": "pending"
+          }
+        },
+        "step-4": {
+          "type": "step",
+          "settings": {
+            "title": "Quality Check",
+            "text": "Final inspection by our quality assurance team",
+            "status": "pending"
+          }
+        },
+        "step-5": {
+          "type": "step",
+          "settings": {
+            "title": "Packaging",
+            "text": "Carefully packaged for safe shipping",
+            "status": "pending"
+          }
+        },
+        "step-6": {
+          "type": "step",
+          "settings": {
+            "title": "Shipped",
+            "text": "Your order is on its way to you",
+            "status": "pending"
+          }
+        },
+        "step-7": {
+          "type": "step",
+          "settings": {
+            "title": "Delivered",
+            "text": "Your PC has been delivered",
+            "status": "pending"
+          }
+        }
+      },
+      "block_order": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4",
+        "step-5",
+        "step-6",
+        "step-7"
+      ],
+      "settings": {
+        "title": "Your Build Status",
+        "subtitle": "Track the progress of your custom PC build",
+        "description": "For custom PC orders, you can track the build progress here. This will be updated as your build moves through our workshop.",
+        "show_estimated_dates": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "cross-sell": {
+      "type": "cross-sell",
+      "settings": {
+        "title": "Complete Your Setup",
+        "subtitle": "Recommended accessories for your new PC",
+        "collection": "",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "show_rating": true,
+        "enable_quick_add": true,
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    },
+    "order-cta": {
+      "type": "cta",
+      "settings": {
+        "title": "Need Technical Support?",
+        "subtitle": "Our expert team is ready to help you get the most out of your new PC",
+        "button_text": "View Knowledge Base",
+        "button_link": "/pages/support",
+        "second_button_text": "Contact Support",
+        "second_button_link": "/pages/contact",
+        "text_alignment": "center",
+        "background_color": "#111111",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "order-confirmation",
+    "order-summary",
+    "next-steps",
+    "build-timeline",
+    "cross-sell",
+    "order-cta"
+  ]
+}

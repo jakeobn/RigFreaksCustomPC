@@ -1,0 +1,162 @@
+{
+  "name": "PC Builder",
+  "sections": {
+    "pc-builder-header": {
+      "type": "pc-builder-header",
+      "settings": {
+        "title": "Custom PC Builder",
+        "subtitle": "Build your perfect PC with our step-by-step customization tool",
+        "description": "Our PC Builder tool guides you through the process of creating a custom PC that meets your exact needs. Choose from hundreds of components with real-time compatibility checking.",
+        "show_image": true,
+        "image": "",
+        "image_height": "medium",
+        "text_alignment": "center",
+        "overlay_opacity": 40,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "pc-builder-app": {
+      "type": "pc-builder-app",
+      "settings": {
+        "show_component_images": true,
+        "enable_compatibility_check": true,
+        "enable_price_estimator": true,
+        "enable_power_calculator": true,
+        "show_gaming_performance": true,
+        "show_creator_performance": true,
+        "performance_metric_style": "bars",
+        "builder_layout": "standard",
+        "show_component_details": true,
+        "enable_saved_builds": true,
+        "enable_prebuilt_templates": true,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "pc-builder-features": {
+      "type": "pc-builder-features",
+      "blocks": {
+        "feature-0": {
+          "type": "feature",
+          "settings": {
+            "icon": "check-circle",
+            "title": "Real-Time Compatibility",
+            "text": "Our system automatically checks component compatibility as you build"
+          }
+        },
+        "feature-1": {
+          "type": "feature",
+          "settings": {
+            "icon": "settings",
+            "title": "Performance Estimation",
+            "text": "See estimated gaming and productivity performance for your build"
+          }
+        },
+        "feature-2": {
+          "type": "feature",
+          "settings": {
+            "icon": "save",
+            "title": "Save Your Builds",
+            "text": "Create an account to save multiple PC configurations"
+          }
+        },
+        "feature-3": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopping-cart",
+            "title": "One-Click Purchase",
+            "text": "Add all components to cart with a single click"
+          }
+        }
+      },
+      "block_order": [
+        "feature-0",
+        "feature-1",
+        "feature-2",
+        "feature-3"
+      ],
+      "settings": {
+        "title": "PC Builder Features",
+        "subtitle": "Everything you need to create your perfect PC",
+        "layout": "grid",
+        "columns": 4,
+        "background_color": "#111111",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "pc-builder-faq": {
+      "type": "faq",
+      "blocks": {
+        "faq-0": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does the compatibility checker work?",
+            "answer": "Our compatibility checker verifies that all components in your build will work together. It checks CPU and motherboard socket compatibility, RAM compatibility with motherboards, physical dimensions of components, and power supply requirements."
+          }
+        },
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I save my PC build for later?",
+            "answer": "Yes! Create an account or log in to save your PC configurations. You can save multiple builds and return to them at any time."
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How accurate are the performance estimates?",
+            "answer": "Our performance estimates are based on real-world benchmarks and testing. They provide a good approximation of what you can expect from your build, but actual performance may vary depending on specific use cases and software."
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer assembly services for custom PCs?",
+            "answer": "Yes, we offer professional assembly services for all custom PC builds. Simply add the assembly service to your cart along with your components."
+          }
+        }
+      },
+      "block_order": [
+        "faq-0",
+        "faq-1",
+        "faq-2",
+        "faq-3"
+      ],
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Everything you need to know about our PC Builder",
+        "layout": "accordion",
+        "background_color": "#0a0a0a",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 80
+      }
+    },
+    "pc-builder-cta": {
+      "type": "cta",
+      "settings": {
+        "title": "Ready to Build Your Dream PC?",
+        "subtitle": "Get started with our PC Builder tool now",
+        "button_text": "Start Building",
+        "button_link": "#pc-builder-app",
+        "second_button_text": "View Prebuilt PCs",
+        "second_button_link": "/collections/gaming-pcs",
+        "text_alignment": "center",
+        "background_color": "#ff0077",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "pc-builder-header",
+    "pc-builder-app",
+    "pc-builder-features",
+    "pc-builder-faq",
+    "pc-builder-cta"
+  ]
+}

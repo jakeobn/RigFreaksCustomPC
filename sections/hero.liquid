@@ -1,0 +1,112 @@
+<section class="hero{% if section.settings.full_width %} hero-full-width{% endif %}">
+  <div class="hero-gradient"></div>
+  {% if section.settings.image != blank %}
+    <div class="hero-background">
+      <img src="{{ section.settings.image | img_url: '2000x' }}" 
+           srcset="{{ section.settings.image | img_url: '1200x' }} 1200w,
+                   {{ section.settings.image | img_url: '1600x' }} 1600w,
+                   {{ section.settings.image | img_url: '2000x' }} 2000w"
+           sizes="100vw"
+           alt="{{ section.settings.title | escape }}"
+           class="hero-image"
+           loading="eager">
+      <div class="hero-image-overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }}; background-color: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }})"></div>
+    </div>
+  {% endif %}
+  
+  <div class="{% unless section.settings.full_width %}container{% else %}container-fluid{% endunless %}">
+    <div class="hero-content">
+      {% if section.settings.title != blank %}
+        <h1 class="hero-title">{{ section.settings.title }}</h1>
+      {% endif %}
+      
+      {% if section.settings.subtitle != blank %}
+        <div class="hero-subtitle">{{ section.settings.subtitle }}</div>
+      {% endif %}
+      
+      {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+        <div class="hero-buttons">
+          <a href="{{ section.settings.button_link }}" class="btn btn-primary hero-button">
+            {{ section.settings.button_text }}
+          </a>
+          {% if section.settings.secondary_button_text != blank and section.settings.secondary_button_link != blank %}
+            <a href="{{ section.settings.secondary_button_link }}" class="btn btn-outline hero-button-secondary">
+              {{ section.settings.secondary_button_text }}
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "PERFORMANCE UNLEASHED"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "<p>Custom gaming PCs and workstations built for ultimate performance.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 95,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 40
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_text",
+      "label": "Secondary button text",
+      "default": "BUILD YOUR PC"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary button link",
+      "default": "/pages/pc-builder"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

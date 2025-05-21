@@ -1,0 +1,111 @@
+{%- style -%}
+  .page-content-container {
+    padding: {{ section.settings.padding_top | append: 'px' }} 0 {{ section.settings.padding_bottom | append: 'px' }};
+    max-width: {{ section.settings.content_width }}px;
+    margin: 0 auto;
+    color: {{ section.settings.text_color }};
+  }
+
+  .page-content {
+    font-size: {{ section.settings.body_font_size }}px;
+    line-height: 1.6;
+  }
+
+  .page-date {
+    margin-bottom: 20px;
+    color: {{ section.settings.date_color }};
+    font-size: 14px;
+  }
+{%- endstyle -%}
+
+<div class="page-content-container">
+  {% if section.settings.show_date %}
+    <div class="page-date">
+      <small>{{ section.settings.date_text }}: {{ page.published_at | date: section.settings.date_format }}</small>
+    </div>
+  {% endif %}
+
+  <div class="page-content rte">
+    {{ page.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page Content",
+  "settings": [
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Content width",
+      "min": 600,
+      "max": 1200,
+      "step": 50,
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "body_font_size",
+      "label": "Body text size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show published date",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "date_text",
+      "label": "Date text",
+      "default": "Published on"
+    },
+    {
+      "type": "text",
+      "id": "date_format",
+      "label": "Date format",
+      "default": "%B %d, %Y",
+      "info": "Example: January 1, 2023. [Available formats](https://shopify.dev/api/liquid/filters/date-filters)"
+    },
+    {
+      "type": "color",
+      "id": "date_color",
+      "label": "Date text color",
+      "default": "#999999"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page Content"
+    }
+  ]
+}
+{% endschema %}

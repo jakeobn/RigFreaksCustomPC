@@ -1,0 +1,1439 @@
+<style>
+  .product-info {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  }
+  
+  .product-info__content {
+    max-width: {{ settings.page_width }}px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  
+  .product-info__media {
+    position: sticky;
+    top: 120px;
+  }
+  
+  .product-info__gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .product-info__main-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ settings.card_border_radius }}px;
+    background-color: {{ section.settings.card_background_color }};
+  }
+  
+  .product-info__main-image-inner {
+    aspect-ratio: 1 / 1;
+    position: relative;
+  }
+  
+  .product-info__image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+  }
+  
+  .product-info__thumbnails {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .product-info__thumbnail {
+    position: relative;
+    cursor: pointer;
+    border-radius: {{ settings.card_border_radius }}px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  
+  .product-info__thumbnail--active {
+    border-color: {{ section.settings.accent_color }};
+  }
+  
+  .product-info__thumbnail-inner {
+    aspect-ratio: 1 / 1;
+    position: relative;
+    background-color: {{ section.settings.card_background_color }};
+  }
+  
+  .product-info__thumbnail-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .product-info__details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .product-info__title-price {
+    border-bottom: 1px solid {{ section.settings.border_color }};
+    padding-bottom: 1.5rem;
+  }
+  
+  .product-info__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .product-info__badge {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: {{ settings.button_border_radius }}px;
+  }
+  
+  .product-info__badge--on-sale {
+    background-color: {{ section.settings.sale_badge_color }};
+    color: {{ section.settings.sale_badge_text_color }};
+  }
+  
+  .product-info__badge--sold-out {
+    background-color: {{ section.settings.sold_out_badge_color }};
+    color: {{ section.settings.sold_out_badge_text_color }};
+  }
+  
+  .product-info__badge--custom {
+    background-color: {{ section.settings.custom_badge_color }};
+    color: {{ section.settings.custom_badge_text_color }};
+  }
+  
+  .product-info__title {
+    margin: 0 0 0.75rem;
+    font-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    font-weight: {{ settings.heading_weight }};
+    font-size: 2.25rem;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .product-info__price-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .product-info__price-current {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: {{ section.settings.price_color }};
+  }
+  
+  .product-info__price-compare {
+    font-size: 1.25rem;
+    text-decoration: line-through;
+    color: {{ section.settings.text_color | color_lighten: 30 }};
+  }
+  
+  .product-info__specs {
+    border-bottom: 1px solid {{ section.settings.border_color }};
+    padding-bottom: 1.5rem;
+  }
+  
+  .product-info__specs-title {
+    margin: 0 0 1rem;
+    font-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    font-weight: {{ settings.heading_weight }};
+    font-size: 1.25rem;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .product-info__specs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .product-info__spec-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .product-info__spec-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: {{ section.settings.spec_icon_background_color }};
+    color: {{ section.settings.spec_icon_color }};
+  }
+  
+  .product-info__spec-details {
+    flex: 1;
+  }
+  
+  .product-info__spec-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: {{ section.settings.text_color | color_lighten: 20 }};
+    margin-bottom: 0.2rem;
+  }
+  
+  .product-info__spec-value {
+    font-weight: 600;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .product-info__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .product-info__options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  .product-info__option {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .product-info__option-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: {{ section.settings.heading_color }};
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .product-info__option-selected {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: {{ section.settings.text_color | color_lighten: 20 }};
+  }
+  
+  .product-info__option-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .product-info__option-value {
+    padding: 0.6rem 1.25rem;
+    border: 1px solid {{ section.settings.border_color }};
+    border-radius: {{ settings.button_border_radius }}px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .product-info__option-value--selected {
+    background-color: {{ section.settings.accent_color }};
+    border-color: {{ section.settings.accent_color }};
+    color: {{ section.settings.accent_text_color }};
+  }
+  
+  .product-info__option-value:not(.product-info__option-value--selected):hover {
+    border-color: {{ section.settings.accent_color }};
+  }
+  
+  .product-info__option-value--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+  
+  .product-info__quantity {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .product-info__quantity-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .product-info__quantity-selector {
+    display: flex;
+    align-items: center;
+    max-width: 140px;
+  }
+  
+  .product-info__quantity-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: {{ section.settings.button_secondary_color }};
+    color: {{ section.settings.button_secondary_text_color }};
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+  
+  .product-info__quantity-button:hover {
+    background-color: {{ section.settings.button_secondary_color | color_darken: 10 }};
+  }
+  
+  .product-info__quantity-button:first-child {
+    border-radius: {{ settings.button_border_radius }}px 0 0 {{ settings.button_border_radius }}px;
+  }
+  
+  .product-info__quantity-button:last-child {
+    border-radius: 0 {{ settings.button_border_radius }}px {{ settings.button_border_radius }}px 0;
+  }
+  
+  .product-info__quantity-input {
+    width: 50px;
+    height: 36px;
+    border: 1px solid {{ section.settings.border_color }};
+    border-left: none;
+    border-right: none;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0;
+    -moz-appearance: textfield;
+  }
+  
+  .product-info__quantity-input::-webkit-outer-spin-button,
+  .product-info__quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .product-info__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .product-info__availability {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+  
+  .product-info__availability-icon {
+    display: flex;
+    color: {{ section.settings.in_stock_color }};
+  }
+  
+  .product-info__availability--sold-out .product-info__availability-icon {
+    color: {{ section.settings.sold_out_color }};
+  }
+  
+  .product-info__button {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: {{ settings.button_border_radius }}px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  
+  .product-info__button:not(:disabled):hover {
+    transform: translateY(-2px);
+  }
+  
+  .product-info__button--primary {
+    background-color: {{ section.settings.button_color }};
+    color: {{ section.settings.button_text_color }};
+  }
+  
+  .product-info__button--primary:not(:disabled):hover {
+    background-color: {{ section.settings.button_color | color_darken: 10 }};
+  }
+  
+  .product-info__button--secondary {
+    background-color: {{ section.settings.button_secondary_color }};
+    color: {{ section.settings.button_secondary_text_color }};
+  }
+  
+  .product-info__button--secondary:not(:disabled):hover {
+    background-color: {{ section.settings.button_secondary_color | color_darken: 10 }};
+  }
+  
+  .product-info__button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .product-info__description {
+    margin-top: 1.5rem;
+  }
+  
+  .product-info__description-title {
+    margin: 0 0 1rem;
+    font-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    font-weight: {{ settings.heading_weight }};
+    font-size: 1.25rem;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .product-info__warranty {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid {{ section.settings.border_color }};
+    border-radius: {{ settings.card_border_radius }}px;
+    margin-top: 1.5rem;
+  }
+  
+  .product-info__warranty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: {{ section.settings.accent_color }};
+  }
+  
+  .product-info__warranty-text {
+    flex: 1;
+  }
+  
+  .product-info__warranty-title {
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .product-info__warranty-description {
+    font-size: 0.9rem;
+    margin: 0;
+    color: {{ section.settings.text_color }};
+  }
+  
+  .product-info__game-badges {
+    margin-top: 1.5rem;
+  }
+  
+  .product-info__game-badges-title {
+    margin: 0 0 1rem;
+    font-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    font-weight: {{ settings.heading_weight }};
+    font-size: 1.25rem;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .product-info__game-badges-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  
+  .product-info__game {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: {{ settings.card_border_radius }}px;
+    background-color: {{ section.settings.card_background_color }};
+  }
+  
+  .product-info__game-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .product-info__game-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .product-info__game-details {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .product-info__game-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0 0 0.25rem;
+    color: {{ section.settings.heading_color }};
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .product-info__game-fps {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: {{ section.settings.accent_color }};
+  }
+  
+  .product-info__shipping {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .product-info__shipping-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .product-info__shipping-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: {{ section.settings.text_color }};
+  }
+  
+  .product-info__shipping-text {
+    font-size: 0.95rem;
+    color: {{ section.settings.text_color }};
+  }
+  
+  @media screen and (max-width: 990px) {
+    .product-info__content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .product-info__media {
+      position: static;
+    }
+    
+    .product-info__title {
+      font-size: 1.75rem;
+    }
+    
+    .product-info__specs-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .product-info__game-badges-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media screen and (max-width: 750px) {
+    .product-info__content {
+      padding: 0 1rem;
+      gap: 1.5rem;
+    }
+    
+    .product-info__title {
+      font-size: 1.5rem;
+    }
+    
+    .product-info__price-current {
+      font-size: 1.5rem;
+    }
+    
+    .product-info__thumbnails {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .product-info__game-badges-container {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign product_has_only_default_variant = product.has_only_default_variant -%}
+
+<div class="product-info" id="product-{{ section.id }}">
+  <div class="product-info__content">
+    <div class="product-info__media">
+      <div class="product-info__gallery">
+        <div class="product-info__main-image" id="ProductImage-{{ section.id }}">
+          <div class="product-info__main-image-inner">
+            {%- if product.featured_media != blank -%}
+              {%- assign featured_media = product.featured_media -%}
+              <img
+                class="product-info__image"
+                src="{{ featured_media | image_url: width: 1000 }}"
+                alt="{{ featured_media.alt | escape }}"
+                loading="lazy"
+                width="{{ featured_media.width }}"
+                height="{{ featured_media.height }}"
+                id="ProductImageMain-{{ section.id }}"
+              >
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'product-info__image placeholder-svg' }}
+            {%- endif -%}
+          </div>
+        </div>
+        
+        {%- if product.media.size > 1 -%}
+          <div class="product-info__thumbnails" id="ProductThumbnails-{{ section.id }}">
+            {%- for media in product.media -%}
+              <div 
+                class="product-info__thumbnail {% if media.id == product.featured_media.id %}product-info__thumbnail--active{% endif %}"
+                data-media-id="{{ media.id }}"
+                data-thumbnail
+              >
+                <div class="product-info__thumbnail-inner">
+                  <img
+                    class="product-info__thumbnail-image"
+                    src="{{ media | image_url: width: 150 }}"
+                    alt="{{ media.alt | escape }}"
+                    loading="lazy"
+                    width="150"
+                    height="150"
+                  >
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+    
+    <div class="product-info__details">
+      <div class="product-info__title-price">
+        <div class="product-info__badges">
+          {%- if product.available == false -%}
+            <div class="product-info__badge product-info__badge--sold-out">{{ 'products.product.sold_out' | t }}</div>
+          {%- endif -%}
+          
+          {%- if product.compare_at_price_max > product.price -%}
+            <div class="product-info__badge product-info__badge--on-sale">{{ 'products.product.on_sale' | t }}</div>
+          {%- endif -%}
+          
+          {%- if section.settings.show_custom_badge and section.settings.custom_badge_text != blank -%}
+            <div class="product-info__badge product-info__badge--custom">{{ section.settings.custom_badge_text }}</div>
+          {%- endif -%}
+        </div>
+        
+        <h1 class="product-info__title">{{ product.title }}</h1>
+        
+        <div class="product-info__price-container">
+          <span class="product-info__price-current" id="ProductPrice-{{ section.id }}">
+            {{ current_variant.price | money }}
+          </span>
+          
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <span class="product-info__price-compare" id="ProductComparePrice-{{ section.id }}">
+              {{ current_variant.compare_at_price | money }}
+            </span>
+          {%- endif -%}
+        </div>
+      </div>
+      
+      {%- if section.settings.show_gaming_specs and product.metafields.specs != blank -%}
+        <div class="product-info__specs">
+          <h2 class="product-info__specs-title">{{ 'products.gaming_pc.specs_title' | t }}</h2>
+          
+          <div class="product-info__specs-grid">
+            {%- if product.metafields.specs.cpu != blank -%}
+              <div class="product-info__spec-item">
+                <div class="product-info__spec-icon">
+                  {% render 'icon-cpu' %}
+                </div>
+                <div class="product-info__spec-details">
+                  <div class="product-info__spec-label">{{ 'products.gaming_pc.cpu' | t }}</div>
+                  <div class="product-info__spec-value">{{ product.metafields.specs.cpu }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if product.metafields.specs.gpu != blank -%}
+              <div class="product-info__spec-item">
+                <div class="product-info__spec-icon">
+                  {% render 'icon-gpu' %}
+                </div>
+                <div class="product-info__spec-details">
+                  <div class="product-info__spec-label">{{ 'products.gaming_pc.gpu' | t }}</div>
+                  <div class="product-info__spec-value">{{ product.metafields.specs.gpu }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if product.metafields.specs.memory != blank -%}
+              <div class="product-info__spec-item">
+                <div class="product-info__spec-icon">
+                  {% render 'icon-memory' %}
+                </div>
+                <div class="product-info__spec-details">
+                  <div class="product-info__spec-label">{{ 'products.gaming_pc.memory' | t }}</div>
+                  <div class="product-info__spec-value">{{ product.metafields.specs.memory }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if product.metafields.specs.storage != blank -%}
+              <div class="product-info__spec-item">
+                <div class="product-info__spec-icon">
+                  {% render 'icon-storage' %}
+                </div>
+                <div class="product-info__spec-details">
+                  <div class="product-info__spec-label">{{ 'products.gaming_pc.storage' | t }}</div>
+                  <div class="product-info__spec-value">{{ product.metafields.specs.storage }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if product.metafields.specs.motherboard != blank -%}
+              <div class="product-info__spec-item">
+                <div class="product-info__spec-icon">
+                  {% render 'icon-motherboard' %}
+                </div>
+                <div class="product-info__spec-details">
+                  <div class="product-info__spec-label">{{ 'products.gaming_pc.motherboard' | t }}</div>
+                  <div class="product-info__spec-value">{{ product.metafields.specs.motherboard }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if product.metafields.specs.power_supply != blank -%}
+              <div class="product-info__spec-item">
+                <div class="product-info__spec-icon">
+                  {% render 'icon-psu' %}
+                </div>
+                <div class="product-info__spec-details">
+                  <div class="product-info__spec-label">{{ 'products.gaming_pc.power_supply' | t }}</div>
+                  <div class="product-info__spec-value">{{ product.metafields.specs.power_supply }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if product.metafields.specs.case != blank -%}
+              <div class="product-info__spec-item">
+                <div class="product-info__spec-icon">
+                  {% render 'icon-case' %}
+                </div>
+                <div class="product-info__spec-details">
+                  <div class="product-info__spec-label">{{ 'products.gaming_pc.case' | t }}</div>
+                  <div class="product-info__spec-value">{{ product.metafields.specs.case }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if product.metafields.specs.cooling != blank -%}
+              <div class="product-info__spec-item">
+                <div class="product-info__spec-icon">
+                  {% render 'icon-cooler' %}
+                </div>
+                <div class="product-info__spec-details">
+                  <div class="product-info__spec-label">{{ 'products.gaming_pc.cooling' | t }}</div>
+                  <div class="product-info__spec-value">{{ product.metafields.specs.cooling }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+      
+      {%- form 'product', product, id: 'ProductForm-{{ section.id }}', class: 'product-info__form' -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+        
+        {%- if product_has_only_default_variant == false -%}
+          <div class="product-info__options">
+            {%- for option in product.options_with_values -%}
+              <div 
+                class="product-info__option"
+                data-option-index="{{ forloop.index0 }}"
+                data-option-name="{{ option.name | escape }}"
+              >
+                <div class="product-info__option-title">
+                  {{ option.name }}
+                  <span class="product-info__option-selected" data-option-selected="{{ option.name | escape }}">
+                    {{ option.selected_value }}
+                  </span>
+                </div>
+                
+                <div class="product-info__option-values">
+                  {%- for value in option.values -%}
+                    <div 
+                      class="product-info__option-value {% if value == option.selected_value %}product-info__option-value--selected{% endif %}"
+                      data-option-value="{{ value | escape }}"
+                    >
+                      {{ value }}
+                    </div>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        
+        <div class="product-info__quantity">
+          <div class="product-info__quantity-title">{{ 'products.product.quantity' | t }}</div>
+          
+          <div class="product-info__quantity-selector">
+            <button type="button" class="product-info__quantity-button" data-quantity-minus>-</button>
+            <input 
+              type="number"
+              name="quantity"
+              id="Quantity-{{ section.id }}"
+              class="product-info__quantity-input"
+              value="1"
+              min="1"
+              aria-label="{{ 'products.product.quantity' | t }}"
+            >
+            <button type="button" class="product-info__quantity-button" data-quantity-plus>+</button>
+          </div>
+        </div>
+        
+        <div class="product-info__actions">
+          <div class="product-info__availability {% if product.available == false %}product-info__availability--sold-out{% endif %}">
+            <span class="product-info__availability-icon">
+              {% if product.available %}
+                {% render 'icon-check-circle' %}
+              {% else %}
+                {% render 'icon-alert-triangle' %}
+              {% endif %}
+            </span>
+            <span class="product-info__availability-text">
+              {% if product.available %}
+                {{ 'products.product.in_stock' | t }}
+              {% else %}
+                {{ 'products.product.sold_out' | t }}
+              {% endif %}
+            </span>
+          </div>
+          
+          <button
+            type="submit"
+            name="add"
+            class="product-info__button product-info__button--primary"
+            {% if product.available == false %}disabled{% endif %}
+          >
+            <span id="AddToCartText-{{ section.id }}">
+              {% if product.available %}
+                {{ 'products.product.add_to_cart' | t }}
+              {% else %}
+                {{ 'products.product.sold_out' | t }}
+              {% endif %}
+            </span>
+          </button>
+          
+          {%- if section.settings.show_dynamic_checkout -%}
+            {{ form | payment_button }}
+          {%- endif -%}
+          
+          {%- if section.settings.show_customize_button -%}
+            <a href="{{ routes.collections_url }}/custom-pc-builder" class="product-info__button product-info__button--secondary">
+              {{ 'products.gaming_pc.customize_similar' | t }}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endform -%}
+      
+      {%- if section.settings.show_warranty -%}
+        <div class="product-info__warranty">
+          <div class="product-info__warranty-icon">
+            {% render 'icon-shield' %}
+          </div>
+          <div class="product-info__warranty-text">
+            <div class="product-info__warranty-title">{{ section.settings.warranty_title }}</div>
+            <div class="product-info__warranty-description">{{ section.settings.warranty_text }}</div>
+          </div>
+        </div>
+      {%- endif -%}
+      
+      {%- if section.settings.show_shipping_info -%}
+        <div class="product-info__shipping">
+          <div class="product-info__shipping-item">
+            <div class="product-info__shipping-icon">
+              {% render 'icon-truck' %}
+            </div>
+            <div class="product-info__shipping-text">{{ section.settings.shipping_text }}</div>
+          </div>
+          <div class="product-info__shipping-item">
+            <div class="product-info__shipping-icon">
+              {% render 'icon-package' %}
+            </div>
+            <div class="product-info__shipping-text">{{ section.settings.shipping_text_2 }}</div>
+          </div>
+        </div>
+      {%- endif -%}
+      
+      {%- if section.settings.show_game_performance and product.metafields.gaming != blank -%}
+        <div class="product-info__game-badges">
+          <h2 class="product-info__game-badges-title">{{ 'products.gaming_pc.game_performance' | t }}</h2>
+          
+          <div class="product-info__game-badges-container">
+            {%- if product.metafields.gaming.game1_name != blank -%}
+              <div class="product-info__game">
+                <div class="product-info__game-icon">
+                  <img src="{{ product.metafields.gaming.game1_image | image_url }}" alt="{{ product.metafields.gaming.game1_name }}">
+                </div>
+                <div class="product-info__game-details">
+                  <div class="product-info__game-name">{{ product.metafields.gaming.game1_name }}</div>
+                  <div class="product-info__game-fps">{{ product.metafields.gaming.game1_fps }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if product.metafields.gaming.game2_name != blank -%}
+              <div class="product-info__game">
+                <div class="product-info__game-icon">
+                  <img src="{{ product.metafields.gaming.game2_image | image_url }}" alt="{{ product.metafields.gaming.game2_name }}">
+                </div>
+                <div class="product-info__game-details">
+                  <div class="product-info__game-name">{{ product.metafields.gaming.game2_name }}</div>
+                  <div class="product-info__game-fps">{{ product.metafields.gaming.game2_fps }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if product.metafields.gaming.game3_name != blank -%}
+              <div class="product-info__game">
+                <div class="product-info__game-icon">
+                  <img src="{{ product.metafields.gaming.game3_image | image_url }}" alt="{{ product.metafields.gaming.game3_name }}">
+                </div>
+                <div class="product-info__game-details">
+                  <div class="product-info__game-name">{{ product.metafields.gaming.game3_name }}</div>
+                  <div class="product-info__game-fps">{{ product.metafields.gaming.game3_fps }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if product.metafields.gaming.game4_name != blank -%}
+              <div class="product-info__game">
+                <div class="product-info__game-icon">
+                  <img src="{{ product.metafields.gaming.game4_image | image_url }}" alt="{{ product.metafields.gaming.game4_name }}">
+                </div>
+                <div class="product-info__game-details">
+                  <div class="product-info__game-name">{{ product.metafields.gaming.game4_name }}</div>
+                  <div class="product-info__game-fps">{{ product.metafields.gaming.game4_fps }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if product.metafields.gaming.game5_name != blank -%}
+              <div class="product-info__game">
+                <div class="product-info__game-icon">
+                  <img src="{{ product.metafields.gaming.game5_image | image_url }}" alt="{{ product.metafields.gaming.game5_name }}">
+                </div>
+                <div class="product-info__game-details">
+                  <div class="product-info__game-name">{{ product.metafields.gaming.game5_name }}</div>
+                  <div class="product-info__game-fps">{{ product.metafields.gaming.game5_fps }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if product.metafields.gaming.game6_name != blank -%}
+              <div class="product-info__game">
+                <div class="product-info__game-icon">
+                  <img src="{{ product.metafields.gaming.game6_image | image_url }}" alt="{{ product.metafields.gaming.game6_name }}">
+                </div>
+                <div class="product-info__game-details">
+                  <div class="product-info__game-name">{{ product.metafields.gaming.game6_name }}</div>
+                  <div class="product-info__game-fps">{{ product.metafields.gaming.game6_fps }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+      
+      {%- if product.description != blank -%}
+        <div class="product-info__description">
+          <h2 class="product-info__description-title">{{ 'products.product.description' | t }}</h2>
+          <div class="rte">
+            {{ product.description }}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Product gallery
+    const productId = '{{ section.id }}';
+    const thumbnails = document.querySelectorAll(`#ProductThumbnails-${productId} [data-thumbnail]`);
+    const mainImage = document.getElementById(`ProductImageMain-${productId}`);
+    
+    if (thumbnails.length > 0 && mainImage) {
+      thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', function() {
+          const mediaId = this.getAttribute('data-media-id');
+          const mediaItem = document.querySelector(`#product-{{ product.id }} [data-media-id="${mediaId}"]`);
+          
+          // Change main image source
+          const thumbnailImage = this.querySelector('img');
+          if (thumbnailImage && mainImage) {
+            const fullSizeImageUrl = thumbnailImage.src.replace(/(\.[^\.]*$)|$/, '_1000x$1');
+            mainImage.src = fullSizeImageUrl;
+            mainImage.alt = thumbnailImage.alt;
+          }
+          
+          // Update active state
+          thumbnails.forEach(t => t.classList.remove('product-info__thumbnail--active'));
+          this.classList.add('product-info__thumbnail--active');
+        });
+      });
+    }
+    
+    // Quantity selector
+    const minusButton = document.querySelector(`#ProductForm-${productId} [data-quantity-minus]`);
+    const plusButton = document.querySelector(`#ProductForm-${productId} [data-quantity-plus]`);
+    const quantityInput = document.getElementById(`Quantity-${productId}`);
+    
+    if (minusButton && plusButton && quantityInput) {
+      minusButton.addEventListener('click', function() {
+        const currentValue = parseInt(quantityInput.value, 10);
+        if (currentValue > 1) {
+          quantityInput.value = currentValue - 1;
+        }
+      });
+      
+      plusButton.addEventListener('click', function() {
+        const currentValue = parseInt(quantityInput.value, 10);
+        quantityInput.value = currentValue + 1;
+      });
+      
+      quantityInput.addEventListener('change', function() {
+        if (parseInt(this.value, 10) < 1) {
+          this.value = 1;
+        }
+      });
+    }
+    
+    // Variant selection
+    const optionValues = document.querySelectorAll(`#ProductForm-${productId} .product-info__option-value`);
+    const variantIdInput = document.querySelector(`#ProductForm-${productId} input[name="id"]`);
+    
+    if (optionValues.length > 0 && variantIdInput) {
+      const productData = {
+        variants: [
+          {%- for variant in product.variants -%}
+            {
+              id: {{ variant.id }},
+              title: "{{ variant.title | escape }}",
+              option1: "{{ variant.option1 | escape }}",
+              option2: {{ variant.option2 | json }},
+              option3: {{ variant.option3 | json }},
+              available: {{ variant.available }},
+              price: {{ variant.price }},
+              compare_at_price: {{ variant.compare_at_price | default: variant.price }}
+            }{%- unless forloop.last -%},{%- endunless -%}
+          {%- endfor -%}
+        ],
+        options: [
+          {%- for option in product.options_with_values -%}
+            {
+              name: "{{ option.name | escape }}",
+              position: {{ option.position }},
+              values: [
+                {%- for value in option.values -%}
+                  "{{ value | escape }}"{%- unless forloop.last -%},{%- endunless -%}
+                {%- endfor -%}
+              ]
+            }{%- unless forloop.last -%},{%- endunless -%}
+          {%- endfor -%}
+        ]
+      };
+      
+      // Set up variant selector
+      optionValues.forEach(optionValue => {
+        optionValue.addEventListener('click', function() {
+          const optionIndex = parseInt(this.closest('.product-info__option').getAttribute('data-option-index'), 10);
+          const optionName = this.closest('.product-info__option').getAttribute('data-option-name');
+          const optionValue = this.getAttribute('data-option-value');
+          
+          // Update selected option display
+          const selectedDisplay = document.querySelector(`#ProductForm-${productId} [data-option-selected="${optionName}"]`);
+          if (selectedDisplay) {
+            selectedDisplay.textContent = optionValue;
+          }
+          
+          // Update active state
+          const siblingOptions = this.closest('.product-info__option-values').querySelectorAll('.product-info__option-value');
+          siblingOptions.forEach(option => option.classList.remove('product-info__option-value--selected'));
+          this.classList.add('product-info__option-value--selected');
+          
+          // Update current options
+          const currentOptions = [];
+          document.querySelectorAll(`#ProductForm-${productId} .product-info__option`).forEach((option, index) => {
+            const selectedOption = option.querySelector('.product-info__option-value--selected');
+            if (selectedOption) {
+              currentOptions[index] = selectedOption.getAttribute('data-option-value');
+            }
+          });
+          
+          // Find matching variant
+          let matchedVariant = null;
+          for (const variant of productData.variants) {
+            let isMatch = true;
+            
+            for (let i = 0; i < currentOptions.length; i++) {
+              const option = currentOptions[i];
+              const variantOption = variant[`option${i + 1}`];
+              
+              if (option !== variantOption) {
+                isMatch = false;
+                break;
+              }
+            }
+            
+            if (isMatch) {
+              matchedVariant = variant;
+              break;
+            }
+          }
+          
+          if (matchedVariant) {
+            // Update hidden variant ID
+            variantIdInput.value = matchedVariant.id;
+            
+            // Update price
+            const priceElement = document.getElementById(`ProductPrice-${productId}`);
+            const comparePriceElement = document.getElementById(`ProductComparePrice-${productId}`);
+            
+            if (priceElement) {
+              const formattedPrice = formatMoney(matchedVariant.price);
+              priceElement.textContent = formattedPrice;
+            }
+            
+            if (comparePriceElement) {
+              if (matchedVariant.compare_at_price > matchedVariant.price) {
+                const formattedComparePrice = formatMoney(matchedVariant.compare_at_price);
+                comparePriceElement.textContent = formattedComparePrice;
+                comparePriceElement.style.display = '';
+              } else {
+                comparePriceElement.style.display = 'none';
+              }
+            }
+            
+            // Update add to cart button
+            const addToCartButton = document.querySelector(`#ProductForm-${productId} [type="submit"]`);
+            const addToCartText = document.getElementById(`AddToCartText-${productId}`);
+            
+            if (addToCartButton && addToCartText) {
+              if (matchedVariant.available) {
+                addToCartButton.disabled = false;
+                addToCartText.textContent = {{ 'products.product.add_to_cart' | t | json }};
+              } else {
+                addToCartButton.disabled = true;
+                addToCartText.textContent = {{ 'products.product.sold_out' | t | json }};
+              }
+            }
+          }
+        });
+      });
+    }
+    
+    // Helper function for formatting money
+    function formatMoney(cents) {
+      const moneyFormat = {{ shop.money_format | json }};
+      
+      function formatWithDelimiters(number, precision, thousands, decimal) {
+        precision = precision || 2;
+        thousands = thousands || ',';
+        decimal = decimal || '.';
+        
+        if (isNaN(number) || number == null) {
+          return 0;
+        }
+        
+        number = (number / 100.0).toFixed(precision);
+        
+        const parts = number.split('.');
+        const dollarsAmount = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
+        const centsAmount = parts[1] ? decimal + parts[1] : '';
+        
+        return dollarsAmount + centsAmount;
+      }
+      
+      let value = '';
+      
+      value = moneyFormat.replace(/{{.*}}/g, formatWithDelimiters(cents, 2));
+      
+      return value;
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Info Gaming PC",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_gaming_specs",
+      "label": "Show detailed PC specifications",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_game_performance",
+      "label": "Show game performance metrics",
+      "default": true,
+      "info": "Shows FPS ratings for games from product metafields"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_customize_button",
+      "label": "Show customization button",
+      "default": true,
+      "info": "Adds a button linking to the PC Builder tool"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_custom_badge",
+      "label": "Show custom badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_badge_text",
+      "label": "Custom badge text",
+      "default": "Limited Edition"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_warranty",
+      "label": "Show warranty information",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "warranty_title",
+      "label": "Warranty title",
+      "default": "3-Year Premium Warranty",
+      "info": "Shown when 'Show warranty information' is enabled"
+    },
+    {
+      "type": "text",
+      "id": "warranty_text",
+      "label": "Warranty text",
+      "default": "Includes parts & labor coverage, and lifetime technical support",
+      "info": "Shown when 'Show warranty information' is enabled"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_info",
+      "label": "Show shipping information",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shipping_text",
+      "label": "Shipping text",
+      "default": "Free shipping on all orders",
+      "info": "Shown when 'Show shipping information' is enabled"
+    },
+    {
+      "type": "text",
+      "id": "shipping_text_2",
+      "label": "Secondary shipping text",
+      "default": "Ships in 3-5 business days",
+      "info": "Shown when 'Show shipping information' is enabled"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_secondary_color",
+      "label": "Secondary button color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "button_secondary_text_color",
+      "label": "Secondary button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "accent_text_color",
+      "label": "Accent text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "sale_badge_color",
+      "label": "Sale badge color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "sale_badge_text_color",
+      "label": "Sale badge text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "sold_out_badge_color",
+      "label": "Sold out badge color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "sold_out_badge_text_color",
+      "label": "Sold out badge text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "custom_badge_color",
+      "label": "Custom badge color",
+      "default": "#00aaff"
+    },
+    {
+      "type": "color",
+      "id": "custom_badge_text_color",
+      "label": "Custom badge text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "in_stock_color",
+      "label": "In stock indicator color",
+      "default": "#16a34a"
+    },
+    {
+      "type": "color",
+      "id": "sold_out_color",
+      "label": "Sold out indicator color",
+      "default": "#ef4444"
+    },
+    {
+      "type": "color",
+      "id": "spec_icon_background_color",
+      "label": "Spec icon background color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "spec_icon_color",
+      "label": "Spec icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 60,
+      "unit": "px",
+      "label": "Padding top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 60,
+      "unit": "px",
+      "label": "Padding bottom"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Info Gaming PC",
+      "settings": {
+        "show_gaming_specs": true,
+        "show_game_performance": true,
+        "show_customize_button": true
+      }
+    }
+  ]
+}
+{% endschema %}

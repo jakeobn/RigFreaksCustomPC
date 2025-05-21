@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="800px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>CPU Cooling</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <!-- Fan -->
+        <path d="M12,4 C16.418278,4 20,7.581722 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 Z" fill="#FF00FF" />
+        <path d="M12,6 C15.3137085,6 18,8.6862915 18,12 C18,15.3137085 15.3137085,18 12,18 C8.6862915,18 6,15.3137085 6,12 C6,8.6862915 8.6862915,6 12,6 Z" fill="#000000" />
+        
+        <!-- Fan blades -->
+        <path d="M12,8 L14,10 L12,12 L10,10 L12,8 Z" fill="#00FFFF" />
+        <path d="M12,12 L14,14 L12,16 L10,14 L12,12 Z" fill="#00FFFF" />
+        <path d="M8,12 L10,10 L12,12 L10,14 L8,12 Z" fill="#00FFFF" />
+        <path d="M12,12 L14,10 L16,12 L14,14 L12,12 Z" fill="#00FFFF" />
+        
+        <!-- Fan hub -->
+        <path d="M12,11 C12.5522847,11 13,11.4477153 13,12 C13,12.5522847 12.5522847,13 12,13 C11.4477153,13 11,12.5522847 11,12 C11,11.4477153 11.4477153,11 12,11 Z" fill="#FF00FF" />
+    </g>
+</svg>

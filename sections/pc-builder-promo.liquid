@@ -1,0 +1,218 @@
+{% comment %}
+  PC Builder Promotional Section
+  A section to promote the PC Builder tool on the homepage
+{% endcomment %}
+
+<div class="section-pc-builder-promo" id="section-{{ section.id }}">
+  <div class="page-width">
+    <div class="section-pc-builder-promo__container">
+      <div class="section-pc-builder-promo__content">
+        {% if section.settings.title != blank %}
+          <h2 class="section-pc-builder-promo__title">{{ section.settings.title }}</h2>
+        {% endif %}
+        
+        {% if section.settings.description != blank %}
+          <div class="section-pc-builder-promo__description rte">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+        
+        {% if section.settings.button_label != blank %}
+          <a href="{{ section.settings.button_link }}" class="button button--primary">
+            {{ section.settings.button_label }}
+          </a>
+        {% endif %}
+      </div>
+      
+      <div class="section-pc-builder-promo__image-wrapper">
+        {% if section.settings.image != blank %}
+          <img
+            srcset="{{ section.settings.image | image_url: width: 550 }} 550w,
+                    {{ section.settings.image | image_url: width: 720 }} 720w,
+                    {{ section.settings.image | image_url: width: 990 }} 990w,
+                    {{ section.settings.image | image_url: width: 1100 }} 1100w"
+            src="{{ section.settings.image | image_url: width: 720 }}"
+            sizes="(min-width: 990px) 50vw, 100vw"
+            alt="{{ section.settings.image.alt | default: section.settings.title }}"
+            width="{{ section.settings.image.width }}"
+            height="{{ section.settings.image.height }}"
+            loading="lazy"
+            class="section-pc-builder-promo__image"
+          >
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'section-pc-builder-promo__placeholder' }}
+        {% endif %}
+      </div>
+    </div>
+    
+    {% if section.settings.show_component_icons %}
+      <div class="section-pc-builder-promo__components">
+        <div class="section-pc-builder-promo__component">
+          {% render 'icon-cpu' %}
+          <span class="section-pc-builder-promo__component-label">{{ 'pc_builder.components.cpu' | t }}</span>
+        </div>
+        
+        <div class="section-pc-builder-promo__component">
+          {% render 'icon-gpu' %}
+          <span class="section-pc-builder-promo__component-label">{{ 'pc_builder.components.gpu' | t }}</span>
+        </div>
+        
+        <div class="section-pc-builder-promo__component">
+          {% render 'icon-ram' %}
+          <span class="section-pc-builder-promo__component-label">{{ 'pc_builder.components.memory' | t }}</span>
+        </div>
+        
+        <div class="section-pc-builder-promo__component">
+          {% render 'icon-motherboard' %}
+          <span class="section-pc-builder-promo__component-label">{{ 'pc_builder.components.motherboard' | t }}</span>
+        </div>
+        
+        <div class="section-pc-builder-promo__component">
+          {% render 'icon-storage' %}
+          <span class="section-pc-builder-promo__component-label">{{ 'pc_builder.components.storage' | t }}</span>
+        </div>
+        
+        <div class="section-pc-builder-promo__component">
+          {% render 'icon-psu' %}
+          <span class="section-pc-builder-promo__component-label">{{ 'pc_builder.components.power_supply' | t }}</span>
+        </div>
+        
+        <div class="section-pc-builder-promo__component">
+          {% render 'icon-case' %}
+          <span class="section-pc-builder-promo__component-label">{{ 'pc_builder.components.case' | t }}</span>
+        </div>
+        
+        <div class="section-pc-builder-promo__component">
+          {% render 'icon-cooling' %}
+          <span class="section-pc-builder-promo__component-label">{{ 'pc_builder.components.cooling' | t }}</span>
+        </div>
+      </div>
+    {% endif %}
+    
+    <div class="section-pc-builder-promo__features">
+      {% for block in section.blocks %}
+        <div class="section-pc-builder-promo__feature" {{ block.shopify_attributes }}>
+          {% if block.settings.icon != blank %}
+            <div class="section-pc-builder-promo__feature-icon">
+              {{ block.settings.icon }}
+            </div>
+          {% endif %}
+          
+          {% if block.settings.title != blank %}
+            <h3 class="section-pc-builder-promo__feature-title">{{ block.settings.title }}</h3>
+          {% endif %}
+          
+          {% if block.settings.text != blank %}
+            <div class="section-pc-builder-promo__feature-text">{{ block.settings.text }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "PC Builder Promo",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Build Your Custom PC"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Create your perfect PC with our easy-to-use builder tool. Choose from hundreds of components with real-time compatibility checking.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Start Building"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "default": "/pages/pc-builder"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_component_icons",
+      "label": "Show component icons",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature Title"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Describe a key feature of your PC Builder tool.</p>"
+        },
+        {
+          "type": "html",
+          "id": "icon",
+          "label": "SVG Icon",
+          "info": "Optional: Paste your SVG icon code here"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PC Builder Promo",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Real-time Compatibility",
+            "text": "<p>Our builder checks component compatibility as you build, preventing incompatible combinations.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Performance Insights",
+            "text": "<p>See estimated gaming performance for your custom build before you buy.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Expert Recommendations",
+            "text": "<p>Get personalized recommendations based on your budget and needs.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Save & Share Builds",
+            "text": "<p>Save your custom builds and share them with friends.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

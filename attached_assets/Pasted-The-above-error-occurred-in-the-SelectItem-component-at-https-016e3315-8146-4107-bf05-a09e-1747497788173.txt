@@ -1,0 +1,60 @@
+The above error occurred in the <SelectItem> component:
+
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-select.js?v=4ca34fe1:846:7
+    at _c11 (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/components/ui/select.tsx:208:13)
+    at div
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-DVHSTOKX.js?v=4ca34fe1:42:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GR3B7I3S.js?v=4ca34fe1:79:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GR3B7I3S.js?v=4ca34fe1:56:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WM6SXSWM.js?v=4ca34fe1:39:15
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-select.js?v=4ca34fe1:757:13
+    at div
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GR3B7I3S.js?v=4ca34fe1:79:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GR3B7I3S.js?v=4ca34fe1:56:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WM6SXSWM.js?v=4ca34fe1:39:15
+    at Provider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-3RXG37ZK.js?v=4ca34fe1:38:15)
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-select.js?v=4ca34fe1:300:58
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GR3B7I3S.js?v=4ca34fe1:79:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GR3B7I3S.js?v=4ca34fe1:56:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-DVHSTOKX.js?v=4ca34fe1:42:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-MF6EEWPX.js?v=4ca34fe1:260:22
+    at SelectPortal
+    at _c7 (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/components/ui/select.tsx:123:12)
+    at Provider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-3RXG37ZK.js?v=4ca34fe1:38:15)
+    at Provider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-3RXG37ZK.js?v=4ca34fe1:38:15)
+    at CollectionProvider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WM6SXSWM.js?v=4ca34fe1:29:13)
+    at Provider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-3RXG37ZK.js?v=4ca34fe1:38:15)
+    at Provider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-3RXG37ZK.js?v=4ca34fe1:38:15)
+    at Popper (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-JYL32WHJ.js?v=4ca34fe1:1921:11)
+    at Select (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-select.js?v=4ca34fe1:88:5)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at _c9 (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/components/ui/card.tsx:20:11)
+    at div
+    at div
+    at StepBuilder (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/components/pc-builder/StepBuilder.tsx?t=1747497659639:175:21)
+    at div
+    at div
+    at StepBuilderPage
+    at Route (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=4ca34fe1:323:16)
+    at Switch (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=4ca34fe1:379:17)
+    at main
+    at div
+    at Router
+    at Provider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-3RXG37ZK.js?v=4ca34fe1:38:15)
+    at TooltipProvider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=4ca34fe1:64:5)
+    at AuthProvider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/hooks/use-auth.tsx:26:32)
+    at ShopifyProvider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/lib/shopifyContext.tsx:22:35)
+    at QueryClientProvider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=4ca34fe1:2805:3)
+    at App (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/App.tsx?t=1747497659639&v=LMzLGzg_MMwbqCzTnKhwC:259:3)
+    at GlobalStateProvider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/lib/GlobalState.tsx?v=LMzLGzg_MMwbqCzTnKhwC:30:39)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.

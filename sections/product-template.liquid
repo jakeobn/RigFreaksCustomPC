@@ -1,0 +1,970 @@
+<link rel="stylesheet" href="{{ 'section-product-template.css' | asset_url }}" media="print" onload="this.media='all'">
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
+
+{%- style -%}
+  .product {
+    color: {{ section.settings.text_color }};
+  }
+  
+  .product__title {
+    color: {{ section.settings.title_color }};
+  }
+  
+  .product__price {
+    color: {{ section.settings.price_color }};
+  }
+  
+  .product__button {
+    background-color: {{ section.settings.button_background }};
+    color: {{ section.settings.button_text_color }};
+  }
+  
+  .product__button:hover {
+    background-color: {{ section.settings.button_background | color_darken: 10 }};
+  }
+  
+  .product__specs-table th {
+    color: {{ section.settings.specs_header_color }};
+  }
+  
+  .product__specs-table td {
+    color: {{ section.settings.specs_text_color }};
+  }
+{%- endstyle -%}
+
+<section class="product-template" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true">
+  <div class="page-width">
+    <div class="product">
+      <!-- Breadcrumbs -->
+      <nav class="product__breadcrumbs mb-6 text-sm" role="navigation" aria-label="breadcrumbs">
+        <ol class="flex flex-wrap items-center">
+          <li>
+            <a href="{{ routes.root_url }}" class="text-muted-foreground hover:text-accent transition-colors">{{ 'general.breadcrumbs.home' | t }}</a>
+            <span class="mx-2 text-muted-foreground">/</span>
+          </li>
+          {%- if collection.url -%}
+            <li>
+              <a href="{{ collection.url }}" class="text-muted-foreground hover:text-accent transition-colors">{{ collection.title }}</a>
+              <span class="mx-2 text-muted-foreground">/</span>
+            </li>
+          {%- endif -%}
+          <li class="text-muted-foreground">
+            <span aria-current="page">{{ product.title }}</span>
+          </li>
+        </ol>
+      </nav>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        <!-- Product Media -->
+        <div class="product__media-wrapper">
+          {%- if product.media.size > 0 -%}
+            <div class="product__media-gallery" data-product-single-media-group>
+              <div class="product__media-featured mb-4 overflow-hidden rounded-lg border border-gray-700 relative">
+                {%- for media in product.media -%}
+                  <div class="product__media-item" data-media-id="{{ media.id }}" data-product-single-media-wrapper {% if featured_image.id == media.id or forloop.first %}class="active"{% else %}class="hidden"{% endif %}>
+                    {%- case media.media_type -%}
+                      {%- when 'image' -%}
+                        <div class="product__media-image relative">
+                          <img 
+                            src="{{ media | img_url: '1000x' }}" 
+                            alt="{{ media.alt | escape }}"
+                            class="product__media-img w-full h-auto object-contain"
+                            width="{{ media.width }}"
+                            height="{{ media.height }}"
+                            loading="lazy"
+                          >
+                        </div>
+                      {%- when 'external_video' -%}
+                        <div class="product__media-external-video relative" style="padding-bottom: 56.25%;">
+                          {{ media | external_video_tag: class: 'absolute inset-0 w-full h-full object-cover' }}
+                        </div>
+                      {%- when 'video' -%}
+                        <div class="product__media-video relative" style="padding-bottom: 56.25%;">
+                          {{ media | video_tag: class: 'absolute inset-0 w-full h-full object-cover', controls: true, preload: 'none' }}
+                        </div>
+                      {%- when 'model' -%}
+                        <div class="product__media-model">
+                          {{ media | model_viewer_tag: reveal: 'interaction', toggleable: true, class: 'w-full h-auto' }}
+                        </div>
+                    {%- endcase -%}
+                  </div>
+                {%- endfor -%}
+              </div>
+              
+              {%- if product.media.size > 1 -%}
+                <div class="product__media-thumbnails grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2">
+                  {%- for media in product.media -%}
+                    <button 
+                      class="product__media-thumbnail-item border overflow-hidden rounded 
+                      {% if featured_image.id == media.id or forloop.first %}border-accent{% else %}border-gray-700{% endif %} 
+                      hover:border-accent transition-colors"
+                      data-thumbnail-id="{{ media.id }}"
+                      {% if featured_image.id == media.id or forloop.first %}aria-current="true"{% endif %}
+                      aria-label="{{ 'products.product.gallery_thumbnail_alt' | t: imageAlt: media.alt | escape }}"
+                    >
+                      <img 
+                        src="{{ media | img_url: '150x' }}" 
+                        alt="{{ media.alt | escape }}"
+                        class="w-full h-auto object-cover aspect-square"
+                        width="150"
+                        height="150"
+                        loading="lazy"
+                      >
+                    </button>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+        
+        <!-- Product Info -->
+        <div class="product__info-wrapper">
+          <div class="product__info">
+            <h1 class="product__title text-3xl md:text-4xl font-bold font-heading mb-4">{{ product.title }}</h1>
+            
+            {%- if section.settings.show_vendor -%}
+              <div class="product__vendor text-sm text-muted-foreground mb-4">
+                {{ product.vendor }}
+              </div>
+            {%- endif -%}
+            
+            <div class="product__price-wrapper mb-6">
+              <div class="product__price {% if product.compare_at_price > product.price %}product__price--on-sale{% endif %}">
+                <span class="product__price-regular {% if product.compare_at_price > product.price %}line-through text-muted-foreground{% endif %}">
+                  {%- if product.compare_at_price > product.price -%}
+                    {{ product.compare_at_price | money }}
+                  {%- else -%}
+                    {{ product.price | money }}
+                  {%- endif -%}
+                </span>
+                
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="product__price-sale text-xl font-bold ml-2 text-primary">
+                    {{ product.price | money }}
+                  </span>
+                  <span class="product__price-savings text-sm text-success ml-2">
+                    {% assign savings_percentage = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+                    {{ 'products.product.save_percentage' | t: percentage: savings_percentage }}%
+                  </span>
+                {%- endif -%}
+              </div>
+              
+              {%- if product.price_varies -%}
+                <span class="product__price-note text-sm text-muted-foreground">
+                  {{ 'products.product.price.from_price_html' | t: price: product.price_min | money }}
+                </span>
+              {%- endif -%}
+              
+              <div class="product__tax-note text-sm text-muted-foreground mt-1">
+                {%- if shop.taxes_included -%}
+                  {{ 'products.product.include_taxes' | t }}
+                {%- endif -%}
+                {%- if shop.shipping_policy.body != blank -%}
+                  {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                {%- endif -%}
+              </div>
+            </div>
+            
+            {%- if product.description != blank -%}
+              <div class="product__description mb-6">
+                <div class="rte">
+                  {{ product.description }}
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- assign product_form_id = 'product-form-' | append: section.id -%}
+            
+            <div id="{{ product_form_id }}" class="product__form">
+              {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                <input type="hidden" name="id" value="{{ current_variant.id }}">
+                
+                {%- if product.variants.size > 1 -%}
+                  <div class="product__variants mb-6">
+                    {%- for option in product.options_with_values -%}
+                      <div class="product__option-wrapper mb-4">
+                        <label class="product__option-label block font-medium mb-2" for="Option-{{ section.id }}-{{ forloop.index0 }}">
+                          {{ option.name }}
+                        </label>
+                        
+                        <div class="product__option-select">
+                          <select
+                            id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                            class="product__option-input w-full p-3 bg-dark-card border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                            name="options[{{ option.name | escape }}]"
+                            data-option-index="{{ forloop.index0 }}"
+                          >
+                            {%- for value in option.values -%}
+                              <option 
+                                value="{{ value | escape }}"
+                                {% if option.selected_value == value %}selected="selected"{% endif %}
+                              >
+                                {{ value }}
+                              </option>
+                            {%- endfor -%}
+                          </select>
+                        </div>
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+                
+                <!-- Quantity selector -->
+                <div class="product__quantity-wrapper mb-6">
+                  <label class="product__quantity-label block font-medium mb-2" for="Quantity-{{ section.id }}">
+                    {{ 'products.product.quantity' | t }}
+                  </label>
+                  <div class="product__quantity-selector flex items-center border border-gray-700 rounded-lg overflow-hidden w-32">
+                    <button type="button" class="product__quantity-decrease w-10 h-10 flex items-center justify-center bg-dark-card hover:bg-dark-surface text-base-text" aria-label="{{ 'products.product.decrease_quantity' | t }}">
+                      &minus;
+                    </button>
+                    <input
+                      type="number"
+                      id="Quantity-{{ section.id }}"
+                      name="quantity"
+                      value="1"
+                      min="1"
+                      aria-label="{{ 'products.product.quantity' | t }}"
+                      class="product__quantity-input w-full h-10 border-x border-gray-700 bg-dark-card text-center focus:outline-none"
+                    >
+                    <button type="button" class="product__quantity-increase w-10 h-10 flex items-center justify-center bg-dark-card hover:bg-dark-surface text-base-text" aria-label="{{ 'products.product.increase_quantity' | t }}">
+                      &plus;
+                    </button>
+                  </div>
+                </div>
+                
+                <!-- Add to cart button -->
+                <div class="product__submit">
+                  <button
+                    type="submit"
+                    name="add"
+                    class="product__button w-full py-3 px-6 bg-primary hover:bg-primary/80 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    {% unless current_variant.available %}disabled="disabled"{% endunless %}
+                  >
+                    <span class="product__button-text">
+                      {%- if current_variant.available -%}
+                        {{ 'products.product.add_to_cart' | t }}
+                      {%- else -%}
+                        {{ 'products.product.sold_out' | t }}
+                      {%- endif -%}
+                    </span>
+                  </button>
+                  
+                  {%- if section.settings.show_dynamic_checkout -%}
+                    {{ form | payment_button }}
+                  {%- endif -%}
+                </div>
+              {%- endform -%}
+            </div>
+            
+            <!-- PC Builder Integration (if applicable) -->
+            {%- if section.settings.show_pc_builder_button and product.tags contains "pc-component" -%}
+              <div class="product__pc-builder mt-4">
+                <button 
+                  type="button" 
+                  class="product__pc-builder-button w-full py-3 px-6 bg-accent text-dark-base font-medium rounded-lg transition-colors hover:bg-accent/80 flex items-center justify-center"
+                  data-component-id="{{ product.id }}"
+                  {% assign component_type = "" %}
+                  {% for tag in product.tags %}
+                    {% if tag contains "component-type:" %}
+                      {% assign component_type = tag | remove: "component-type:" %}
+                    {% endif %}
+                  {% endfor %}
+                  data-component-type="{{ component_type }}"
+                >
+                  <span class="mr-2">
+                    {% render 'icon-pc' %}
+                  </span>
+                  <span>{{ 'products.product.add_to_build' | t }}</span>
+                </button>
+              </div>
+            {%- endif -%}
+            
+            <!-- Additional action buttons -->
+            <div class="product__actions mt-6 flex flex-wrap gap-4">
+              {%- if section.settings.show_share_buttons -%}
+                <div class="product__share">
+                  {% render 'social-sharing', share_title: product.title, share_url: product.url, share_image: featured_image %}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Product Tabs -->
+      <div class="product__tabs mt-12">
+        <div class="product__tabs-container">
+          <div class="product__tabs-list border-b border-gray-700 mb-6">
+            <div class="flex flex-wrap -mb-px">
+              <button
+                id="SpecificationsTab"
+                class="product__tab-button py-2 px-4 md:py-3 md:px-6 font-medium border-b-2 border-primary text-primary"
+                aria-selected="true"
+                aria-controls="SpecificationsPanel"
+                role="tab"
+              >
+                {{ 'products.product.specifications' | t | default: 'Specifications' }}
+              </button>
+              
+              {%- if product.metafields.custom.additional_info -%}
+                <button
+                  id="AdditionalInfoTab"
+                  class="product__tab-button py-2 px-4 md:py-3 md:px-6 font-medium border-b-2 border-transparent text-muted-foreground hover:text-base-text"
+                  aria-selected="false"
+                  aria-controls="AdditionalInfoPanel"
+                  role="tab"
+                >
+                  {{ 'products.product.additional_info' | t | default: 'Additional Info' }}
+                </button>
+              {%- endif -%}
+              
+              {%- if section.settings.show_reviews_tab -%}
+                <button
+                  id="ReviewsTab"
+                  class="product__tab-button py-2 px-4 md:py-3 md:px-6 font-medium border-b-2 border-transparent text-muted-foreground hover:text-base-text"
+                  aria-selected="false"
+                  aria-controls="ReviewsPanel"
+                  role="tab"
+                >
+                  {{ 'products.product.reviews' | t | default: 'Reviews' }}
+                </button>
+              {%- endif -%}
+            </div>
+          </div>
+          
+          <div class="product__tabs-content">
+            <div
+              id="SpecificationsPanel"
+              class="product__tab-panel"
+              role="tabpanel"
+              aria-labelledby="SpecificationsTab"
+            >
+              {%- if product.metafields.custom.specifications -%}
+                <div class="product__specs overflow-x-auto">
+                  <table class="product__specs-table w-full text-left">
+                    <tbody>
+                      {%- for spec in product.metafields.custom.specifications.value -%}
+                        <tr class="border-b border-gray-700">
+                          <th class="py-3 pr-4 whitespace-nowrap font-medium" scope="row">{{ spec.name }}</th>
+                          <td class="py-3 pl-4">{{ spec.value }}</td>
+                        </tr>
+                      {%- endfor -%}
+                    </tbody>
+                  </table>
+                </div>
+              {%- else -%}
+                {%- assign has_specs = false -%}
+                {%- for tag in product.tags -%}
+                  {%- if tag contains 'spec:' -%}
+                    {%- assign has_specs = true -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                
+                {%- if has_specs -%}
+                  <div class="product__specs overflow-x-auto">
+                    <table class="product__specs-table w-full text-left">
+                      <tbody>
+                        {%- for tag in product.tags -%}
+                          {%- if tag contains 'spec:' -%}
+                            {%- assign spec_parts = tag | remove: 'spec:' | split: '=' -%}
+                            {%- if spec_parts.size == 2 -%}
+                              <tr class="border-b border-gray-700">
+                                <th class="py-3 pr-4 whitespace-nowrap font-medium" scope="row">{{ spec_parts[0] | capitalize }}</th>
+                                <td class="py-3 pl-4">{{ spec_parts[1] }}</td>
+                              </tr>
+                            {%- endif -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </tbody>
+                    </table>
+                  </div>
+                {%- else -%}
+                  <div class="product__specs-empty text-muted-foreground">
+                    {{ 'products.product.no_specifications' | t | default: 'No specifications available.' }}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+            
+            {%- if product.metafields.custom.additional_info -%}
+              <div
+                id="AdditionalInfoPanel"
+                class="product__tab-panel hidden"
+                role="tabpanel"
+                aria-labelledby="AdditionalInfoTab"
+              >
+                <div class="product__additional-info rte">
+                  {{ product.metafields.custom.additional_info }}
+                </div>
+              </div>
+            {%- endif -%}
+            
+            {%- if section.settings.show_reviews_tab -%}
+              <div
+                id="ReviewsPanel"
+                class="product__tab-panel hidden"
+                role="tabpanel"
+                aria-labelledby="ReviewsTab"
+              >
+                <div class="product__reviews">
+                  <div id="shopify-product-reviews" data-id="{{ product.id }}">{{ product.metafields.spr.reviews }}</div>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Related products -->
+      {%- if section.settings.show_related_products -%}
+        <div class="product__related mt-16">
+          <h2 class="product__related-title text-2xl font-bold font-heading mb-6">{{ section.settings.related_products_title }}</h2>
+          <div class="product__related-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {%- assign related_limit = section.settings.related_products_limit -%}
+            {%- assign current_product = product -%}
+            {%- assign current_product_tags = current_product.tags | remove: 'component-type:' | join: ',' -%}
+            
+            {%- capture related_products -%}
+              {%- paginate collections.all.products by 12 -%}
+                {%- for product in collections.all.products -%}
+                  {%- if product.id != current_product.id -%}
+                    {%- assign product_tags = product.tags | remove: 'component-type:' | join: ',' -%}
+                    {%- if product_tags contains current_product_tags or product.type == current_product.type or product.vendor == current_product.vendor -%}
+                      {%- unless related_count > related_limit -%}
+                        {%- assign related_count = related_count | plus: 1 -%}
+                        {%- render 'product-card', product: product -%}
+                      {%- endunless -%}
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endpaginate -%}
+            {%- endcapture -%}
+            
+            {%- if related_count == 0 -%}
+              {%- assign related_collection = collections[section.settings.related_collection] | default: collections.featured -%}
+              {%- for product in related_collection.products limit: related_limit -%}
+                {%- if product.id != current_product.id -%}
+                  {%- render 'product-card', product: product -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- else -%}
+              {{ related_products }}
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+      
+      <!-- Recently viewed products -->
+      {%- if section.settings.show_recently_viewed -%}
+        <div class="product__recently-viewed mt-16" data-recently-viewed-container>
+          <h2 class="product__recently-viewed-title text-2xl font-bold font-heading mb-6">{{ section.settings.recently_viewed_title }}</h2>
+          <div class="product__recently-viewed-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" data-recently-viewed-grid>
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "url": {{ shop.url | append: product.url | json }},
+  {%- if featured_image -%}
+    "image": {{ featured_image | img_url: '1000x' | prepend: "https:" | json }},
+  {%- endif -%}
+  "description": {{ product.description | strip_html | truncatewords: 120 | json }},
+  {%- if product.vendor -%}
+    "brand": {
+      "@type": "Thing",
+      "name": {{ product.vendor | json }}
+    },
+  {%- endif -%}
+  "offers": [
+    {%- for variant in product.variants -%}
+      {
+        "@type": "Offer",
+        "availability": "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+        "price": {{ variant.price | divided_by: 100.00 | json }},
+        "priceCurrency": {{ shop.currency | json }},
+        "url": {{ shop.url | append: variant.url | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Thumbnail gallery
+    const thumbnails = document.querySelectorAll('[data-thumbnail-id]');
+    const mediaItems = document.querySelectorAll('[data-media-id]');
+    
+    thumbnails.forEach(thumbnail => {
+      thumbnail.addEventListener('click', function() {
+        const mediaId = this.getAttribute('data-thumbnail-id');
+        
+        // Update active thumbnail
+        thumbnails.forEach(item => {
+          item.classList.remove('border-accent');
+          item.classList.add('border-gray-700');
+          item.removeAttribute('aria-current');
+        });
+        this.classList.add('border-accent');
+        this.classList.remove('border-gray-700');
+        this.setAttribute('aria-current', 'true');
+        
+        // Show selected media
+        mediaItems.forEach(item => {
+          if (item.getAttribute('data-media-id') === mediaId) {
+            item.classList.remove('hidden');
+            item.classList.add('active');
+          } else {
+            item.classList.add('hidden');
+            item.classList.remove('active');
+          }
+        });
+      });
+    });
+    
+    // Quantity selector
+    const quantityInput = document.querySelector('.product__quantity-input');
+    const decreaseBtn = document.querySelector('.product__quantity-decrease');
+    const increaseBtn = document.querySelector('.product__quantity-increase');
+    
+    if (quantityInput && decreaseBtn && increaseBtn) {
+      decreaseBtn.addEventListener('click', function() {
+        let value = parseInt(quantityInput.value);
+        if (value > 1) {
+          quantityInput.value = value - 1;
+        }
+      });
+      
+      increaseBtn.addEventListener('click', function() {
+        let value = parseInt(quantityInput.value);
+        quantityInput.value = value + 1;
+      });
+    }
+    
+    // Tabs functionality
+    const tabButtons = document.querySelectorAll('[role="tab"]');
+    const tabPanels = document.querySelectorAll('[role="tabpanel"]');
+    
+    tabButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('aria-controls');
+        const targetPanel = document.getElementById(targetId);
+        
+        // Update tab buttons
+        tabButtons.forEach(btn => {
+          btn.setAttribute('aria-selected', 'false');
+          btn.classList.remove('border-primary', 'text-primary');
+          btn.classList.add('border-transparent', 'text-muted-foreground');
+        });
+        this.setAttribute('aria-selected', 'true');
+        this.classList.add('border-primary', 'text-primary');
+        this.classList.remove('border-transparent', 'text-muted-foreground');
+        
+        // Update tab panels
+        tabPanels.forEach(panel => {
+          panel.classList.add('hidden');
+        });
+        targetPanel.classList.remove('hidden');
+      });
+    });
+    
+    // Recently viewed products
+    {% if section.settings.show_recently_viewed %}
+      const recentlyViewedContainer = document.querySelector('[data-recently-viewed-container]');
+      const recentlyViewedGrid = document.querySelector('[data-recently-viewed-grid]');
+      
+      if (recentlyViewedContainer && recentlyViewedGrid) {
+        const productHandle = '{{ product.handle }}';
+        const maxProducts = {{ section.settings.recently_viewed_limit }};
+        let recentProducts = [];
+        
+        // Get existing recently viewed products
+        const storedProducts = localStorage.getItem('recently_viewed');
+        if (storedProducts) {
+          recentProducts = JSON.parse(storedProducts);
+        }
+        
+        // Add current product to the start of the array if it's not already there
+        const existingIndex = recentProducts.indexOf(productHandle);
+        if (existingIndex > -1) {
+          recentProducts.splice(existingIndex, 1);
+        }
+        recentProducts.unshift(productHandle);
+        
+        // Keep only the most recent products up to the max limit
+        recentProducts = recentProducts.slice(0, maxProducts);
+        
+        // Save updated list back to localStorage
+        localStorage.setItem('recently_viewed', JSON.stringify(recentProducts));
+        
+        // Remove current product from display list
+        const displayProducts = recentProducts.filter(handle => handle !== productHandle);
+        
+        // If there are products to display, fetch and render them
+        if (displayProducts.length > 0) {
+          recentlyViewedGrid.innerHTML = '';
+          const promises = displayProducts.map(handle => {
+            return fetch(`/products/${handle}?view=card`)
+              .then(response => response.text());
+          });
+          
+          Promise.all(promises).then(products => {
+            recentlyViewedGrid.innerHTML = products.join('');
+            recentlyViewedContainer.style.display = 'block';
+          });
+        } else {
+          recentlyViewedContainer.style.display = 'none';
+        }
+      }
+    {% endif %}
+    
+    // PC Builder Integration
+    const pcBuilderButton = document.querySelector('.product__pc-builder-button');
+    if (pcBuilderButton) {
+      pcBuilderButton.addEventListener('click', function() {
+        const componentId = this.getAttribute('data-component-id');
+        const componentType = this.getAttribute('data-component-type');
+        
+        // Redirect to PC Builder with component pre-selected
+        window.location.href = `/build-your-pc?add=${componentType}:${componentId}`;
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product template",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product Information"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sku",
+      "label": "Show SKU",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Media Gallery"
+    },
+    {
+      "type": "select",
+      "id": "image_size",
+      "label": "Image size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_zoom",
+      "label": "Enable image zoom",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": "Enable video looping",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Buy Buttons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout buttons",
+      "info": "Using the payment methods available on your store, customers see their preferred option, like PayPal or Apple Pay.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pc_builder_button",
+      "label": "Show 'Add to PC Build' button",
+      "info": "Displays a button to add this component to the PC Builder tool. Only visible for products tagged with 'pc-component'.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Social Sharing"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": "Show social sharing buttons",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Tabs Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews_tab",
+      "label": "Show reviews tab",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Related Products"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_related_products",
+      "label": "Show related products",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "related_products_title",
+      "label": "Related products heading",
+      "default": "You may also like"
+    },
+    {
+      "type": "collection",
+      "id": "related_collection",
+      "label": "Related products collection",
+      "info": "If no related products are found based on tags, type, or vendor, products from this collection will be shown instead."
+    },
+    {
+      "type": "range",
+      "id": "related_products_limit",
+      "label": "Maximum related products to show",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Recently Viewed Products"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_recently_viewed",
+      "label": "Show recently viewed products",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "recently_viewed_title",
+      "label": "Recently viewed heading",
+      "default": "Recently viewed"
+    },
+    {
+      "type": "range",
+      "id": "recently_viewed_limit",
+      "label": "Maximum products to show",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#FF003C"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "specs_header_color",
+      "label": "Specifications header color",
+      "default": "#00F0FF"
+    },
+    {
+      "type": "color",
+      "id": "specs_text_color",
+      "label": "Specifications text color",
+      "default": "#f8f8f8"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "custom_html",
+      "name": "Custom HTML",
+      "settings": [
+        {
+          "type": "html",
+          "id": "custom_html",
+          "label": "Custom HTML",
+          "default": "<p>Add your custom HTML here</p>"
+        }
+      ]
+    },
+    {
+      "type": "collapsible_tab",
+      "name": "Collapsible tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Collapsible tab"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Tab content",
+          "default": "<p>Tab content goes here</p>"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "chat",
+              "label": "Chat"
+            },
+            {
+              "value": "money",
+              "label": "Money"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "alert",
+              "label": "Alert"
+            }
+          ],
+          "default": "none"
+        }
+      ]
+    },
+    {
+      "type": "warranty",
+      "name": "Warranty Info",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Warranty Information"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Warranty details",
+          "default": "<p>All products come with a 3-year warranty. See our warranty page for more details.</p>"
+        }
+      ]
+    },
+    {
+      "type": "shipping",
+      "name": "Shipping Info",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Shipping Information"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Shipping details",
+          "default": "<p>Free shipping on all orders over $1000. Orders typically ship within 1-2 business days.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product template",
+      "blocks": [
+        {
+          "type": "warranty"
+        },
+        {
+          "type": "shipping"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

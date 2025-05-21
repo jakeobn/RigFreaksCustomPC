@@ -1,0 +1,228 @@
+/**
+ * Migration script to transfer step builder components to Supabase
+ */
+import { supabase } from './supabase';
+import fs from 'fs';
+import path from 'path';
+import * as https from 'https';
+import { Stream } from 'stream';
+
+// Logger
+const log = (message: string) => {
+  console.log(`[Step Builder Migration] ${message}`);
+};
+
+// Error logger
+const logError = (message: string, error?: any) => {
+  console.error(`[Step Builder Migration Error] ${message}`, error || '');
+};
+
+/**
+ * Uploads an image to Supabase storage from a URL or local path
+ */
+async function uploadImageToSupabase(
+  imagePath: string,
+  bucket: string,
+  category: string
+): Promise<string | null> {
+  try {
+    if (!imagePath) {
+      return null;
+    }
+
+    // Get filename from path
+    const filename = path.basename(imagePath);
+    const storagePath = `${category}/${filename}`;
+    
+    // Check if file already exists
+    const { data: existingFiles } = await supabase.storage
+      .from(bucket)
+      .list(category);
+      
+    const exists = existingFiles?.some(file => file.name === filename);
+    if (exists) {
+      // Return public URL if file already exists
+      return storage.getPublicUrl(bucket, storagePath);
+    }
+
+    // Check if image is a URL or a local path
+    if (imagePath.startsWith('http')) {
+      // Download from URL then upload to Supabase
+      return new Promise((resolve, reject) => {
+        https.get(imagePath, async (response) => {
+          try {
+            if (response.statusCode !== 200) {
+              reject(new Error(`Failed to download image: ${response.statusCode}`));
+              return;
+            }
+            
+            // Get content type
+            const contentType = response.headers['content-type'] || 'image/jpeg';
+            
+            // Convert stream to buffer
+            const chunks: Buffer[] = [];
+            response.on('data', chunk => chunks.push(chunk));
+            response.on('end', async () => {
+              const buffer = Buffer.concat(chunks);
+              
+              // Upload to Supabase
+              try {
+                const url = await storage.uploadFile(bucket, storagePath, buffer, contentType);
+                resolve(url);
+              } catch (uploadError) {
+                reject(uploadError);
+              }
+            });
+          } catch (error) {
+            reject(error);
+          }
+        }).on('error', reject);
+      });
+    } else {
+      // Check if local file exists
+      const localPath = path.resolve(process.cwd(), imagePath.replace(/^\//, ''));
+      if (!fs.existsSync(localPath)) {
+        log(`Image file not found: ${localPath}`);
+        return null;
+      }
+      
+      // Read local file and upload to Supabase
+      const fileBuffer = fs.readFileSync(localPath);
+      const contentType = imagePath.endsWith('.png') ? 'image/png' : 
+                          imagePath.endsWith('.jpg') || imagePath.endsWith('.jpeg') ? 'image/jpeg' :
+                          imagePath.endsWith('.gif') ? 'image/gif' : 
+                          imagePath.endsWith('.webp') ? 'image/webp' : 'image/jpeg';
+                          
+      return await storage.uploadFile(bucket, storagePath, fileBuffer, contentType);
+    }
+  } catch (error) {
+    logError(`Failed to upload image: ${imagePath}`, error);
+    return null;
+  }
+}
+
+/**
+ * Migrates all step builder components to Supabase
+ */
+export async function migrateStepBuilderComponentsToSupabase() {
+  let successCount = 0;
+  let errorCount = 0;
+  const results: any[] = [];
+  
+  try {
+    // Load components from local storage
+    // This could be a JSON file or database
+    const componentsJson = fs.readFileSync(path.resolve(process.cwd(), 'public/backups/components.csv'), 'utf-8');
+    const components = JSON.parse(componentsJson);
+    
+    log(`Found ${components.length} components to migrate.`);
+    
+    // Process each component
+    for (const component of components) {
+      try {
+        log(`Processing component: ${component.name} (${component.type})`);
+        
+        // Upload main image if exists
+        let uploadedImageUrl = null;
+        if (component.imageUrl) {
+          uploadedImageUrl = await uploadImageToSupabase(
+            component.imageUrl,
+            'component-images',
+            component.type // Use type as category
+          );
+        }
+        
+        // Upload gallery images if exist
+        const uploadedGalleryImages = [];
+        if (component.imagesGallery && Array.isArray(component.imagesGallery)) {
+          for (const galleryImage of component.imagesGallery) {
+            const uploadedGalleryUrl = await uploadImageToSupabase(
+              galleryImage,
+              'gallery-images',
+              component.type // Use type as category
+            );
+            
+            if (uploadedGalleryUrl) {
+              uploadedGalleryImages.push(uploadedGalleryUrl);
+            }
+          }
+        }
+        
+        // Map inventory status to Supabase format
+        let inventoryStatus = 'instock'; // Default
+        if (component.inventoryStatus) {
+          // Map to Supabase format
+          if (component.inventoryStatus === 'in-stock') {
+            inventoryStatus = 'instock';
+          } else if (component.inventoryStatus === 'out-of-stock') {
+            inventoryStatus = 'outofstock';
+          } else if (component.inventoryStatus === 'pre-order') {
+            inventoryStatus = 'preorder';
+          } else {
+            inventoryStatus = component.inventoryStatus;
+          }
+        } else if (component.inStock === false) {
+          inventoryStatus = 'outofstock';
+        }
+        
+        // Use the componentsTable module to add the component to Supabase
+        try {
+          const newComponent = await componentsTable.create({
+            name: component.name,
+            category: component.type,
+            price: parseFloat(component.price.toString()),
+            specs: component.specs || {},
+            specs_html: component.specsHtml || null,
+            image_url: uploadedImageUrl || null,
+            images_gallery: uploadedGalleryImages.length > 0 ? uploadedGalleryImages : [],
+            inventory_status: inventoryStatus,
+            in_stock: component.inStock !== false,
+            brand: component.brand || null,
+            // Don't include external_id which is causing issues
+          });
+          
+          log(`Successfully migrated component: ${component.name}`);
+          successCount++;
+          results.push({
+            id: component.id,
+            name: component.name,
+            status: 'success',
+            supabaseId: newComponent.id
+          });
+        } catch (componentError) {
+          logError(`Failed to save component ${component.name} to Supabase`, componentError);
+          errorCount++;
+          results.push({
+            id: component.id,
+            name: component.name,
+            status: 'error',
+            error: componentError.message
+          });
+        }
+      } catch (error) {
+        logError(`Failed to process component ${component.name}`, error);
+        errorCount++;
+        results.push({
+          id: component.id,
+          name: component.name,
+          status: 'error',
+          error: error.message
+        });
+      }
+    }
+    
+    log(`Migration completed. ${successCount} components migrated successfully, ${errorCount} errors`);
+    
+    return {
+      migrated: successCount,
+      errors: errorCount,
+      results
+    };
+  } catch (error) {
+    logError('Migration failed', error);
+    throw error;
+  }
+}
+
+// Export default for direct imports
+export default migrateStepBuilderComponentsToSupabase;

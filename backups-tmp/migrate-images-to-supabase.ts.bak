@@ -1,0 +1,139 @@
+/**
+ * Migration utility to move product images from local storage to Supabase
+ * This script can be used to migrate existing images to Supabase Storage.
+ */
+
+import fs from 'fs';
+import path from 'path';
+import { supabase } from './supabase';
+import { promisify } from 'util';
+
+const readdir = promisify(fs.readdir);
+const readFile = promisify(fs.readFile);
+const stat = promisify(fs.stat);
+
+/**
+ * Migrate images from a local directory to Supabase storage
+ */
+async function migrateImagesFromDirectory(
+  sourceDir: string, 
+  bucket: string, 
+  prefix: string = ''
+): Promise<{success: number, failed: number}> {
+  try {
+    // Check if source directory exists
+    if (!fs.existsSync(sourceDir)) {
+      console.error(`Source directory ${sourceDir} does not exist`);
+      return { success: 0, failed: 0 };
+    }
+    
+    console.log(`Starting migration from ${sourceDir} to ${bucket}/${prefix}`);
+    
+    // Get all files in the directory
+    const files = await readdir(sourceDir);
+    let success = 0;
+    let failed = 0;
+    
+    for (const file of files) {
+      const filePath = path.join(sourceDir, file);
+      
+      try {
+        // Check if it's a file and not a directory
+        const stats = await stat(filePath);
+        if (!stats.isFile()) continue;
+        
+        // Check if it's an image file
+        if (!/\.(jpg|jpeg|png|gif|webp)$/i.test(file)) continue;
+        
+        // Read the file
+        const fileBuffer = await readFile(filePath);
+        
+        // Determine content type
+        const extension = path.extname(file).toLowerCase();
+        let contentType = 'image/jpeg';
+        
+        if (extension === '.png') contentType = 'image/png';
+        else if (extension === '.gif') contentType = 'image/gif';
+        else if (extension === '.webp') contentType = 'image/webp';
+        
+        // Generate the target path in Supabase
+        const targetPath = prefix ? `${prefix}/${file}` : file;
+        
+        // Upload to Supabase
+        try {
+          const { data, error } = await supabase.storage
+            .from(bucket)
+            .upload(targetPath, fileBuffer, {
+              contentType,
+              cacheControl: '3600',
+              upsert: true
+            });
+            
+          if (error) throw error;
+          
+          const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(targetPath);
+          const publicUrl = urlData.publicUrl;
+          console.log(`Successfully migrated ${file} to Supabase: ${publicUrl}`);
+          success++;
+        } catch (uploadError) {
+          console.error(`Failed to upload ${file} to Supabase:`, uploadError);
+          failed++;
+        }
+      } catch (fileError) {
+        console.error(`Error processing file ${file}:`, fileError);
+        failed++;
+      }
+    }
+    
+    console.log(`Migration completed: ${success} files migrated successfully, ${failed} files failed`);
+    return { success, failed };
+  } catch (error) {
+    console.error('Error migrating images:', error);
+    return { success: 0, failed: 1 };
+  }
+}
+
+/**
+ * Main migration function - migrates all relevant image directories
+ */
+export async function migrateAllImagesToSupabase(): Promise<boolean> {
+  try {
+    console.log('Starting migration of all images to Supabase...');
+    
+    // Migrate component images
+    const componentStats = await migrateImagesFromDirectory(
+      path.join(process.cwd(), 'public', 'components'),
+      'component-images'
+    );
+    
+    // Migrate product images
+    const productStats = await migrateImagesFromDirectory(
+      path.join(process.cwd(), 'public', 'products'),
+      'product-images'
+    );
+    
+    // Migrate gallery images
+    const galleryStats = await migrateImagesFromDirectory(
+      path.join(process.cwd(), 'public', 'gallery'),
+      'gallery-images'
+    );
+    
+    // Combine stats
+    const totalSuccess = componentStats.success + productStats.success + galleryStats.success;
+    const totalFailed = componentStats.failed + productStats.failed + galleryStats.failed;
+    
+    console.log(`Migration complete: ${totalSuccess} files migrated successfully, ${totalFailed} files failed`);
+    
+    // Return true if any files were successfully migrated
+    return totalSuccess > 0;
+  } catch (error) {
+    console.error('Error during image migration to Supabase:', error);
+    return false;
+  }
+}
+
+// Export individual migration functions for targeted migrations
+export default {
+  migrateAllImagesToSupabase,
+  migrateImagesFromDirectory
+};

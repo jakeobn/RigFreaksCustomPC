@@ -1,0 +1,408 @@
+<link rel="stylesheet" href="{{ 'section-why-choose-us.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'section-why-choose-us.css' | asset_url | stylesheet_tag }}</noscript>
+
+<style>
+  .why-choose-us {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  }
+  
+  .why-choose-us__header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    position: relative;
+  }
+  
+  .why-choose-us__title {
+    margin: 0 0 0.75rem;
+    font-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    font-weight: {{ settings.heading_weight }};
+    font-size: 2.5rem;
+    color: {{ section.settings.text_color }};
+    
+    /* Gradient text for the title */
+    background: linear-gradient(to right, #ff0077, #00fffc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+  }
+  
+  .why-choose-us__subtitle {
+    margin: 0 auto;
+    max-width: 700px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: {{ section.settings.text_color | color_lighten: 20 }};
+  }
+  
+  .why-choose-us__grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+  
+  .why-choose-us__grid--grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .why-choose-us__grid--row {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .feature:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Animated background gradient */
+  .feature::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ff0077, #00fffc);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .feature:hover::before {
+    opacity: 1;
+  }
+  
+  .feature__icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.5rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .feature:hover .feature__icon-wrapper {
+    background-color: #ff0077;
+    transform: scale(1.1);
+  }
+  
+  .feature__icon {
+    width: 40px;
+    height: 40px;
+    color: {{ section.settings.text_color }};
+    transition: transform 0.3s ease;
+  }
+  
+  .feature:hover .feature__icon {
+    color: #ffffff;
+    transform: scale(1.1);
+  }
+  
+  .feature__title {
+    margin: 0 0 0.75rem;
+    font-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    font-weight: {{ settings.heading_weight }};
+    font-size: 1.25rem;
+    color: {{ section.settings.text_color }};
+  }
+  
+  .feature__text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: {{ section.settings.text_color | color_lighten: 20 }};
+  }
+  
+  .feature--row {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+  
+  .feature--row .feature__icon-wrapper {
+    margin-bottom: 0;
+  }
+  
+  .feature--row .feature__content {
+    flex: 1;
+  }
+  
+  @media screen and (max-width: 990px) {
+    .why-choose-us__grid--grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .why-choose-us__title {
+      font-size: 2rem;
+    }
+  }
+  
+  @media screen and (max-width: 750px) {
+    .why-choose-us__grid--grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .feature {
+      flex-direction: row;
+      text-align: left;
+      align-items: flex-start;
+      padding: 1.5rem;
+    }
+    
+    .feature__icon-wrapper {
+      width: 60px;
+      height: 60px;
+      margin-right: 1rem;
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+    
+    .feature__icon {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .feature__content {
+      flex: 1;
+    }
+    
+    .feature__title {
+      font-size: 1.15rem;
+    }
+    
+    .feature__text {
+      font-size: 0.95rem;
+    }
+  }
+</style>
+
+<div class="why-choose-us">
+  <div class="page-width">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="why-choose-us__header">
+        {%- if section.settings.title != blank -%}
+          <h2 class="why-choose-us__title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        
+        {%- if section.settings.subtitle != blank -%}
+          <div class="why-choose-us__subtitle">{{ section.settings.subtitle }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    
+    <div class="why-choose-us__grid why-choose-us__grid--{{ section.settings.layout }}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'feature' -%}
+            <div class="feature {% if section.settings.layout == 'row' %}feature--row{% endif %}" {{ block.shopify_attributes }}>
+              <div class="feature__icon-wrapper">
+                <span class="feature__icon">
+                  {% render 'icon-' | append: block.settings.icon %}
+                </span>
+              </div>
+              
+              <div class="feature__content">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="feature__title">{{ block.settings.title }}</h3>
+                {%- endif -%}
+                
+                {%- if block.settings.text != blank -%}
+                  <div class="feature__text">{{ block.settings.text }}</div>
+                {%- endif -%}
+              </div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Why Choose Us",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Why Choose Us"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Building high-performance custom PCs since 2015"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "row",
+          "label": "Rows"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "shield-check",
+              "label": "Shield Check"
+            },
+            {
+              "value": "headphones",
+              "label": "Headphones"
+            },
+            {
+              "value": "settings",
+              "label": "Settings"
+            },
+            {
+              "value": "cpu",
+              "label": "CPU"
+            },
+            {
+              "value": "monitor",
+              "label": "Monitor"
+            },
+            {
+              "value": "dollar-sign",
+              "label": "Dollar Sign"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
+            },
+            {
+              "value": "check-circle",
+              "label": "Check Circle"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "thumbs-up",
+              "label": "Thumbs Up"
+            },
+            {
+              "value": "zap",
+              "label": "Lightning"
+            }
+          ],
+          "default": "truck"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature title"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Feature description text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Choose Us",
+      "blocks": [
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

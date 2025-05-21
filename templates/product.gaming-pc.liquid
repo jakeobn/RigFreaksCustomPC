@@ -1,0 +1,564 @@
+{% layout 'theme.liquid' %}
+
+{% comment %}
+  Gaming PC Product Template
+  
+  Used for prebuilt gaming PC systems with performance metrics
+  and detailed component specifications.
+{% endcomment %}
+
+<div class="product-gaming-pc" id="product-{{ product.id }}">
+  <div class="page-width">
+    <nav class="product-breadcrumbs" aria-label="breadcrumbs">
+      <ol class="breadcrumbs__list">
+        <li class="breadcrumbs__item">
+          <a href="{{ routes.root_url }}" class="breadcrumbs__link">{{ 'general.breadcrumbs.home' | t }}</a>
+          {% render 'icon-chevron-right', class: 'breadcrumbs__chevron' %}
+        </li>
+        
+        {% if collection %}
+          <li class="breadcrumbs__item">
+            <a href="{{ collection.url }}" class="breadcrumbs__link">{{ collection.title }}</a>
+            {% render 'icon-chevron-right', class: 'breadcrumbs__chevron' %}
+          </li>
+        {% else %}
+          <li class="breadcrumbs__item">
+            <a href="{{ routes.collections_url }}/gaming-pcs" class="breadcrumbs__link">{{ 'collections.gaming_pcs.title' | t }}</a>
+            {% render 'icon-chevron-right', class: 'breadcrumbs__chevron' %}
+          </li>
+        {% endif %}
+        
+        <li class="breadcrumbs__item breadcrumbs__item--current">
+          <span aria-current="page">{{ product.title }}</span>
+        </li>
+      </ol>
+    </nav>
+    
+    <div class="product-gaming-pc__container">
+      <div class="product-gaming-pc__media-wrapper">
+        <div class="product-gaming-pc__media-gallery">
+          <div class="product-gaming-pc__gallery-main">
+            {% if product.featured_image != blank %}
+              <img
+                srcset="{{ product.featured_image | image_url: width: 500 }} 500w,
+                        {{ product.featured_image | image_url: width: 800 }} 800w,
+                        {{ product.featured_image | image_url: width: 1200 }} 1200w"
+                src="{{ product.featured_image | image_url: width: 800 }}"
+                sizes="(min-width: 1100px) 800px, (min-width: 990px) calc(100vw - 400px), 100vw"
+                alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                id="ProductImage-{{ product.featured_image.id }}"
+                class="product-gaming-pc__image"
+                loading="eager"
+                width="{{ product.featured_image.width }}"
+                height="{{ product.featured_image.height }}"
+              >
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'product-gaming-pc__image placeholder-svg' }}
+            {% endif %}
+          </div>
+          
+          {% if product.images.size > 1 %}
+            <div class="product-gaming-pc__gallery-thumbnails">
+              {% for image in product.images %}
+                <button
+                  class="product-gaming-pc__thumbnail-button{% if forloop.first %} product-gaming-pc__thumbnail-button--active{% endif %}"
+                  data-image-id="{{ image.id }}"
+                  data-src="{{ image | image_url: width: 800 }}"
+                  data-srcset="{{ image | image_url: width: 500 }} 500w, {{ image | image_url: width: 800 }} 800w, {{ image | image_url: width: 1200 }} 1200w"
+                  aria-label="{{ 'products.product.gallery_thumbnail_alt' | t: position: forloop.index, title: product.title | escape }}"
+                >
+                  <img
+                    src="{{ image | image_url: width: 150 }}"
+                    alt="{{ image.alt | default: product.title | escape }}"
+                    width="75"
+                    height="75"
+                    loading="lazy"
+                  >
+                </button>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        
+        {% if product.metafields.specs.pc_category %}
+          <div class="product-gaming-pc__category-badge product-gaming-pc__category-badge--{{ product.metafields.specs.pc_category | handleize }}">
+            {{ product.metafields.specs.pc_category }}
+          </div>
+        {% endif %}
+        
+        {% if product.metafields.specs.gaming_performance %}
+          <div class="product-gaming-pc__performance">
+            <h3 class="product-gaming-pc__performance-title">{{ 'products.gaming_pc.gaming_performance' | t }}</h3>
+            
+            <div class="product-gaming-pc__performance-grid">
+              {% assign performance_data = product.metafields.specs.gaming_performance | split: ';' %}
+              {% for game_data in performance_data %}
+                {% assign game_parts = game_data | split: ':' %}
+                {% if game_parts.size >= 3 %}
+                  {% assign game_name = game_parts[0] | strip %}
+                  {% assign game_resolution = game_parts[1] | strip %}
+                  {% assign game_fps = game_parts[2] | strip %}
+                  
+                  <div class="product-gaming-pc__performance-item">
+                    <div class="product-gaming-pc__performance-game">{{ game_name }}</div>
+                    <div class="product-gaming-pc__performance-resolution">{{ game_resolution }}</div>
+                    <div class="product-gaming-pc__performance-fps">{{ game_fps }} {{ 'products.gaming_pc.fps' | t }}</div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      
+      <div class="product-gaming-pc__details">
+        <div class="product-gaming-pc__header">
+          {% if product.vendor != blank %}
+            <div class="product-gaming-pc__vendor">{{ product.vendor }}</div>
+          {% endif %}
+          
+          <h1 class="product-gaming-pc__title">{{ product.title }}</h1>
+          
+          <div class="product-gaming-pc__rating">
+            {% if product.metafields.reviews.rating %}
+              <div class="product-gaming-pc__stars" style="--rating: {{ product.metafields.reviews.rating.value | divided_by: 5.0 | times: 100 }}%;">★★★★★</div>
+              <div class="product-gaming-pc__reviews-count">
+                <a href="#product-reviews" class="product-gaming-pc__reviews-link">
+                  {{ product.metafields.reviews.rating_count }} {{ 'products.product.reviews' | t }}
+                </a>
+              </div>
+            {% endif %}
+          </div>
+          
+          <div class="product-gaming-pc__pricing">
+            <div class="product-gaming-pc__price {% if product.compare_at_price > product.price %}product-gaming-pc__price--sale{% endif %}">
+              {% if product.compare_at_price > product.price %}
+                <span class="product-gaming-pc__price-regular">{{ product.compare_at_price | money }}</span>
+                <span class="product-gaming-pc__price-sale">{{ product.price | money }}</span>
+                <span class="product-gaming-pc__price-savings">
+                  {% assign savings_percentage = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+                  {{ 'products.product.save_percentage' | t: percentage: savings_percentage }}
+                </span>
+              {% else %}
+                <span class="product-gaming-pc__price-regular">{{ product.price | money }}</span>
+              {% endif %}
+            </div>
+            
+            {% if product.metafields.specs.financing_available %}
+              <div class="product-gaming-pc__financing">
+                <span class="product-gaming-pc__financing-text">
+                  {{ 'products.gaming_pc.financing_from' | t: price: product.metafields.specs.financing_price_per_month | money }}
+                </span>
+                <a href="#financing-options" class="product-gaming-pc__financing-info-link">
+                  {{ 'products.gaming_pc.financing_info' | t }}
+                </a>
+              </div>
+            {% endif %}
+            
+            <div class="product-gaming-pc__sku">
+              {% if product.selected_or_first_available_variant.sku != blank %}
+                <span class="product-gaming-pc__sku-label">{{ 'products.product.sku' | t }}:</span>
+                <span class="product-gaming-pc__sku-value">{{ product.selected_or_first_available_variant.sku }}</span>
+              {% endif %}
+            </div>
+            
+            <div class="product-gaming-pc__availability">
+              {% if product.available %}
+                <span class="product-gaming-pc__availability-status product-gaming-pc__availability-status--in-stock">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="product-gaming-pc__availability-icon">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  {{ 'products.product.in_stock' | t }}
+                </span>
+                
+                {% if product.metafields.inventory.ready_to_ship %}
+                  <span class="product-gaming-pc__shipping-info">
+                    {{ 'products.gaming_pc.ready_to_ship' | t }}
+                  </span>
+                {% else %}
+                  <span class="product-gaming-pc__shipping-info">
+                    {{ 'products.gaming_pc.build_time' | t: days: product.metafields.inventory.build_time | default: 3 }}
+                  </span>
+                {% endif %}
+              {% else %}
+                <span class="product-gaming-pc__availability-status product-gaming-pc__availability-status--out-of-stock">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="product-gaming-pc__availability-icon">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                  </svg>
+                  {{ 'products.product.out_of_stock' | t }}
+                </span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        
+        <div class="product-gaming-pc__description">
+          {% if product.description != blank %}
+            <div class="product-gaming-pc__description-content rte">
+              {{ product.description }}
+            </div>
+          {% endif %}
+        </div>
+        
+        <div class="product-gaming-pc__key-features">
+          <h2 class="product-gaming-pc__key-features-title">{{ 'products.gaming_pc.key_features' | t }}</h2>
+          
+          <div class="product-gaming-pc__key-features-list">
+            {% if product.metafields.specs.key_features %}
+              {% assign features = product.metafields.specs.key_features | split: '|' %}
+              
+              {% for feature in features %}
+                <div class="product-gaming-pc__key-feature">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="product-gaming-pc__key-feature-icon">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="product-gaming-pc__key-feature-text">{{ feature | strip }}</span>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+        
+        <div class="product-gaming-pc__form">
+          {% form 'product', product, class: 'product-form', id: 'product-form-{{ product.id }}' %}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            
+            {% if product.has_only_default_variant == false %}
+              <div class="product-gaming-pc__variants">
+                <div class="product-gaming-pc__variant-label">{{ 'products.product.choose_option' | t }}</div>
+                <select name="id" id="ProductSelect-{{ product.id }}" class="product-gaming-pc__variant-select">
+                  {% for variant in product.variants %}
+                    <option 
+                      value="{{ variant.id }}"
+                      {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}
+                      {% unless variant.available %}disabled="disabled"{% endunless %}
+                    >
+                      {{ variant.title }} - {{ variant.price | money }}{% unless variant.available %} - {{ 'products.product.sold_out' | t }}{% endunless %}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endif %}
+            
+            <div class="product-gaming-pc__quantity">
+              <label for="Quantity-{{ product.id }}" class="product-gaming-pc__quantity-label">{{ 'products.product.quantity' | t }}</label>
+              <div class="product-gaming-pc__quantity-wrapper">
+                <button type="button" class="product-gaming-pc__quantity-button product-gaming-pc__quantity-button--minus" aria-label="{{ 'products.product.decrease_quantity' | t }}">
+                  -
+                </button>
+                <input
+                  type="number"
+                  id="Quantity-{{ product.id }}"
+                  name="quantity"
+                  value="1"
+                  min="1"
+                  aria-label="{{ 'products.product.quantity' | t }}"
+                  class="product-gaming-pc__quantity-input"
+                >
+                <button type="button" class="product-gaming-pc__quantity-button product-gaming-pc__quantity-button--plus" aria-label="{{ 'products.product.increase_quantity' | t }}">
+                  +
+                </button>
+              </div>
+            </div>
+            
+            <div class="product-gaming-pc__actions">
+              <button
+                type="submit"
+                name="add"
+                class="product-gaming-pc__add-to-cart button button--primary"
+                {% unless product.available %}disabled="disabled"{% endunless %}
+              >
+                {% if product.available %}
+                  {{ 'products.product.add_to_cart' | t }}
+                {% else %}
+                  {{ 'products.product.sold_out' | t }}
+                {% endif %}
+              </button>
+              
+              <button type="button" class="product-gaming-pc__customize-button button button--secondary">
+                {{ 'products.gaming_pc.customize_this_build' | t }}
+              </button>
+            </div>
+            
+            <div class="product-gaming-pc__error-message"></div>
+          {% endform %}
+        </div>
+      </div>
+    </div>
+    
+    <div class="product-gaming-pc__components">
+      <h2 class="product-gaming-pc__components-title">{{ 'products.gaming_pc.system_components' | t }}</h2>
+      
+      <div class="product-gaming-pc__components-list">
+        {% if product.metafields.specs.cpu %}
+          <div class="product-gaming-pc__component">
+            <div class="product-gaming-pc__component-icon">
+              {% render 'icon-cpu' %}
+            </div>
+            <div class="product-gaming-pc__component-details">
+              <h3 class="product-gaming-pc__component-type">{{ 'products.gaming_pc.components.cpu' | t }}</h3>
+              <div class="product-gaming-pc__component-name">{{ product.metafields.specs.cpu }}</div>
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if product.metafields.specs.cpu_cooler %}
+          <div class="product-gaming-pc__component">
+            <div class="product-gaming-pc__component-icon">
+              {% render 'icon-cooling' %}
+            </div>
+            <div class="product-gaming-pc__component-details">
+              <h3 class="product-gaming-pc__component-type">{{ 'products.gaming_pc.components.cpu_cooler' | t }}</h3>
+              <div class="product-gaming-pc__component-name">{{ product.metafields.specs.cpu_cooler }}</div>
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if product.metafields.specs.motherboard %}
+          <div class="product-gaming-pc__component">
+            <div class="product-gaming-pc__component-icon">
+              {% render 'icon-motherboard' %}
+            </div>
+            <div class="product-gaming-pc__component-details">
+              <h3 class="product-gaming-pc__component-type">{{ 'products.gaming_pc.components.motherboard' | t }}</h3>
+              <div class="product-gaming-pc__component-name">{{ product.metafields.specs.motherboard }}</div>
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if product.metafields.specs.memory %}
+          <div class="product-gaming-pc__component">
+            <div class="product-gaming-pc__component-icon">
+              {% render 'icon-ram' %}
+            </div>
+            <div class="product-gaming-pc__component-details">
+              <h3 class="product-gaming-pc__component-type">{{ 'products.gaming_pc.components.memory' | t }}</h3>
+              <div class="product-gaming-pc__component-name">{{ product.metafields.specs.memory }}</div>
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if product.metafields.specs.gpu %}
+          <div class="product-gaming-pc__component">
+            <div class="product-gaming-pc__component-icon">
+              {% render 'icon-gpu' %}
+            </div>
+            <div class="product-gaming-pc__component-details">
+              <h3 class="product-gaming-pc__component-type">{{ 'products.gaming_pc.components.gpu' | t }}</h3>
+              <div class="product-gaming-pc__component-name">{{ product.metafields.specs.gpu }}</div>
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if product.metafields.specs.storage %}
+          <div class="product-gaming-pc__component">
+            <div class="product-gaming-pc__component-icon">
+              {% render 'icon-storage' %}
+            </div>
+            <div class="product-gaming-pc__component-details">
+              <h3 class="product-gaming-pc__component-type">{{ 'products.gaming_pc.components.storage' | t }}</h3>
+              <div class="product-gaming-pc__component-name">{{ product.metafields.specs.storage }}</div>
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if product.metafields.specs.psu %}
+          <div class="product-gaming-pc__component">
+            <div class="product-gaming-pc__component-icon">
+              {% render 'icon-psu' %}
+            </div>
+            <div class="product-gaming-pc__component-details">
+              <h3 class="product-gaming-pc__component-type">{{ 'products.gaming_pc.components.psu' | t }}</h3>
+              <div class="product-gaming-pc__component-name">{{ product.metafields.specs.psu }}</div>
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if product.metafields.specs.case %}
+          <div class="product-gaming-pc__component">
+            <div class="product-gaming-pc__component-icon">
+              {% render 'icon-case' %}
+            </div>
+            <div class="product-gaming-pc__component-details">
+              <h3 class="product-gaming-pc__component-type">{{ 'products.gaming_pc.components.case' | t }}</h3>
+              <div class="product-gaming-pc__component-name">{{ product.metafields.specs.case }}</div>
+            </div>
+          </div>
+        {% endif %}
+        
+        {% if product.metafields.specs.operating_system %}
+          <div class="product-gaming-pc__component">
+            <div class="product-gaming-pc__component-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <div class="product-gaming-pc__component-details">
+              <h3 class="product-gaming-pc__component-type">{{ 'products.gaming_pc.components.operating_system' | t }}</h3>
+              <div class="product-gaming-pc__component-name">{{ product.metafields.specs.operating_system }}</div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    
+    <div class="product-gaming-pc__features">
+      <div class="product-gaming-pc__features-columns">
+        <div class="product-gaming-pc__features-column">
+          <h2 class="product-gaming-pc__features-title">{{ 'products.gaming_pc.warranty' | t }}</h2>
+          
+          <div class="product-gaming-pc__feature-content">
+            {% if product.metafields.specs.warranty %}
+              <div class="product-gaming-pc__warranty">
+                <div class="product-gaming-pc__warranty-badge">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                  <span class="product-gaming-pc__warranty-years">{{ product.metafields.specs.warranty_years | default: '1' }}</span>
+                </div>
+                <div class="product-gaming-pc__warranty-details">
+                  {{ product.metafields.specs.warranty }}
+                </div>
+              </div>
+            {% else %}
+              <p>{{ 'products.gaming_pc.standard_warranty' | t }}</p>
+            {% endif %}
+          </div>
+        </div>
+        
+        <div class="product-gaming-pc__features-column">
+          <h2 class="product-gaming-pc__features-title">{{ 'products.gaming_pc.shipping' | t }}</h2>
+          
+          <div class="product-gaming-pc__feature-content">
+            {% if product.metafields.specs.shipping_info %}
+              <div class="product-gaming-pc__shipping">
+                {{ product.metafields.specs.shipping_info }}
+              </div>
+            {% else %}
+              <p>{{ 'products.gaming_pc.standard_shipping' | t }}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {% if recommendations %}
+      <div class="product-gaming-pc__recommendations">
+        <h2 class="product-gaming-pc__recommendations-title">{{ 'products.product.you_may_also_like' | t }}</h2>
+        
+        <div class="product-gaming-pc__recommendations-list">
+          {% for recommendation in recommendations.products %}
+            <div class="product-gaming-pc__recommendation">
+              <a href="{{ recommendation.url }}" class="product-gaming-pc__recommendation-link">
+                <div class="product-gaming-pc__recommendation-image">
+                  {% if recommendation.featured_image != blank %}
+                    <img
+                      src="{{ recommendation.featured_image | image_url: width: 300 }}"
+                      alt="{{ recommendation.featured_image.alt | default: recommendation.title | escape }}"
+                      width="150"
+                      height="150"
+                      loading="lazy"
+                    >
+                  {% else %}
+                    {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg', 'width="150" height="150"' }}
+                  {% endif %}
+                </div>
+                
+                <div class="product-gaming-pc__recommendation-info">
+                  <h3 class="product-gaming-pc__recommendation-name">{{ recommendation.title }}</h3>
+                  <div class="product-gaming-pc__recommendation-price">{{ recommendation.price | money }}</div>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Gallery thumbnails functionality
+    const thumbnailButtons = document.querySelectorAll('.product-gaming-pc__thumbnail-button');
+    const mainImage = document.querySelector('.product-gaming-pc__image');
+    
+    if (thumbnailButtons.length > 0 && mainImage) {
+      thumbnailButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const src = this.getAttribute('data-src');
+          const srcset = this.getAttribute('data-srcset');
+          const imageId = this.getAttribute('data-image-id');
+          
+          // Update main image
+          mainImage.src = src;
+          mainImage.srcset = srcset;
+          mainImage.id = 'ProductImage-' + imageId;
+          
+          // Update active thumbnail
+          thumbnailButtons.forEach(btn => {
+            btn.classList.remove('product-gaming-pc__thumbnail-button--active');
+          });
+          this.classList.add('product-gaming-pc__thumbnail-button--active');
+        });
+      });
+    }
+    
+    // Quantity selector functionality
+    const quantityInput = document.querySelector('.product-gaming-pc__quantity-input');
+    const decreaseButton = document.querySelector('.product-gaming-pc__quantity-button--minus');
+    const increaseButton = document.querySelector('.product-gaming-pc__quantity-button--plus');
+    
+    if (quantityInput && decreaseButton && increaseButton) {
+      decreaseButton.addEventListener('click', function() {
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+          quantityInput.value = currentValue - 1;
+        }
+      });
+      
+      increaseButton.addEventListener('click', function() {
+        const currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+      });
+    }
+    
+    // Variant selector functionality (if applicable)
+    const variantSelect = document.getElementById('ProductSelect-{{ product.id }}');
+    
+    if (variantSelect) {
+      variantSelect.addEventListener('change', function() {
+        const selectedVariant = this.value;
+        const addToCartButton = document.querySelector('.product-gaming-pc__add-to-cart');
+        
+        // Find if the selected variant is available
+        const selectedOption = this.options[this.selectedIndex];
+        const isAvailable = !selectedOption.disabled;
+        
+        // Update add to cart button
+        if (isAvailable) {
+          addToCartButton.disabled = false;
+          addToCartButton.textContent = '{{ 'products.product.add_to_cart' | t }}';
+        } else {
+          addToCartButton.disabled = true;
+          addToCartButton.textContent = '{{ 'products.product.sold_out' | t }}';
+        }
+      });
+    }
+    
+    // Customize build button functionality
+    const customizeButton = document.querySelector('.product-gaming-pc__customize-button');
+    
+    if (customizeButton) {
+      customizeButton.addEventListener('click', function() {
+        window.location.href = '{{ routes.root_url }}pages/pc-builder?preset={{ product.handle }}';
+      });
+    }
+  });
+</script>

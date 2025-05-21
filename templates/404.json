@@ -1,0 +1,46 @@
+{
+  "name": "404 Not Found",
+  "sections": {
+    "not-found": {
+      "type": "404",
+      "settings": {
+        "title": "Page Not Found",
+        "subtitle": "The page you're looking for doesn't exist",
+        "error_text": "404",
+        "description": "The page you were looking for doesn't exist. It may have been moved or removed entirely. We're sorry for the inconvenience.",
+        "image": "",
+        "show_search": true,
+        "search_placeholder": "Search for products, components, or resources...",
+        "button_text": "Continue Shopping",
+        "button_link": "/collections/all",
+        "second_button_text": "Return Home",
+        "second_button_link": "/",
+        "text_alignment": "center",
+        "background_color": "#0a0a0a",
+        "text_color": "#ffffff",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "featured-products": {
+      "type": "featured-products",
+      "settings": {
+        "title": "Popular Products",
+        "subtitle": "You might be interested in these products",
+        "collection": "",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "show_rating": true,
+        "enable_quick_view": true,
+        "enable_quick_buy": true,
+        "show_view_all": true,
+        "padding_top": 60,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "not-found",
+    "featured-products"
+  ]
+}

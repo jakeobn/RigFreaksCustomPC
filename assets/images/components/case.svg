@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>Case</title>
+    <g id="Case" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Case-Base" stroke="#FF00FF" stroke-width="12" fill="#1E1E2E" x="80" y="64" width="352" height="384" rx="16"></rect>
+        <rect id="Side-Panel" stroke="#00FFFF" stroke-width="8" fill="#1E1E2E" opacity="0.8" x="96" y="96" width="320" height="320" rx="8"></rect>
+        <rect id="Front-Panel" stroke="#FF00FF" stroke-width="8" fill="#1E1E2E" x="80" y="64" width="64" height="384" rx="8"></rect>
+        <circle id="Fan-1" stroke="#00FFFF" stroke-width="4" fill="#1E1E2E" cx="112" cy="144" r="24"></circle>
+        <circle id="Fan-2" stroke="#00FFFF" stroke-width="4" fill="#1E1E2E" cx="112" cy="208" r="24"></circle>
+        <circle id="Fan-3" stroke="#00FFFF" stroke-width="4" fill="#1E1E2E" cx="112" cy="272" r="24"></circle>
+        <rect id="Front-IO" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="96" y="336" width="32" height="80" rx="4"></rect>
+        <circle id="Power-Button" stroke="#00FFFF" stroke-width="3" fill="#1E1E2E" cx="112" cy="352" r="8"></circle>
+        <circle id="Reset-Button" stroke="#00FFFF" stroke-width="3" fill="#1E1E2E" cx="112" cy="376" r="6"></circle>
+        <rect id="USB-Port-1" stroke="#00FFFF" stroke-width="2" fill="#1E1E2E" x="104" y="392" width="16" height="8" rx="2"></rect>
+        <rect id="USB-Port-2" stroke="#00FFFF" stroke-width="2" fill="#1E1E2E" x="104" y="408" width="16" height="8" rx="2"></rect>
+        <rect id="Motherboard-Tray" stroke="#00FFFF" stroke-width="4" fill="#1E1E2E" opacity="0.6" x="160" y="128" width="224" height="256" rx="4"></rect>
+        <rect id="PCI-Slots" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="432" y="192" width="16" height="144" rx="2"></rect>
+        <line x1="432" y1="208" x2="448" y2="208" id="PCI-Slot-Line-1" stroke="#00FFFF" stroke-width="2"></line>
+        <line x1="432" y1="224" x2="448" y2="224" id="PCI-Slot-Line-2" stroke="#00FFFF" stroke-width="2"></line>
+        <line x1="432" y1="240" x2="448" y2="240" id="PCI-Slot-Line-3" stroke="#00FFFF" stroke-width="2"></line>
+        <line x1="432" y1="256" x2="448" y2="256" id="PCI-Slot-Line-4" stroke="#00FFFF" stroke-width="2"></line>
+        <line x1="432" y1="272" x2="448" y2="272" id="PCI-Slot-Line-5" stroke="#00FFFF" stroke-width="2"></line>
+        <line x1="432" y1="288" x2="448" y2="288" id="PCI-Slot-Line-6" stroke="#00FFFF" stroke-width="2"></line>
+        <line x1="432" y1="304" x2="448" y2="304" id="PCI-Slot-Line-7" stroke="#00FFFF" stroke-width="2"></line>
+        <line x1="432" y1="320" x2="448" y2="320" id="PCI-Slot-Line-8" stroke="#00FFFF" stroke-width="2"></line>
+        <rect id="Front-RGB" stroke="#FF00FF" stroke-width="2" fill="#1E1E2E" x="80" y="64" width="8" height="384"></rect>
+        <text id="Case" font-family="Arial-BoldMT, Arial" font-size="24" font-weight="bold" fill="#00FFFF">
+            <tspan x="232" y="240">CASE</tspan>
+        </text>
+    </g>
+</svg>

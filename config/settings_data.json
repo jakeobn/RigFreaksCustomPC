@@ -1,0 +1,200 @@
+{
+  "current": {
+    "color_primary": "#ff0077",
+    "color_secondary": "#00aaff",
+    "color_accent": "#2bff88",
+    "color_background": "#0a0a0a",
+    "color_card_background": "#111111",
+    "color_text": "#ffffff",
+    "color_text_subdued": "#999999",
+    "color_border": "#222222",
+    "color_button": "#ff0077",
+    "color_button_text": "#ffffff",
+    "color_button_secondary": "#333333",
+    "color_button_secondary_text": "#ffffff",
+    "color_success": "#2bff88",
+    "color_error": "#ff4a4a",
+    "color_warning": "#ffb940",
+    "color_info": "#00aaff",
+    "font_heading": "rajdhani_n7",
+    "heading_weight": "700",
+    "font_body": "inter_n4",
+    "base_font_size": 16,
+    "page_width": 1400,
+    "section_spacing": 60,
+    "border_radius": 8,
+    "button_border_radius": 8,
+    "card_border_radius": 12,
+    "enable_animations": true,
+    "animation_speed": "normal",
+    "enable_hover_effects": true,
+    "share_facebook": true,
+    "share_twitter": true,
+    "share_pinterest": true,
+    "enable_component_images": true,
+    "enable_compatibility_check": true,
+    "enable_price_estimator": true,
+    "enable_power_calculator": true,
+    "show_gaming_performance": true,
+    "show_creator_performance": true,
+    "performance_metric_style": "bars",
+    "builder_layout": "standard",
+    "show_component_details": true,
+    "enable_saved_builds": true,
+    "enable_prebuilt_templates": true,
+    "enable_cart_drawer": true,
+    "enable_cart_notes": true,
+    "show_cart_upsells": true,
+    "enable_quick_add": true,
+    "enable_quick_view": true,
+    "enable_quantity_selector": true,
+    "show_vendor": true,
+    "enable_image_lazy_loading": true,
+    "enable_image_optimizer": true,
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "enable_announcement": true,
+          "announcement_text": "Free shipping on all orders over $99",
+          "announcement_color": "#ff0077",
+          "announcement_text_color": "#ffffff"
+        }
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo_width": 140,
+          "sticky_header": true,
+          "show_search": true,
+          "show_account": true,
+          "show_cart": true
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "footer-0": {
+            "type": "link_list",
+            "settings": {
+              "heading": "Shop",
+              "menu": "main-menu"
+            }
+          },
+          "footer-1": {
+            "type": "link_list",
+            "settings": {
+              "heading": "Info",
+              "menu": "footer"
+            }
+          },
+          "footer-2": {
+            "type": "newsletter",
+            "settings": {
+              "heading": "Subscribe to our newsletter",
+              "subtext": "Get the latest updates, news and product offers"
+            }
+          }
+        },
+        "block_order": [
+          "footer-0",
+          "footer-1",
+          "footer-2"
+        ],
+        "settings": {
+          "show_payment_icons": true,
+          "show_social_icons": true,
+          "show_copyright": true
+        }
+      }
+    },
+    "content_for_index": [
+      "home-hero",
+      "featured-collections",
+      "featured-products",
+      "custom-pc-builder-cta",
+      "why-choose-us",
+      "latest-blog-posts"
+    ]
+  },
+  "presets": {
+    "Dark Tech": {
+      "color_primary": "#ff0077",
+      "color_secondary": "#00aaff",
+      "color_accent": "#2bff88",
+      "color_background": "#0a0a0a",
+      "color_card_background": "#111111",
+      "color_text": "#ffffff",
+      "color_text_subdued": "#999999",
+      "color_border": "#222222",
+      "color_button": "#ff0077",
+      "color_button_text": "#ffffff",
+      "color_button_secondary": "#333333",
+      "color_button_secondary_text": "#ffffff",
+      "font_heading": "rajdhani_n7",
+      "heading_weight": "700",
+      "font_body": "inter_n4",
+      "base_font_size": 16,
+      "sections": {
+        "header": {
+          "type": "header",
+          "settings": {
+            "sticky_header": true
+          }
+        }
+      }
+    },
+    "Light Tech": {
+      "color_primary": "#ff0077",
+      "color_secondary": "#00aaff",
+      "color_accent": "#157a37",
+      "color_background": "#f7f7f7",
+      "color_card_background": "#ffffff",
+      "color_text": "#111111",
+      "color_text_subdued": "#666666",
+      "color_border": "#dddddd",
+      "color_button": "#ff0077",
+      "color_button_text": "#ffffff",
+      "color_button_secondary": "#eeeeee",
+      "color_button_secondary_text": "#111111",
+      "font_heading": "rajdhani_n7",
+      "heading_weight": "700",
+      "font_body": "inter_n4",
+      "base_font_size": 16,
+      "sections": {
+        "header": {
+          "type": "header",
+          "settings": {
+            "sticky_header": true
+          }
+        }
+      }
+    },
+    "Cyberpunk": {
+      "color_primary": "#f9cb03",
+      "color_secondary": "#00fff7",
+      "color_accent": "#ff00ea",
+      "color_background": "#000000",
+      "color_card_background": "#0f0e11",
+      "color_text": "#ffffff",
+      "color_text_subdued": "#aaaaaa",
+      "color_border": "#333333",
+      "color_button": "#f9cb03",
+      "color_button_text": "#000000",
+      "color_button_secondary": "#00fff7",
+      "color_button_secondary_text": "#000000",
+      "font_heading": "rajdhani_n7",
+      "heading_weight": "700",
+      "font_body": "inter_n4",
+      "base_font_size": 16,
+      "sections": {
+        "header": {
+          "type": "header",
+          "settings": {
+            "sticky_header": true
+          }
+        }
+      }
+    }
+  }
+}

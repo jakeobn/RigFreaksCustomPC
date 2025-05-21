@@ -1,0 +1,58 @@
+<div class="dropdown-menu rounded-0 border-0 border-bottom border-light-subtle pt-4 shadow show" data-bs-theme="light" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(-395.5px, 42px, 0px);" data-popper-placement="bottom-start">
+                <div class="container">
+                    <div class="row row-cols-6">
+                        
+            <div class="col py-2">
+                <div class="text-center bg-light py-4 position-relative">
+                    <a href="/pcs/gaming-pcs/edge-gaming-pcs" class="text-decoration-none stretched-link" title="Edge gaming PCs"></a>
+                    <img src="https://static.chillblast.com/images/menu/CB_317_VANTAGE_ICON_NAV_IMAGE.png?width=200&amp;height=200&amp;scale=canvas" class="img-fluid" alt="Edge gaming PCs" loading="lazy">
+                    <p class="m-0 chillblast-dropdown-heading text-dark">Edge gaming PCs</p>
+                </div>
+            </div>
+        
+            <div class="col py-2">
+                <div class="text-center bg-light py-4 position-relative">
+                    <a href="/pcs/gaming-pcs/origin-gaming-pcs" class="text-decoration-none stretched-link" title="Origin gaming PCs"></a>
+                    <img src="https://static.chillblast.com/images/menu/origin.png?width=200&amp;height=200&amp;scale=canvas" class="img-fluid" alt="Origin gaming PCs" loading="lazy">
+                    <p class="m-0 chillblast-dropdown-heading text-dark">Origin gaming PCs</p>
+                </div>
+            </div>
+        
+            <div class="col py-2">
+                <div class="text-center bg-light py-4 position-relative">
+                    <a href="/pcs/gaming-pcs/racing-sim-pcs" class="text-decoration-none stretched-link" title="Simulation PCs"></a>
+                    <img src="https://static.chillblast.com/images/menu/CB_306_WILLIAMS_PC_NAV_IMAGE_19MAR.png?width=200&amp;height=200&amp;scale=canvas" class="img-fluid" alt="Simulation PCs" loading="lazy">
+                    <p class="m-0 chillblast-dropdown-heading text-dark">Simulation PCs</p>
+                </div>
+            </div>
+        
+            <div class="col py-2">
+                <div class="text-center bg-light py-4 position-relative">
+                    <a href="/pcs/water-cooled-pcs" class="text-decoration-none stretched-link" title="Watercooled PCs"></a>
+                    <img src="https://static.chillblast.com/images/shopblocks/CBS-EDGE-LCS_NEW_01.png?width=828&amp;height=828" class="img-fluid" alt="Watercooled PCs" loading="lazy">
+                    <p class="m-0 chillblast-dropdown-heading text-dark">Watercooled PCs</p>
+                </div>
+            </div>
+        
+            <div class="col py-2">
+                <div class="text-center bg-light py-4 position-relative">
+                    <a href="/pcs/nvidia-rtx-50-series-gaming-pcs" class="text-decoration-none stretched-link" title="50 Series PCs"></a>
+                    <img src="https://static.chillblast.com/images/menu/5090_FORGE_DOWNGRADE_01_MENU_ICON.png?width=200&amp;height=200&amp;scale=canvas" class="img-fluid" alt="50 Series PCs" loading="lazy">
+                    <p class="m-0 chillblast-dropdown-heading text-dark">50 Series PCs</p>
+                </div>
+            </div>
+        
+                        <div class="col py-2"><p class="dropdown-item-text chillblast-dropdown-heading mb-0">Gaming PCs</p>
+            <a class="dropdown-item chillblast-dropdown-item chillblast-anchor" href="/pcs/gaming-pcs">All gaming PCs</a>
+        
+            <a class="dropdown-item chillblast-dropdown-item chillblast-anchor" href="/game-ready-pcs">Game-ready PCs</a>
+        
+            <a class="dropdown-item chillblast-dropdown-item chillblast-anchor" href="/build-a-custom-pc">Custom gaming PCs</a>
+        
+            <a class="dropdown-item chillblast-dropdown-item chillblast-anchor" href="/pcs/express-pcs">Pre-built gaming PCs</a>
+        
+            <a class="dropdown-item chillblast-dropdown-item chillblast-anchor" href="/help-me-choose">Help me choose</a>
+        </div>
+                    </div>
+                </div>
+            </div>

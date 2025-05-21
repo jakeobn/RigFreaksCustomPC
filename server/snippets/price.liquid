@@ -1,0 +1,85 @@
+{% comment %}
+  Dawn Theme - Price Snippet
+  Renders a price based on the product's variant
+  Parameters:
+  - product: The product object 
+  - use_variant: Whether to use the selected/first available variant's price (true) or the product's price (false)
+  - show_compare_at_price: Whether to show the compare at price
+  - show_badges: Whether to show the "Sale" or "Sold out" badges
+{% endcomment %}
+
+{%- liquid
+  if use_variant
+    assign target = product.selected_or_first_available_variant
+  else
+    assign target = product
+  endif
+
+  assign has_compare_price = false
+  if target.compare_at_price > target.price and target.available
+    assign has_compare_price = true
+  endif
+-%}
+
+<div class="price {% if show_badges %}price--with-badges{% endif %} {% if has_compare_price %}price--on-sale{% endif %}">
+  <div class="price__container">
+    {%- if has_compare_price and show_compare_at_price -%}
+      <span class="price__regular">{{ target.price | money }}</span>
+      <span class="price__compare">{{ target.compare_at_price | money }}</span>
+      
+      {%- if show_badges -%}
+        <span class="badge badge--sale">
+          {% if target.compare_at_price_max > 0 and target.compare_at_price_max > target.price %}
+            {{- target.compare_at_price_max | minus: target.price | times: 100.0 | divided_by: target.compare_at_price_max | round -}}% {{ 'products.product.on_sale' | t }}
+          {% endif %}
+        </span>
+      {%- endif -%}
+    {%- else -%}
+      <span class="price__regular">{{ target.price | money }}</span>
+      
+      {%- if show_badges and target.available == false -%}
+        <span class="badge badge--sold-out">{{ 'products.product.sold_out' | t }}</span>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+.price {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.price--with-badges {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.price__container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.price--on-sale .price__regular {
+  font-weight: bold;
+  color: var(--color-sale-price, #EF4444);
+}
+
+.price--on-sale .price__compare {
+  text-decoration: line-through;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.badge--sale {
+  background-color: var(--color-sale-badge-background, #EF4444);
+  color: white;
+}
+
+.badge--sold-out {
+  background-color: var(--color-sold-out-badge-background, #6B7280);
+  color: white;
+}
+</style>

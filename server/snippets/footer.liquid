@@ -1,0 +1,300 @@
+{% comment %}
+  Footer component for the RigFreaks theme
+  Extracted from footer.liquid section
+{% endcomment %}
+
+<link rel="stylesheet" href="{{ 'component-newsletter.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-social-icons.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<noscript>{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-social-icons.css' | asset_url | stylesheet_tag }}</noscript>
+
+<style>
+  .footer {
+    padding: 60px 0 40px;
+    background-color: {{ settings.colors_footer_background }};
+    color: {{ settings.colors_footer_text }};
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .footer__content {
+    max-width: {{ settings.page_width }}px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .footer__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+  }
+  
+  .footer__block-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 1.5rem;
+    color: {{ settings.colors_footer_heading }};
+  }
+  
+  .footer__menu {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  .footer__menu-item {
+    margin-bottom: 0.75rem;
+  }
+  
+  .footer__menu-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-size: 0.95rem;
+  }
+  
+  .footer__menu-link:hover {
+    color: {{ settings.colors_accent_1 }};
+  }
+  
+  .footer__social {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  
+  .footer__social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: {{ settings.colors_footer_text }};
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .footer__social-link:hover {
+    background-color: {{ settings.colors_accent_1 }};
+    color: {{ settings.colors_accent_2 }};
+  }
+  
+  .footer__social-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .footer__newsletter-description {
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+  }
+  
+  .footer__newsletter-form {
+    display: flex;
+    max-width: 100%;
+  }
+  
+  .footer__newsletter-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    color: {{ settings.colors_text }};
+    background-color: {{ settings.colors_background }};
+    border: 1px solid {{ settings.colors_border }};
+    border-radius: {{ settings.inputs_radius }}px 0 0 {{ settings.inputs_radius }}px;
+    border-right: none;
+  }
+  
+  .footer__newsletter-input:focus {
+    outline: none;
+    border-color: {{ settings.colors_accent_1 }};
+  }
+  
+  .footer__newsletter-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    color: {{ settings.colors_button_text }};
+    background-color: {{ settings.colors_button }};
+    border: 1px solid {{ settings.colors_button }};
+    border-radius: 0 {{ settings.inputs_radius }}px {{ settings.inputs_radius }}px 0;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .footer__newsletter-submit:hover {
+    background-color: {{ settings.colors_button_hover }};
+    border-color: {{ settings.colors_button_hover }};
+  }
+  
+  .footer__bottom {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .footer__copyright {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  
+  .footer__payment-methods {
+    display: flex;
+    gap: 0.75rem;
+  }
+  
+  .footer__payment-icon {
+    width: 38px;
+    height: 24px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+  
+  .footer__payment-icon:hover {
+    opacity: 1;
+  }
+  
+  @media screen and (max-width: 990px) {
+    .footer__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media screen and (max-width: 750px) {
+    .footer {
+      padding: 40px 0 30px;
+    }
+    
+    .footer__grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .footer__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+    
+    .footer__payment-methods {
+      margin-top: 1rem;
+    }
+  }
+</style>
+
+<footer class="footer">
+  <div class="footer__content">
+    <div class="footer__grid">
+      <div class="footer__block">
+        <h3 class="footer__block-title">About RigFreaks</h3>
+        <p>Custom-built gaming PCs for every level of performance. Built with premium components and craftsmanship.</p>
+        <div class="footer__social">
+          <a href="https://facebook.com/" class="footer__social-link" target="_blank" aria-label="Facebook">
+            {% render 'icon-facebook' %}
+          </a>
+          <a href="https://twitter.com/" class="footer__social-link" target="_blank" aria-label="Twitter">
+            {% render 'icon-twitter' %}
+          </a>
+          <a href="https://instagram.com/" class="footer__social-link" target="_blank" aria-label="Instagram">
+            {% render 'icon-instagram' %}
+          </a>
+          <a href="https://youtube.com/" class="footer__social-link" target="_blank" aria-label="YouTube">
+            {% render 'icon-youtube' %}
+          </a>
+          <a href="https://discord.com/" class="footer__social-link" target="_blank" aria-label="Discord">
+            {% render 'icon-discord' %}
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer__block">
+        <h3 class="footer__block-title">Gaming PCs</h3>
+        <ul class="footer__menu">
+          <li class="footer__menu-item">
+            <a href="/collections/vortex" class="footer__menu-link">Vortex Series (4K)</a>
+          </li>
+          <li class="footer__menu-item">
+            <a href="/collections/nova" class="footer__menu-link">Nova Series (1440p)</a>
+          </li>
+          <li class="footer__menu-item">
+            <a href="/collections/pulse" class="footer__menu-link">Pulse Workstations</a>
+          </li>
+          <li class="footer__menu-item">
+            <a href="/pages/custom-pc-builder" class="footer__menu-link">Custom Builder</a>
+          </li>
+          <li class="footer__menu-item">
+            <a href="/collections/all" class="footer__menu-link">View All PCs</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="footer__block">
+        <h3 class="footer__block-title">Customer Support</h3>
+        <ul class="footer__menu">
+          <li class="footer__menu-item">
+            <a href="/pages/contact" class="footer__menu-link">Contact Us</a>
+          </li>
+          <li class="footer__menu-item">
+            <a href="/pages/faqs" class="footer__menu-link">FAQs</a>
+          </li>
+          <li class="footer__menu-item">
+            <a href="/pages/warranty" class="footer__menu-link">Warranty</a>
+          </li>
+          <li class="footer__menu-item">
+            <a href="/pages/shipping" class="footer__menu-link">Shipping</a>
+          </li>
+          <li class="footer__menu-item">
+            <a href="/pages/returns" class="footer__menu-link">Returns & Refunds</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="footer__block">
+        <h3 class="footer__block-title">Newsletter</h3>
+        <p class="footer__newsletter-description">Subscribe for exclusive deals, new product announcements, and PC building tips.</p>
+        
+        <form action="/contact#contact_form" method="post" class="footer__newsletter-form">
+          <input type="hidden" name="form_type" value="customer">
+          <input type="hidden" name="utf8" value="✓">
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          
+          <input
+            type="email"
+            name="contact[email]"
+            id="FooterNewsletterEmail"
+            class="footer__newsletter-input"
+            placeholder="{{ 'general.newsletter.email_placeholder' | t }}"
+            required
+          >
+          
+          <button type="submit" class="footer__newsletter-submit">
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="footer__bottom">
+      <p class="footer__copyright">&copy; 2025 RigFreaks. All Rights Reserved.</p>
+      
+      <div class="footer__payment-methods">
+        <img src="{{ 'payment-visa.svg' | asset_url }}" alt="Visa" class="footer__payment-icon">
+        <img src="{{ 'payment-mastercard.svg' | asset_url }}" alt="Mastercard" class="footer__payment-icon">
+        <img src="{{ 'payment-amex.svg' | asset_url }}" alt="American Express" class="footer__payment-icon">
+        <img src="{{ 'payment-paypal.svg' | asset_url }}" alt="PayPal" class="footer__payment-icon">
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>CPU</title>
+    <g id="CPU" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Chip-Base" stroke="#FF00FF" stroke-width="12" fill="#1E1E2E" x="96" y="96" width="320" height="320" rx="16"></rect>
+        <rect id="Processor" stroke="#00FFFF" stroke-width="8" fill="#1E1E2E" x="144" y="144" width="224" height="224" rx="8"></rect>
+        <line x1="64" y1="144" x2="96" y2="144" id="Pin-1" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="64" y1="192" x2="96" y2="192" id="Pin-2" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="64" y1="240" x2="96" y2="240" id="Pin-3" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="64" y1="288" x2="96" y2="288" id="Pin-4" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="64" y1="336" x2="96" y2="336" id="Pin-5" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="416" y1="144" x2="448" y2="144" id="Pin-6" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="416" y1="192" x2="448" y2="192" id="Pin-7" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="416" y1="240" x2="448" y2="240" id="Pin-8" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="416" y1="288" x2="448" y2="288" id="Pin-9" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="416" y1="336" x2="448" y2="336" id="Pin-10" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="144" y1="64" x2="144" y2="96" id="Pin-11" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="192" y1="64" x2="192" y2="96" id="Pin-12" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="240" y1="64" x2="240" y2="96" id="Pin-13" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="288" y1="64" x2="288" y2="96" id="Pin-14" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="336" y1="64" x2="336" y2="96" id="Pin-15" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="144" y1="416" x2="144" y2="448" id="Pin-16" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="192" y1="416" x2="192" y2="448" id="Pin-17" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="240" y1="416" x2="240" y2="448" id="Pin-18" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="288" y1="416" x2="288" y2="448" id="Pin-19" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <line x1="336" y1="416" x2="336" y2="448" id="Pin-20" stroke="#FF00FF" stroke-width="8" stroke-linecap="round"></line>
+        <text id="CPU" font-family="Arial-BoldMT, Arial" font-size="48" font-weight="bold" fill="#00FFFF">
+            <tspan x="219" y="264">CPU</tspan>
+        </text>
+    </g>
+</svg>

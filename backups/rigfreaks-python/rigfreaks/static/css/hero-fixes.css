@@ -1,0 +1,29 @@
+/* Hero Section Text Visibility Fixes */
+.hero-content {
+    position: relative;
+    z-index: 10;
+    padding-top: 2rem; /* Added padding to the top of the content */
+}
+
+.lead.hero-subtitle {
+    font-size: 1.8rem; /* Larger for better visibility */
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    color: #4dabf7 !important; /* Use a bright blue color directly */
+    font-weight: 500 !important; /* Make it bolder */
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add text shadow for better contrast */
+    opacity: 1 !important;
+    display: block;
+}
+
+/* Override any existing styles */
+.text-gradient-subtle {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: #4dabf7 !important;
+    background-clip: initial !important;
+    text-fill-color: #4dabf7 !important;
+    color: #4dabf7 !important;
+    opacity: 1 !important;
+    display: inline-block; 
+}

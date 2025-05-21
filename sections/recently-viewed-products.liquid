@@ -1,0 +1,500 @@
+<style>
+  .recently-viewed {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  }
+  
+  .recently-viewed__content {
+    max-width: {{ settings.page_width }}px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .recently-viewed__header {
+    text-align: {{ section.settings.text_alignment }};
+    margin-bottom: 2.5rem;
+  }
+  
+  .recently-viewed__title {
+    margin: 0 0 0.75rem;
+    font-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    font-weight: {{ settings.heading_weight }};
+    font-size: 2rem;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .recently-viewed__subtitle {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: {{ section.settings.text_color }};
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .recently-viewed__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.products_per_row }}, 1fr);
+    gap: 2rem;
+  }
+  
+  .recently-viewed__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1rem;
+    background-color: {{ section.settings.card_background_color }};
+    border-radius: {{ settings.card_border_radius }}px;
+  }
+  
+  .recently-viewed__empty-text {
+    font-size: 1.1rem;
+    color: {{ section.settings.text_color | color_lighten: 20 }};
+    margin-bottom: 1.5rem;
+  }
+  
+  .recently-viewed__empty-link {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: {{ section.settings.button_color }};
+    color: {{ section.settings.button_text_color }};
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: {{ settings.button_border_radius }}px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  
+  .recently-viewed__empty-link:hover {
+    background-color: {{ section.settings.button_color | color_darken: 10 }};
+    transform: translateY(-2px);
+  }
+  
+  .product-card {
+    position: relative;
+    border-radius: {{ settings.card_border_radius }}px;
+    background-color: {{ section.settings.card_background_color }};
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-card__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .product-card__image-container {
+    position: relative;
+    padding-top: 100%;
+    overflow: hidden;
+    background-color: {{ section.settings.card_background_color | color_lighten: 5 }};
+  }
+  
+  .product-card__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .product-card:hover .product-card__image {
+    transform: scale(1.05);
+  }
+  
+  .product-card__content {
+    padding: 1.25rem;
+  }
+  
+  .product-card__title {
+    margin: 0 0 0.5rem;
+    font-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    font-weight: {{ settings.heading_weight }};
+    font-size: 1.1rem;
+    line-height: 1.4;
+    color: {{ section.settings.title_color }};
+  }
+  
+  .product-card__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .product-card__price-current {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: {{ section.settings.price_color }};
+  }
+  
+  .product-card__button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: {{ section.settings.button_color }};
+    color: {{ section.settings.button_text_color }};
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    border-radius: {{ settings.button_border_radius }}px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .product-card__button:hover {
+    background-color: {{ section.settings.button_color | color_darken: 10 }};
+  }
+  
+  @media screen and (max-width: 990px) {
+    .recently-viewed__content {
+      padding: 0 1.5rem;
+    }
+    
+    .recently-viewed__title {
+      font-size: 1.75rem;
+    }
+    
+    .recently-viewed__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  
+  @media screen and (max-width: 750px) {
+    .recently-viewed__content {
+      padding: 0 1rem;
+    }
+    
+    .recently-viewed__header {
+      margin-bottom: 1.5rem;
+    }
+    
+    .recently-viewed__title {
+      font-size: 1.5rem;
+    }
+    
+    .recently-viewed__subtitle {
+      font-size: 1rem;
+    }
+    
+    .recently-viewed__grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .product-card__content {
+      padding: 1rem;
+    }
+  }
+</style>
+
+<div class="recently-viewed" id="recently-viewed-{{ section.id }}">
+  <div class="recently-viewed__content">
+    <div class="recently-viewed__header">
+      <h2 class="recently-viewed__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <div class="recently-viewed__subtitle">{{ section.settings.subtitle }}</div>
+      {%- endif -%}
+    </div>
+    
+    <div class="recently-viewed__grid" data-recently-viewed-container>
+      <div class="recently-viewed__empty">
+        <p class="recently-viewed__empty-text">{{ 'products.recently_viewed.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="recently-viewed__empty-link">
+          {{ 'products.recently_viewed.view_products' | t }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get recently viewed products from localStorage
+    const getRecentlyViewed = function() {
+      const recentlyViewed = localStorage.getItem('recently-viewed-products');
+      return recentlyViewed ? JSON.parse(recentlyViewed) : [];
+    };
+    
+    // Add current product to recently viewed
+    const addCurrentProduct = function() {
+      const currentProduct = {
+        id: {{ product.id | json }},
+        title: {{ product.title | json }},
+        url: {{ product.url | json }},
+        price: {{ product.price | json }},
+        featured_image: {{ product.featured_image.src | json }}
+      };
+      
+      const recentlyViewed = getRecentlyViewed();
+      
+      // Check if product already exists in the array
+      const existingIndex = recentlyViewed.findIndex(item => item.id === currentProduct.id);
+      
+      if (existingIndex !== -1) {
+        // Remove the existing item to move it to the front
+        recentlyViewed.splice(existingIndex, 1);
+      }
+      
+      // Add current product to the beginning of the array
+      recentlyViewed.unshift(currentProduct);
+      
+      // Keep only the most recent products (limited by max count)
+      const maxCount = 10;
+      if (recentlyViewed.length > maxCount) {
+        recentlyViewed.length = maxCount;
+      }
+      
+      // Save back to localStorage
+      localStorage.setItem('recently-viewed-products', JSON.stringify(recentlyViewed));
+    };
+    
+    // Render recently viewed products
+    const renderRecentlyViewed = function() {
+      const container = document.querySelector('[data-recently-viewed-container]');
+      if (!container) return;
+      
+      let recentlyViewed = getRecentlyViewed();
+      const currentProductId = {{ product.id | json }};
+      
+      // Remove current product from recently viewed
+      recentlyViewed = recentlyViewed.filter(product => product.id !== currentProductId);
+      
+      // Limit to the max number of products to display
+      const maxDisplay = {{ section.settings.max_products | json }};
+      recentlyViewed = recentlyViewed.slice(0, maxDisplay);
+      
+      // If there are no recently viewed products, show empty state
+      if (recentlyViewed.length === 0) {
+        return;
+      }
+      
+      // Clear container and remove empty state
+      container.innerHTML = '';
+      
+      // Add products to the container
+      recentlyViewed.forEach(product => {
+        const productHtml = `
+          <div class="product-card">
+            <a href="${product.url}" class="product-card__link">
+              <div class="product-card__image-container">
+                <img 
+                  class="product-card__image" 
+                  src="${product.featured_image}" 
+                  alt="${product.title}"
+                  loading="lazy"
+                >
+              </div>
+              
+              <div class="product-card__content">
+                <h3 class="product-card__title">${product.title}</h3>
+                
+                <div class="product-card__price">
+                  <span class="product-card__price-current">${formatMoney(product.price)}</span>
+                </div>
+                
+                <div class="product-card__button">
+                  {{ 'products.product.view_details' | t }}
+                </div>
+              </div>
+            </a>
+          </div>
+        `;
+        
+        container.insertAdjacentHTML('beforeend', productHtml);
+      });
+    };
+    
+    // Format money helper
+    function formatMoney(cents) {
+      const moneyFormat = {{ shop.money_format | json }};
+      
+      function formatWithDelimiters(number, precision, thousands, decimal) {
+        precision = precision || 2;
+        thousands = thousands || ',';
+        decimal = decimal || '.';
+        
+        if (isNaN(number) || number == null) {
+          return 0;
+        }
+        
+        number = (number / 100.0).toFixed(precision);
+        
+        const parts = number.split('.');
+        const dollarsAmount = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
+        const centsAmount = parts[1] ? decimal + parts[1] : '';
+        
+        return dollarsAmount + centsAmount;
+      }
+      
+      let value = '';
+      
+      value = moneyFormat.replace(/{{.*}}/g, formatWithDelimiters(cents, 2));
+      
+      return value;
+    }
+    
+    // Add current product to recently viewed
+    addCurrentProduct();
+    
+    // Render recently viewed products
+    renderRecentlyViewed();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Recently Viewed",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Recently Viewed"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<p>Products you've viewed recently</p>"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4,
+      "label": "Maximum products to show"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Products per row"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Product title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 60,
+      "unit": "px",
+      "label": "Padding top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 60,
+      "unit": "px",
+      "label": "Padding bottom"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recently Viewed",
+      "settings": {
+        "max_products": 4,
+        "products_per_row": 4
+      }
+    }
+  ]
+}
+{% endschema %}

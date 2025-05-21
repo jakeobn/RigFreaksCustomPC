@@ -1,0 +1,874 @@
+<style>
+  .specs-comparison {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  }
+  
+  .specs-comparison__content {
+    max-width: {{ settings.page_width }}px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .specs-comparison__header {
+    text-align: {{ section.settings.text_alignment }};
+    margin-bottom: 2.5rem;
+  }
+  
+  .specs-comparison__title {
+    margin: 0 0 0.75rem;
+    font-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    font-weight: {{ settings.heading_weight }};
+    font-size: 2rem;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .specs-comparison__subtitle {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: {{ section.settings.text_color }};
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .specs-comparison__table-container {
+    overflow-x: auto;
+    border-radius: {{ settings.card_border_radius }}px;
+    background-color: {{ section.settings.container_background_color }};
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+  }
+  
+  .specs-comparison__table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+  }
+  
+  .specs-comparison__head {
+    background-color: {{ section.settings.table_header_background_color }};
+    color: {{ section.settings.table_header_text_color }};
+    text-align: left;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    border-bottom: 1px solid {{ section.settings.border_color }};
+  }
+  
+  .specs-comparison__header-cell {
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  
+  .specs-comparison__header-cell:first-child {
+    width: 200px;
+  }
+  
+  .specs-comparison__row {
+    border-bottom: 1px solid {{ section.settings.border_color }};
+  }
+  
+  .specs-comparison__row:last-child {
+    border-bottom: none;
+  }
+  
+  .specs-comparison__row--category {
+    background-color: {{ section.settings.category_row_background_color }};
+    border-bottom: 1px solid {{ section.settings.border_color }};
+  }
+  
+  .specs-comparison__row--highlight {
+    background-color: {{ section.settings.highlight_row_background_color }};
+  }
+  
+  .specs-comparison__cell {
+    padding: 1rem 1.5rem;
+    vertical-align: middle;
+    line-height: 1.4;
+  }
+  
+  .specs-comparison__cell--category {
+    font-weight: 600;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .specs-comparison__model {
+    text-align: center;
+  }
+  
+  .specs-comparison__model-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 0.75rem;
+    display: block;
+    background-color: {{ section.settings.card_background_color }};
+  }
+  
+  .specs-comparison__model-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0 0 0.25rem;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .specs-comparison__model-price {
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: {{ section.settings.price_color }};
+  }
+  
+  .specs-comparison__view-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: {{ section.settings.button_color }};
+    color: {{ section.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ settings.button_border_radius }}px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  
+  .specs-comparison__view-link:hover {
+    background-color: {{ section.settings.button_color | color_darken: 10 }};
+    transform: translateY(-2px);
+  }
+  
+  .specs-comparison__table-switch {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .specs-comparison__table-button {
+    padding: 0.5rem 1.25rem;
+    background-color: {{ section.settings.table_switch_background_color }};
+    color: {{ section.settings.table_switch_text_color }};
+    border: none;
+    border-radius: {{ settings.button_border_radius }}px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .specs-comparison__table-button:hover {
+    background-color: {{ section.settings.table_switch_background_color | color_darken: 10 }};
+  }
+  
+  .specs-comparison__table-button--active {
+    background-color: {{ section.settings.accent_color }};
+    color: {{ section.settings.accent_text_color }};
+  }
+  
+  .specs-comparison__table-button--active:hover {
+    background-color: {{ section.settings.accent_color | color_darken: 10 }};
+  }
+  
+  .specs-comparison__footer {
+    text-align: {{ section.settings.text_alignment }};
+    margin-top: 2rem;
+  }
+  
+  .specs-comparison__action {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: {{ section.settings.button_color }};
+    color: {{ section.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ settings.button_border_radius }}px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  
+  .specs-comparison__action:hover {
+    background-color: {{ section.settings.button_color | color_darken: 10 }};
+    transform: translateY(-2px);
+  }
+  
+  @media screen and (max-width: 990px) {
+    .specs-comparison__content {
+      padding: 0 1.5rem;
+    }
+    
+    .specs-comparison__title {
+      font-size: 1.75rem;
+    }
+    
+    .specs-comparison__table-container {
+      margin: 0 -1.5rem;
+      width: calc(100% + 3rem);
+      border-radius: 0;
+    }
+  }
+  
+  @media screen and (max-width: 750px) {
+    .specs-comparison__content {
+      padding: 0 1rem;
+    }
+    
+    .specs-comparison__header {
+      margin-bottom: 1.5rem;
+    }
+    
+    .specs-comparison__title {
+      font-size: 1.5rem;
+    }
+    
+    .specs-comparison__subtitle {
+      font-size: 1rem;
+    }
+    
+    .specs-comparison__table-container {
+      margin: 0 -1rem;
+      width: calc(100% + 2rem);
+    }
+    
+    .specs-comparison__table-switch {
+      flex-wrap: wrap;
+    }
+  }
+</style>
+
+<div class="specs-comparison" id="specs-comparison-{{ section.id }}">
+  <div class="specs-comparison__content">
+    <div class="specs-comparison__header">
+      <h2 class="specs-comparison__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <div class="specs-comparison__subtitle">{{ section.settings.subtitle }}</div>
+      {%- endif -%}
+    </div>
+    
+    {%- if section.settings.show_table_switch -%}
+      <div class="specs-comparison__table-switch">
+        <button 
+          class="specs-comparison__table-button specs-comparison__table-button--active" 
+          data-table-target="specs"
+        >
+          {{ 'products.comparison.specs_table' | t }}
+        </button>
+        <button 
+          class="specs-comparison__table-button" 
+          data-table-target="performance"
+        >
+          {{ 'products.comparison.performance_table' | t }}
+        </button>
+      </div>
+    {%- endif -%}
+    
+    <!-- Specs Comparison Table -->
+    <div class="specs-comparison__table-container" data-table-id="specs">
+      <table class="specs-comparison__table">
+        <thead class="specs-comparison__head">
+          <tr>
+            <th class="specs-comparison__header-cell">{{ 'products.comparison.component' | t }}</th>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pc_model' -%}
+                  <th class="specs-comparison__header-cell">
+                    <div class="specs-comparison__model">
+                      {%- if block.settings.image != blank -%}
+                        <img 
+                          class="specs-comparison__model-image" 
+                          src="{{ block.settings.image | image_url: width: 160 }}" 
+                          alt="{{ block.settings.name }}"
+                          width="80"
+                          height="80"
+                          loading="lazy"
+                        >
+                      {%- endif -%}
+                      <h3 class="specs-comparison__model-name">{{ block.settings.name }}</h3>
+                      <div class="specs-comparison__model-price">{{ block.settings.price }}</div>
+                      {%- if block.settings.product_url != blank -%}
+                        <a href="{{ block.settings.product_url }}" class="specs-comparison__view-link">
+                          {{ 'products.comparison.view_details' | t }}
+                        </a>
+                      {%- endif -%}
+                    </div>
+                  </th>
+              {%- endcase -%}
+            {%- endfor -%}
+          </tr>
+        </thead>
+        <tbody>
+          <!-- CPU -->
+          <tr class="specs-comparison__row specs-comparison__row--category">
+            <td class="specs-comparison__cell specs-comparison__cell--category">{{ 'products.comparison.cpu' | t }}</td>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pc_model' -%}
+                  <td class="specs-comparison__cell">{{ block.settings.cpu }}</td>
+              {%- endcase -%}
+            {%- endfor -%}
+          </tr>
+          
+          <!-- GPU -->
+          <tr class="specs-comparison__row specs-comparison__row--category">
+            <td class="specs-comparison__cell specs-comparison__cell--category">{{ 'products.comparison.gpu' | t }}</td>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pc_model' -%}
+                  <td class="specs-comparison__cell">{{ block.settings.gpu }}</td>
+              {%- endcase -%}
+            {%- endfor -%}
+          </tr>
+          
+          <!-- RAM -->
+          <tr class="specs-comparison__row">
+            <td class="specs-comparison__cell specs-comparison__cell--category">{{ 'products.comparison.memory' | t }}</td>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pc_model' -%}
+                  <td class="specs-comparison__cell">{{ block.settings.memory }}</td>
+              {%- endcase -%}
+            {%- endfor -%}
+          </tr>
+          
+          <!-- Storage -->
+          <tr class="specs-comparison__row specs-comparison__row--highlight">
+            <td class="specs-comparison__cell specs-comparison__cell--category">{{ 'products.comparison.storage' | t }}</td>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pc_model' -%}
+                  <td class="specs-comparison__cell">{{ block.settings.storage }}</td>
+              {%- endcase -%}
+            {%- endfor -%}
+          </tr>
+          
+          <!-- Motherboard -->
+          <tr class="specs-comparison__row">
+            <td class="specs-comparison__cell specs-comparison__cell--category">{{ 'products.comparison.motherboard' | t }}</td>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pc_model' -%}
+                  <td class="specs-comparison__cell">{{ block.settings.motherboard }}</td>
+              {%- endcase -%}
+            {%- endfor -%}
+          </tr>
+          
+          <!-- PSU -->
+          <tr class="specs-comparison__row specs-comparison__row--highlight">
+            <td class="specs-comparison__cell specs-comparison__cell--category">{{ 'products.comparison.power_supply' | t }}</td>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pc_model' -%}
+                  <td class="specs-comparison__cell">{{ block.settings.power_supply }}</td>
+              {%- endcase -%}
+            {%- endfor -%}
+          </tr>
+          
+          <!-- Case -->
+          <tr class="specs-comparison__row">
+            <td class="specs-comparison__cell specs-comparison__cell--category">{{ 'products.comparison.case' | t }}</td>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pc_model' -%}
+                  <td class="specs-comparison__cell">{{ block.settings.case }}</td>
+              {%- endcase -%}
+            {%- endfor -%}
+          </tr>
+          
+          <!-- Cooling -->
+          <tr class="specs-comparison__row specs-comparison__row--highlight">
+            <td class="specs-comparison__cell specs-comparison__cell--category">{{ 'products.comparison.cooling' | t }}</td>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pc_model' -%}
+                  <td class="specs-comparison__cell">{{ block.settings.cooling }}</td>
+              {%- endcase -%}
+            {%- endfor -%}
+          </tr>
+          
+          <!-- OS -->
+          <tr class="specs-comparison__row">
+            <td class="specs-comparison__cell specs-comparison__cell--category">{{ 'products.comparison.operating_system' | t }}</td>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pc_model' -%}
+                  <td class="specs-comparison__cell">{{ block.settings.operating_system }}</td>
+              {%- endcase -%}
+            {%- endfor -%}
+          </tr>
+          
+          <!-- Warranty -->
+          <tr class="specs-comparison__row specs-comparison__row--highlight">
+            <td class="specs-comparison__cell specs-comparison__cell--category">{{ 'products.comparison.warranty' | t }}</td>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pc_model' -%}
+                  <td class="specs-comparison__cell">{{ block.settings.warranty }}</td>
+              {%- endcase -%}
+            {%- endfor -%}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Performance Comparison Table (hidden by default) -->
+    <div class="specs-comparison__table-container" data-table-id="performance" style="display: none;">
+      <table class="specs-comparison__table">
+        <thead class="specs-comparison__head">
+          <tr>
+            <th class="specs-comparison__header-cell">{{ 'products.comparison.game' | t }}</th>
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pc_model' -%}
+                  <th class="specs-comparison__header-cell">
+                    <div class="specs-comparison__model">
+                      {%- if block.settings.image != blank -%}
+                        <img 
+                          class="specs-comparison__model-image" 
+                          src="{{ block.settings.image | image_url: width: 160 }}" 
+                          alt="{{ block.settings.name }}"
+                          width="80"
+                          height="80"
+                          loading="lazy"
+                        >
+                      {%- endif -%}
+                      <h3 class="specs-comparison__model-name">{{ block.settings.name }}</h3>
+                      <div class="specs-comparison__model-price">{{ block.settings.price }}</div>
+                      {%- if block.settings.product_url != blank -%}
+                        <a href="{{ block.settings.product_url }}" class="specs-comparison__view-link">
+                          {{ 'products.comparison.view_details' | t }}
+                        </a>
+                      {%- endif -%}
+                    </div>
+                  </th>
+              {%- endcase -%}
+            {%- endfor -%}
+          </tr>
+        </thead>
+        <tbody>
+          {%- for game in section.settings.games -%}
+            <tr class="specs-comparison__row {% cycle '', 'specs-comparison__row--highlight' %}">
+              <td class="specs-comparison__cell specs-comparison__cell--category">
+                {{ game }}
+              </td>
+              
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'pc_model' -%}
+                    {%- assign game_fps_field = 'game_' | append: forloop.index | append: '_fps' -%}
+                    <td class="specs-comparison__cell">
+                      {{ block.settings[game_fps_field] }}
+                    </td>
+                {%- endcase -%}
+              {%- endfor -%}
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+    
+    {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
+      <div class="specs-comparison__footer">
+        <a href="{{ section.settings.button_url }}" class="specs-comparison__action">
+          {{ section.settings.button_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tableButtons = document.querySelectorAll('[data-table-target]');
+    const tables = document.querySelectorAll('[data-table-id]');
+    
+    tableButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const target = this.getAttribute('data-table-target');
+        
+        // Update active button
+        tableButtons.forEach(btn => btn.classList.remove('specs-comparison__table-button--active'));
+        this.classList.add('specs-comparison__table-button--active');
+        
+        // Show target table, hide others
+        tables.forEach(table => {
+          if (table.getAttribute('data-table-id') === target) {
+            table.style.display = '';
+          } else {
+            table.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Specs Comparison",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Compare Our Gaming PCs"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<p>Find the perfect system to match your gaming needs and budget</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_table_switch",
+      "label": "Show table switch",
+      "default": true,
+      "info": "Allows switching between specs and performance tables"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Customize Your Own PC"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button link",
+      "default": "/pages/pc-builder"
+    },
+    {
+      "type": "header",
+      "content": "Game Performance Settings"
+    },
+    {
+      "type": "text",
+      "id": "game_1",
+      "label": "Game 1",
+      "default": "Cyberpunk 2077"
+    },
+    {
+      "type": "text",
+      "id": "game_2",
+      "label": "Game 2",
+      "default": "Call of Duty: Warzone"
+    },
+    {
+      "type": "text",
+      "id": "game_3",
+      "label": "Game 3",
+      "default": "Fortnite"
+    },
+    {
+      "type": "text",
+      "id": "game_4",
+      "label": "Game 4",
+      "default": "Elden Ring"
+    },
+    {
+      "type": "text",
+      "id": "game_5",
+      "label": "Game 5",
+      "default": "Minecraft RTX"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "container_background_color",
+      "label": "Container background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "table_header_background_color",
+      "label": "Table header background color",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "table_header_text_color",
+      "label": "Table header text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "category_row_background_color",
+      "label": "Category row background color",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "color",
+      "id": "highlight_row_background_color",
+      "label": "Highlight row background color",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "table_switch_background_color",
+      "label": "Table switch background color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "table_switch_text_color",
+      "label": "Table switch text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "accent_text_color",
+      "label": "Accent text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 60,
+      "unit": "px",
+      "label": "Padding top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 60,
+      "unit": "px",
+      "label": "Padding bottom"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pc_model",
+      "name": "PC Model",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Model name",
+          "default": "Vortex Pro X"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "$2,499"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Model image"
+        },
+        {
+          "type": "url",
+          "id": "product_url",
+          "label": "Product URL"
+        },
+        {
+          "type": "header",
+          "content": "Specifications"
+        },
+        {
+          "type": "text",
+          "id": "cpu",
+          "label": "CPU",
+          "default": "Intel Core i9-14900K"
+        },
+        {
+          "type": "text",
+          "id": "gpu",
+          "label": "GPU",
+          "default": "NVIDIA RTX 4090 24GB"
+        },
+        {
+          "type": "text",
+          "id": "memory",
+          "label": "Memory",
+          "default": "32GB DDR5-6000"
+        },
+        {
+          "type": "text",
+          "id": "storage",
+          "label": "Storage",
+          "default": "2TB NVMe SSD"
+        },
+        {
+          "type": "text",
+          "id": "motherboard",
+          "label": "Motherboard",
+          "default": "ASUS ROG Maximus Z790"
+        },
+        {
+          "type": "text",
+          "id": "power_supply",
+          "label": "Power Supply",
+          "default": "1000W 80+ Gold"
+        },
+        {
+          "type": "text",
+          "id": "case",
+          "label": "Case",
+          "default": "NZXT H7 Flow"
+        },
+        {
+          "type": "text",
+          "id": "cooling",
+          "label": "Cooling",
+          "default": "360mm AIO Liquid Cooler"
+        },
+        {
+          "type": "text",
+          "id": "operating_system",
+          "label": "Operating System",
+          "default": "Windows 11 Pro"
+        },
+        {
+          "type": "text",
+          "id": "warranty",
+          "label": "Warranty",
+          "default": "3-Year Premium"
+        },
+        {
+          "type": "header",
+          "content": "Game Performance"
+        },
+        {
+          "type": "text",
+          "id": "game_1_fps",
+          "label": "Game 1 Performance",
+          "default": "120+ FPS @ 4K Ultra"
+        },
+        {
+          "type": "text",
+          "id": "game_2_fps",
+          "label": "Game 2 Performance",
+          "default": "180+ FPS @ 1440p Ultra"
+        },
+        {
+          "type": "text",
+          "id": "game_3_fps",
+          "label": "Game 3 Performance",
+          "default": "240+ FPS @ 1080p Epic"
+        },
+        {
+          "type": "text",
+          "id": "game_4_fps",
+          "label": "Game 4 Performance",
+          "default": "100+ FPS @ 4K High"
+        },
+        {
+          "type": "text",
+          "id": "game_5_fps",
+          "label": "Game 5 Performance",
+          "default": "90+ FPS @ 4K RTX On"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Specs Comparison",
+      "blocks": [
+        {
+          "type": "pc_model"
+        },
+        {
+          "type": "pc_model"
+        },
+        {
+          "type": "pc_model"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

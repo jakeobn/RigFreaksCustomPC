@@ -1,0 +1,180 @@
+{% extends "legal_base.html" %}
+
+{% block title %}Privacy Policy - RigFreaks{% endblock %}
+
+{% set active_page = 'privacy' %}
+
+{% block legal_icon %}<i class="fas fa-shield-alt"></i>{% endblock %}
+
+{% block legal_title %}Privacy Policy{% endblock %}
+
+{% block legal_intro %}
+    RigFreaks is committed to protecting your privacy. This policy explains how we collect, use, and protect your personal information when you visit our website and use our services.
+{% endblock %}
+
+{% block legal_content %}
+    <div class="minimal-legal-section">
+        <h2 class="minimal-legal-heading">Information We Collect</h2>
+        <p>We collect the following types of information:</p>
+        
+        <div class="minimal-grid">
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Personal Information</span>
+                <p>When you place an order or sign up for an account, we collect:</p>
+                <ul>
+                    <li>Name</li>
+                    <li>Email address</li>
+                    <li>Mailing address</li>
+                    <li>Phone number</li>
+                    <li>Payment information</li>
+                </ul>
+            </div>
+            
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Non-Personal Information</span>
+                <p>We may collect data about your interaction with our website:</p>
+                <ul>
+                    <li>IP address</li>
+                    <li>Browser type</li>
+                    <li>Device type</li>
+                    <li>Pages viewed</li>
+                    <li>Referring website</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="minimal-legal-section">
+        <h2 class="minimal-legal-heading">How We Use Your Information</h2>
+        <p>We use your personal information for the following purposes:</p>
+        
+        <div class="minimal-list">
+            <div class="minimal-list-item">
+                <span>Processing Transactions</span>
+                <p>To fulfill orders, process payments, and deliver products</p>
+            </div>
+            <div class="minimal-list-item">
+                <span>Communication</span>
+                <p>To send order updates, promotional emails, and customer service messages</p>
+            </div>
+            <div class="minimal-list-item">
+                <span>Service Improvement</span>
+                <p>To enhance website functionality and improve customer experience</p>
+            </div>
+            <div class="minimal-list-item">
+                <span>Legal Compliance</span>
+                <p>To comply with tax and shipping regulations</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="minimal-legal-section">
+        <h2 class="minimal-legal-heading">Data Sharing</h2>
+        <p class="mb-4">We do not sell or rent your personal information to third parties.</p>
+
+        <p>We may share your data with trusted third parties for the following purposes:</p>
+        
+        <div class="minimal-grid">
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Payment Processing</span>
+                <p>We share payment details with service providers like Stripe or PayPal to process transactions securely.</p>
+            </div>
+            
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Shipping Services</span>
+                <p>We share delivery information with shipping companies to fulfill your orders.</p>
+            </div>
+            
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Legal Requirements</span>
+                <p>We may disclose information to law enforcement or regulatory bodies if required by law.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="minimal-legal-section">
+        <h2 class="minimal-legal-heading">Data Protection</h2>
+        <p>We implement industry-standard security measures to protect your personal data:</p>
+        
+        <div class="minimal-grid">
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Encryption</span>
+                <p>Your payment and account details are encrypted during transmission via SSL technology.</p>
+            </div>
+            
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Access Control</span>
+                <p>We restrict access to personal information to only employees and partners who need it to perform their duties.</p>
+            </div>
+        </div>
+        
+        <p class="minimal-note mt-4">While we take reasonable precautions, no data transmission over the internet can be guaranteed 100% secure.</p>
+    </div>
+
+    <div class="minimal-legal-section">
+        <h2 class="minimal-legal-heading">Your Rights</h2>
+        <p>Under GDPR, you have the following rights regarding your personal data:</p>
+        
+        <div class="minimal-grid">
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Access</span>
+                <p>Request a copy of the personal information we hold about you</p>
+            </div>
+            
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Rectification</span>
+                <p>Request correction of any inaccuracies in your data</p>
+            </div>
+            
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Erasure</span>
+                <p>Request deletion of your personal information, with certain exceptions</p>
+            </div>
+            
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Restriction</span>
+                <p>Request limited processing of your data under specific conditions</p>
+            </div>
+            
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Data Portability</span>
+                <p>Request your data in a structured, commonly used format</p>
+            </div>
+            
+            <div class="minimal-cookie-type">
+                <span class="minimal-cookie-label">Objection</span>
+                <p>Object to processing of your data for certain purposes</p>
+            </div>
+        </div>
+        
+        <p class="mt-4">To exercise these rights, contact us using the details at the end of this policy.</p>
+    </div>
+
+    <div class="minimal-legal-section">
+        <h2 class="minimal-legal-heading">Cookies</h2>
+        <p>We use cookies to improve your browsing experience and provide personalized content. These are small text files stored on your device.</p>
+        <p>You can control cookies through your browser settings, though disabling them may affect certain website features.</p>
+        <p>For more details, see our <a href="{{ url_for('cookies') }}">Cookie Policy</a>.</p>
+    </div>
+
+    <div class="minimal-legal-section">
+        <h2 class="minimal-legal-heading">Third-Party Links</h2>
+        <p>Our website may contain links to third-party websites or services not operated by us. We are not responsible for the privacy practices of these sites. We recommend reviewing their privacy policies before sharing personal information.</p>
+    </div>
+
+    <div class="minimal-legal-section">
+        <h2 class="minimal-legal-heading">Children's Privacy</h2>
+        <p>Our services are not intended for children under 18. We do not knowingly collect personal information from children. If we discover we have collected data from a child under 18, we will delete it promptly.</p>
+    </div>
+
+    <div class="minimal-legal-section">
+        <h2 class="minimal-legal-heading">Policy Updates</h2>
+        <p>We may update this Privacy Policy to reflect changes in our practices or legal requirements. The revised version will be posted on this page and will be effective immediately upon posting.</p>
+    </div>
+
+    <div class="minimal-legal-section">
+        <h2 class="minimal-legal-heading">Contact Us</h2>
+        <p>For questions about this Privacy Policy or to exercise your GDPR rights:</p>
+        <p class="minimal-contact">support@rigfreaks.com</p>
+    </div>
+{% endblock %}

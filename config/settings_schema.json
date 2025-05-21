@@ -1,0 +1,592 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "RigFreaks",
+    "theme_version": "1.0.0",
+    "theme_author": "RigFreaks",
+    "theme_documentation_url": "https://rigfreaks.com/documentation",
+    "theme_support_url": "https://rigfreaks.com/support"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Theme Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary color",
+        "default": "#ff0077"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary color",
+        "default": "#00aaff"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent color",
+        "default": "#2bff88"
+      },
+      {
+        "type": "header",
+        "content": "Background & Text Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background color",
+        "default": "#0a0a0a"
+      },
+      {
+        "type": "color",
+        "id": "color_card_background",
+        "label": "Card background color",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_text_subdued",
+        "label": "Subdued text color",
+        "default": "#999999"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border color",
+        "default": "#222222"
+      },
+      {
+        "type": "header",
+        "content": "Button Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_button",
+        "label": "Button background",
+        "default": "#ff0077"
+      },
+      {
+        "type": "color",
+        "id": "color_button_text",
+        "label": "Button text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary",
+        "label": "Secondary button background",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary_text",
+        "label": "Secondary button text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Notification Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_success",
+        "label": "Success color",
+        "default": "#2bff88"
+      },
+      {
+        "type": "color",
+        "id": "color_error",
+        "label": "Error color",
+        "default": "#ff4a4a"
+      },
+      {
+        "type": "color",
+        "id": "color_warning",
+        "label": "Warning color",
+        "default": "#ffb940"
+      },
+      {
+        "type": "color",
+        "id": "color_info",
+        "label": "Info color",
+        "default": "#00aaff"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Heading Font"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Font",
+        "default": "rajdhani_n7"
+      },
+      {
+        "type": "select",
+        "id": "heading_weight",
+        "label": "Font weight",
+        "options": [
+          {
+            "value": "400",
+            "label": "Regular 400"
+          },
+          {
+            "value": "500",
+            "label": "Medium 500"
+          },
+          {
+            "value": "600",
+            "label": "Semibold 600"
+          },
+          {
+            "value": "700",
+            "label": "Bold 700"
+          }
+        ],
+        "default": "700"
+      },
+      {
+        "type": "header",
+        "content": "Body Font"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Font",
+        "default": "inter_n4"
+      },
+      {
+        "type": "range",
+        "id": "base_font_size",
+        "label": "Base size",
+        "min": 14,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "default": 16
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Page Structure"
+      },
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Page width",
+        "min": 1200,
+        "max": 1800,
+        "step": 50,
+        "default": 1400,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "section_spacing",
+        "label": "Space between sections",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 60,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Border Radius"
+      },
+      {
+        "type": "range",
+        "id": "border_radius",
+        "label": "Border radius (general)",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "default": 8,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "button_border_radius",
+        "label": "Button border radius",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "default": 8,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "card_border_radius",
+        "label": "Card border radius",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "default": 12,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Animations",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_animations",
+        "label": "Enable animations",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "animation_speed",
+        "label": "Animation speed",
+        "options": [
+          {
+            "value": "fast",
+            "label": "Fast"
+          },
+          {
+            "value": "normal",
+            "label": "Normal"
+          },
+          {
+            "value": "slow",
+            "label": "Slow"
+          }
+        ],
+        "default": "normal"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_hover_effects",
+        "label": "Enable hover effects",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social Accounts"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook",
+        "label": "Facebook",
+        "info": "https://facebook.com/yourpage"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter",
+        "label": "Twitter",
+        "info": "https://twitter.com/yourhandle"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram",
+        "label": "Instagram",
+        "info": "https://instagram.com/yourhandle"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube",
+        "label": "YouTube",
+        "info": "https://youtube.com/c/yourchannel"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok",
+        "label": "TikTok",
+        "info": "https://tiktok.com/@yourhandle"
+      },
+      {
+        "type": "text",
+        "id": "social_discord",
+        "label": "Discord",
+        "info": "https://discord.gg/yourinvite"
+      },
+      {
+        "type": "text",
+        "id": "social_twitch",
+        "label": "Twitch",
+        "info": "https://twitch.tv/yourhandle"
+      },
+      {
+        "type": "header",
+        "content": "Sharing Options"
+      },
+      {
+        "type": "checkbox",
+        "id": "share_facebook",
+        "label": "Share on Facebook",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_twitter",
+        "label": "Share on Twitter",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_pinterest",
+        "label": "Share on Pinterest",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Default social sharing image",
+        "info": "Used when no product image is available. Recommended size: 1200 x 630px."
+      }
+    ]
+  },
+  {
+    "name": "PC Builder Tool",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_component_images",
+        "label": "Show component images",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_compatibility_check",
+        "label": "Enable compatibility checking",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_price_estimator",
+        "label": "Enable price estimation",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_power_calculator",
+        "label": "Enable power consumption estimation",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Performance Metrics"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_gaming_performance",
+        "label": "Show gaming performance metrics",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_creator_performance",
+        "label": "Show creator performance metrics",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "performance_metric_style",
+        "label": "Performance metric style",
+        "options": [
+          {
+            "value": "bars",
+            "label": "Bar graphs"
+          },
+          {
+            "value": "radar",
+            "label": "Radar chart"
+          },
+          {
+            "value": "numbers",
+            "label": "Numeric ratings"
+          }
+        ],
+        "default": "bars"
+      },
+      {
+        "type": "header",
+        "content": "Builder Interface"
+      },
+      {
+        "type": "select",
+        "id": "builder_layout",
+        "label": "Builder layout",
+        "options": [
+          {
+            "value": "standard",
+            "label": "Standard (list)"
+          },
+          {
+            "value": "visual",
+            "label": "Visual (grid)"
+          },
+          {
+            "value": "guided",
+            "label": "Guided (step-by-step)"
+          }
+        ],
+        "default": "standard"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_component_details",
+        "label": "Show detailed component specifications",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_saved_builds",
+        "label": "Enable saved builds",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_prebuilt_templates",
+        "label": "Show prebuilt templates",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Cart & Checkout",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Cart Features"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_cart_drawer",
+        "label": "Enable cart drawer",
+        "default": true,
+        "info": "Shows a slide-out cart instead of redirecting to cart page"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_cart_notes",
+        "label": "Enable order notes",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_cart_upsells",
+        "label": "Show product recommendations in cart",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Product Options"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_quick_add",
+        "label": "Enable quick add to cart",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_quick_view",
+        "label": "Enable quick view",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_quantity_selector",
+        "label": "Show quantity selector",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show product vendor",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "Will be scaled down to 32 x 32px"
+      }
+    ]
+  },
+  {
+    "name": "Advanced",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "These settings affect how your theme functions and performs."
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_image_lazy_loading",
+        "label": "Enable image lazy loading",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_image_optimizer",
+        "label": "Enable image optimization",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Custom Code"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_css",
+        "label": "Custom CSS",
+        "info": "Add any custom CSS here"
+      },
+      {
+        "type": "html",
+        "id": "custom_html_head",
+        "label": "Custom HTML (head)",
+        "info": "Custom code to include in the <head> section"
+      },
+      {
+        "type": "html",
+        "id": "custom_html_body_start",
+        "label": "Custom HTML (body start)",
+        "info": "Custom code to include at the start of the <body> section"
+      },
+      {
+        "type": "html",
+        "id": "custom_html_body_end",
+        "label": "Custom HTML (body end)",
+        "info": "Custom code to include at the end of the <body> section"
+      }
+    ]
+  }
+]

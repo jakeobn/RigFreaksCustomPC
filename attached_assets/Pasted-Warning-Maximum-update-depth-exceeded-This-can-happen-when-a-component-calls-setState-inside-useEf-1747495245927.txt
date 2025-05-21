@@ -1,0 +1,41 @@
+Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.%s 
+    at SupabaseImageUpload (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/components/ui/supabase-image-upload.tsx:24:3)
+    at div
+    at div
+    at div
+    at div
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-DVHSTOKX.js?v=4ca34fe1:42:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-MF6EEWPX.js?v=4ca34fe1:61:7
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GR3B7I3S.js?v=4ca34fe1:79:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GR3B7I3S.js?v=4ca34fe1:56:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-DVHSTOKX.js?v=4ca34fe1:42:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-AZOIYK6C.js?v=4ca34fe1:57:5
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=4ca34fe1:238:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=4ca34fe1:161:58
+    at Presence (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-ED5C5U6M.js?v=4ca34fe1:24:11)
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=4ca34fe1:152:64
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GR3B7I3S.js?v=4ca34fe1:79:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GR3B7I3S.js?v=4ca34fe1:56:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-DVHSTOKX.js?v=4ca34fe1:42:13
+    at https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-MF6EEWPX.js?v=4ca34fe1:260:22
+    at Presence (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-ED5C5U6M.js?v=4ca34fe1:24:11)
+    at Provider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-3RXG37ZK.js?v=4ca34fe1:38:15)
+    at DialogPortal (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=4ca34fe1:114:11)
+    at _c3 (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/components/ui/dialog.tsx:52:12)
+    at Provider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-3RXG37ZK.js?v=4ca34fe1:38:15)
+    at Dialog (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=4ca34fe1:55:5)
+    at div
+    at ComponentAdmin (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/pages/ComponentAdmin.tsx:67:21)
+    at Route (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=4ca34fe1:323:16)
+    at ProtectedRoute (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/lib/protected-route.tsx:22:3)
+    at Switch (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=4ca34fe1:379:17)
+    at main
+    at div
+    at Router
+    at Provider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-3RXG37ZK.js?v=4ca34fe1:38:15)
+    at TooltipProvider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=4ca34fe1:64:5)
+    at AuthProvider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/hooks/use-auth.tsx:26:32)
+    at ShopifyProvider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/lib/shopifyContext.tsx:22:35)
+    at QueryClientProvider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=4ca34fe1:2805:3)
+    at App (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/App.tsx?v=kSTKt57g3MdhegShqhdb8:253:3)
+    at GlobalStateProvider (https://016e3315-8146-4107-bf05-a09e7ac4357c-00-1kj4matobgmpq.kirk.replit.dev/src/lib/GlobalState.tsx?v=kSTKt57g3MdhegShqhdb8:30:39)

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service | RigFreaks</title>
+  <link rel="stylesheet" href="/assets/index.css">
+  <style>
+    :root {
+      --dark-bg: #121212;
+      --darker-bg: #0a0a0a;
+      --primary-accent: #ff1c7f;
+      --secondary-accent: #00d8ff;
+      --text-light: #ffffff;
+      --text-muted: #a0a0a0;
+      --border-color: #333333;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+    }
+    
+    header {
+      background-color: var(--darker-bg);
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    
+    .logo-rig {
+      color: var(--primary-accent);
+    }
+    
+    .logo-freaks {
+      color: var(--secondary-accent);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    nav li {
+      margin-left: 20px;
+    }
+    
+    nav a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+    
+    nav a:hover {
+      color: var(--primary-accent);
+    }
+    
+    .page-title {
+      background-color: var(--darker-bg);
+      padding: 40px 0;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .page-title h1 {
+      font-size: 36px;
+      margin: 0;
+      font-weight: 600;
+    }
+    
+    .content-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    .sidebar {
+      width: 250px;
+      margin-right: 40px;
+      position: sticky;
+      top: 40px;
+      align-self: flex-start;
+    }
+    
+    .sidebar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .sidebar li {
+      margin: 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .sidebar li:last-child {
+      border-bottom: none;
+    }
+    
+    .sidebar a {
+      display: block;
+      padding: 12px 15px;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+    
+    .sidebar a:hover, .sidebar a.active {
+      background-color: var(--primary-accent);
+      color: white;
+    }
+    
+    .main-content {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .policy-section {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .policy-section:last-child {
+      border-bottom: none;
+    }
+    
+    h2 {
+      font-size: 24px;
+      color: var(--primary-accent);
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    
+    h3 {
+      font-size: 18px;
+      color: var(--secondary-accent);
+      margin-top: 25px;
+      margin-bottom: 15px;
+    }
+    
+    p {
+      margin-bottom: 15px;
+      color: var(--text-light);
+    }
+    
+    ul, ol {
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+    
+    li {
+      margin-bottom: 8px;
+    }
+    
+    a {
+      color: var(--primary-accent);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .effective-date {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 10px 20px;
+      background-color: var(--primary-accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    
+    .back-link:hover {
+      background-color: #e01060;
+      text-decoration: none;
+    }
+    
+    footer {
+      background-color: var(--darker-bg);
+      padding: 30px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .copyright {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .content-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 30px;
+        position: static;
+      }
+      
+      .page-title h1 {
+        font-size: 28px;
+      }
+      
+      h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <a href="/" class="logo">
+        <span class="logo-rig">RIG</span><span class="logo-freaks">FREAKS</span>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/collections/all">Gaming PCs</a></li>
+          <li><a href="/build-your-pc">Custom Builder</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <div class="page-title">
+    <h1>Terms of Service</h1>
+  </div>
+  
+  <div class="content-container">
+    <aside class="sidebar">
+      <ul>
+        <li><a href="#acceptance">Acceptance of Terms</a></li>
+        <li><a href="#products-services">Products & Services</a></li>
+        <li><a href="#ordering-payment">Ordering & Payment</a></li>
+        <li><a href="#shipping-delivery">Shipping & Delivery</a></li>
+        <li><a href="#returns-warranty">Returns & Warranty</a></li>
+        <li><a href="#user-accounts">User Accounts</a></li>
+        <li><a href="#intellectual-property">Intellectual Property</a></li>
+        <li><a href="#limitation-liability">Limitation of Liability</a></li>
+        <li><a href="#changes-terms">Changes to Terms</a></li>
+        <li><a href="#contact-us">Contact Us</a></li>
+      </ul>
+    </aside>
+    
+    <main class="main-content">
+      <div class="effective-date">Effective Date: May 7, 2023</div>
+      
+      <p>Welcome to RigFreaks. These Terms of Service govern your use of our website and services. By accessing our website or purchasing our custom PC products, you agree to abide by these terms. Please read them carefully before using our services.</p>
+      
+      <div id="acceptance" class="policy-section">
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing our website, creating an account, or making a purchase, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service, along with our Privacy Policy and any other policies referenced herein.</p>
+        
+        <p>If you do not agree with any part of these terms, you must not use our website or services. If you are under 18 years of age, you may use our services only with the involvement and consent of a parent or guardian.</p>
+      </div>
+      
+      <div id="products-services" class="policy-section">
+        <h2>2. Products and Services</h2>
+        <p>RigFreaks specializes in custom-built gaming PCs and related components designed for gamers, creators, and tech enthusiasts.</p>
+        
+        <h3>Product Information</h3>
+        <p>We make every effort to accurately describe our products and their specifications. However, we do not warrant that product descriptions, images, specifications, pricing, or other content on our website are complete, accurate, reliable, current, or error-free.</p>
+        
+        <h3>Product Availability</h3>
+        <p>All products are subject to availability. We reserve the right to discontinue any product at any time and to limit quantities of any products that we offer.</p>
+        
+        <h3>Custom PC Builder</h3>
+        <p>Our Custom PC Builder tool allows you to configure custom systems based on your requirements. While we provide compatibility guidance, it is your responsibility to ensure that your selected components meet your specific needs.</p>
+      </div>
+      
+      <div id="ordering-payment" class="policy-section">
+        <h2>3. Ordering and Payment</h2>
+        <p>By placing an order, you are making an offer to purchase the products you have selected. All orders are subject to acceptance and availability.</p>
+        
+        <h3>Order Acceptance</h3>
+        <p>We reserve the right to refuse or cancel any order for any reason, including but not limited to:</p>
+        <ul>
+          <li>Product unavailability</li>
+          <li>Errors in pricing or product information</li>
+          <li>Suspected fraudulent activity</li>
+          <li>Verification or delivery issues</li>
+        </ul>
+        
+        <h3>Pricing</h3>
+        <p>All prices shown on our website are in USD and do not include taxes, shipping, or handling unless specifically stated. Prices are subject to change without notice. If a pricing error is discovered after you have placed your order, we will notify you and provide the option to proceed with the corrected price or cancel your order.</p>
+        
+        <h3>Payment Methods</h3>
+        <p>We accept various payment methods as indicated during checkout. By providing payment information, you represent and warrant that you have the legal right to use the payment method and that the information you provide is accurate.</p>
+      </div>
+      
+      <div id="shipping-delivery" class="policy-section">
+        <h2>4. Shipping and Delivery</h2>
+        <p>We ship to addresses within the continental United States and other locations as specified on our website.</p>
+        
+        <h3>Delivery Times</h3>
+        <p>Delivery timeframes are estimates only and begin from the date of shipping, not the order date. Custom-built PCs typically require 7-14 business days for assembly, testing, and quality control before shipping.</p>
+        
+        <h3>Shipping Costs</h3>
+        <p>Shipping costs are calculated based on destination, weight, and dimensions of the package. These costs will be displayed during checkout before you complete your order.</p>
+        
+        <h3>Risk of Loss</h3>
+        <p>Risk of loss and title for items purchased pass to you upon delivery of the items to the carrier. It is your responsibility to file any claims with carriers for damaged and/or lost shipments.</p>
+      </div>
+      
+      <div id="returns-warranty" class="policy-section">
+        <h2>5. Returns and Warranty</h2>
+        <p>We stand behind the quality of our products and offer warranty coverage for defects in materials and workmanship.</p>
+        
+        <h3>Standard Warranty</h3>
+        <p>All custom-built PCs come with our standard 2-year warranty covering parts and labor. Individual components are covered by their respective manufacturer warranties.</p>
+        
+        <h3>Return Policy</h3>
+        <p>You may return most new, unopened items within 30 days of delivery for a full refund. Custom-built PCs that are not defective may be subject to a restocking fee of up to 15%.</p>
+        
+        <h3>Warranty Exclusions</h3>
+        <p>Our warranty does not cover:</p>
+        <ul>
+          <li>Damage resulting from improper use, accidents, or modifications</li>
+          <li>Normal wear and tear</li>
+          <li>Issues caused by software, viruses, or improper maintenance</li>
+          <li>Damage from power surges, lightning, or environmental conditions</li>
+        </ul>
+        
+        <p>For complete details on our return and warranty policies, please visit our <a href="#">Warranty & Returns</a> page.</p>
+      </div>
+      
+      <div id="user-accounts" class="policy-section">
+        <h2>6. User Accounts</h2>
+        <p>You may need to create an account to access certain features of our website or to make a purchase.</p>
+        
+        <h3>Account Security</h3>
+        <p>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to notify us immediately of any unauthorized use of your account or any other breach of security.</p>
+        
+        <h3>Account Information</h3>
+        <p>You agree to provide accurate, current, and complete information during the registration process and to update such information to keep it accurate, current, and complete.</p>
+      </div>
+      
+      <div id="intellectual-property" class="policy-section">
+        <h2>7. Intellectual Property</h2>
+        <p>All content on our website, including text, graphics, logos, images, audio clips, digital downloads, data compilations, and software, is the property of RigFreaks or its content suppliers and is protected by international copyright laws.</p>
+        
+        <h3>Restricted Use</h3>
+        <p>You may not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material on our website, except as follows:</p>
+        <ul>
+          <li>Your computer may temporarily store copies of such materials in RAM incidental to your accessing and viewing those materials</li>
+          <li>You may store files that are automatically cached by your web browser for display enhancement purposes</li>
+          <li>You may print or download one copy of a reasonable number of pages of the website for your own personal, non-commercial use and not for further reproduction, publication, or distribution</li>
+        </ul>
+      </div>
+      
+      <div id="limitation-liability" class="policy-section">
+        <h2>8. Limitation of Liability</h2>
+        <p>To the fullest extent permitted by law, RigFreaks shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages, including but not limited to, damages for loss of profits, goodwill, use, data, or other intangible losses resulting from:</p>
+        <ul>
+          <li>Your use or inability to use our services</li>
+          <li>Any unauthorized access to or use of our servers and/or any personal information stored therein</li>
+          <li>Any interruption or cessation of transmission to or from our website</li>
+          <li>Any bugs, viruses, trojan horses, or the like that may be transmitted to or through our website by any third party</li>
+        </ul>
+        
+        <p>In no event shall our total liability to you for all damages, losses, or causes of action exceed the amount you have paid to RigFreaks in the last six months, or, if greater, one hundred dollars ($100).</p>
+      </div>
+      
+      <div id="changes-terms" class="policy-section">
+        <h2>9. Changes to Terms</h2>
+        <p>We reserve the right to update or change these Terms of Service at any time without prior notice. Any changes will be effective immediately upon posting the updated Terms on this page.</p>
+        
+        <p>Your continued use of our website after we post any modifications to the Terms of Service constitutes your acknowledgment of the modifications and your consent to abide and be bound by the modified Terms.</p>
+      </div>
+      
+      <div id="contact-us" class="policy-section">
+        <h2>10. Contact Us</h2>
+        <p>If you have any questions about these Terms of Service, please contact us at:</p>
+        
+        <p>
+          <strong>Email:</strong> <a href="mailto:legal@rigfreaks.com">legal@rigfreaks.com</a><br>
+          <strong>Phone:</strong> +1 (555) 123-4567<br>
+          <strong>Address:</strong> RigFreaks LLC, 123 Tech Street, Suite 456, San Francisco, CA 94105
+        </p>
+      </div>
+      
+      <a href="/" class="back-link">&larr; Back to homepage</a>
+    </main>
+  </div>
+  
+  <footer>
+    <div class="copyright">
+      &copy; 2023 RigFreaks. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 20,
+            behavior: 'smooth'
+          });
+          
+          // Update active class
+          document.querySelectorAll('.sidebar a').forEach(link => {
+            link.classList.remove('active');
+          });
+          this.classList.add('active');
+        }
+      });
+    });
+    
+    // Highlight the current section in the sidebar based on scroll position
+    window.addEventListener('scroll', function() {
+      const sections = document.querySelectorAll('.policy-section');
+      const sidebarLinks = document.querySelectorAll('.sidebar a');
+      
+      let currentSection = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionBottom = sectionTop + section.offsetHeight;
+        
+        if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+          currentSection = '#' + section.getAttribute('id');
+        }
+      });
+      
+      sidebarLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === currentSection) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

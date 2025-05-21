@@ -1,0 +1,421 @@
+{
+  "name": "Featured Product",
+  "sections": {
+    "product-navigation": {
+      "type": "product-navigation",
+      "settings": {
+        "show_breadcrumbs": true,
+        "show_collection_navigation": true,
+        "show_previous_next": true,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "main-product": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "vendor",
+          "settings": {
+            "show_vendor": true
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "title_size": "large"
+          }
+        },
+        "badges": {
+          "type": "badges",
+          "settings": {
+            "show_sale_badge": true,
+            "show_new_badge": true,
+            "show_popular_badge": true
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_shipping_info": true
+          }
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "show_rating_count": true
+          }
+        },
+        "inventory": {
+          "type": "inventory",
+          "settings": {
+            "show_inventory_quantity": true,
+            "inventory_threshold": 10
+          }
+        },
+        "variant_selector": {
+          "type": "variant_selector",
+          "settings": {
+            "picker_type": "button",
+            "enable_color_swatches": true,
+            "enable_size_chart": true
+          }
+        },
+        "description_short": {
+          "type": "description_short",
+          "settings": {
+            "word_limit": 50
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "enable_quantity_selector": true,
+            "enable_payment_button": true,
+            "show_pickup_availability": true
+          }
+        },
+        "custom_pc_notice": {
+          "type": "custom_html",
+          "settings": {
+            "custom_html": "<div class=\"featured-notice\"><p><strong>Want this PC with custom specs?</strong> Use our <a href=\"/pages/pc-builder\">PC Builder</a> to create a similar system with your preferred components.</p></div>",
+            "text_alignment": "left"
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_facebook": true,
+            "share_twitter": true,
+            "share_pinterest": true
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "badges",
+        "price",
+        "rating",
+        "inventory",
+        "variant_selector",
+        "description_short",
+        "buy_buttons",
+        "custom_pc_notice",
+        "share"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "enable_video_looping": false,
+        "enable_image_zoom": true,
+        "gallery_layout": "thumbnail_slider",
+        "gallery_position": "left",
+        "thumbnail_position": "below",
+        "mobile_gallery_layout": "full_width",
+        "mobile_thumbnail_position": "below",
+        "image_ratio": "adapt",
+        "padding_top": 40,
+        "padding_bottom": 0
+      }
+    },
+    "product-highlights": {
+      "type": "product-highlights",
+      "blocks": {
+        "highlight-0": {
+          "type": "highlight",
+          "settings": {
+            "icon": "cpu",
+            "title": "High-Performance CPU",
+            "text": "Latest generation processor for exceptional performance"
+          }
+        },
+        "highlight-1": {
+          "type": "highlight",
+          "settings": {
+            "icon": "gpu",
+            "title": "Powerful Graphics",
+            "text": "Top-tier GPU for stunning visuals and smooth gameplay"
+          }
+        },
+        "highlight-2": {
+          "type": "highlight",
+          "settings": {
+            "icon": "zap",
+            "title": "Lightning Fast",
+            "text": "Fast memory and storage for responsive computing"
+          }
+        },
+        "highlight-3": {
+          "type": "highlight",
+          "settings": {
+            "icon": "thermometer",
+            "title": "Advanced Cooling",
+            "text": "Premium cooling solution for optimal temperatures"
+          }
+        }
+      },
+      "block_order": [
+        "highlight-0",
+        "highlight-1",
+        "highlight-2",
+        "highlight-3"
+      ],
+      "settings": {
+        "title": "Key Features",
+        "layout": "grid",
+        "columns": 4,
+        "show_icons": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "product-tabs": {
+      "type": "product-tabs",
+      "blocks": {
+        "description": {
+          "type": "description",
+          "settings": {
+            "title": "Description"
+          }
+        },
+        "specifications": {
+          "type": "specifications",
+          "settings": {
+            "title": "Specifications"
+          }
+        },
+        "performance": {
+          "type": "custom",
+          "settings": {
+            "title": "Performance",
+            "content": ""
+          }
+        },
+        "warranty": {
+          "type": "warranty",
+          "settings": {
+            "title": "Warranty & Support"
+          }
+        },
+        "shipping": {
+          "type": "shipping",
+          "settings": {
+            "title": "Shipping Information"
+          }
+        }
+      },
+      "block_order": [
+        "description",
+        "specifications",
+        "performance",
+        "warranty",
+        "shipping"
+      ],
+      "settings": {
+        "tabs_style": "tabs",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "performance-benchmarks": {
+      "type": "performance-benchmarks",
+      "blocks": {
+        "benchmark-0": {
+          "type": "benchmark",
+          "settings": {
+            "game_name": "Cyberpunk 2077",
+            "resolution": "1440p Ultra",
+            "fps": "120+ FPS",
+            "show_bar": true
+          }
+        },
+        "benchmark-1": {
+          "type": "benchmark",
+          "settings": {
+            "game_name": "Fortnite",
+            "resolution": "1440p Epic",
+            "fps": "240+ FPS",
+            "show_bar": true
+          }
+        },
+        "benchmark-2": {
+          "type": "benchmark",
+          "settings": {
+            "game_name": "Call of Duty",
+            "resolution": "1440p High",
+            "fps": "160+ FPS",
+            "show_bar": true
+          }
+        },
+        "benchmark-3": {
+          "type": "benchmark",
+          "settings": {
+            "game_name": "Apex Legends",
+            "resolution": "1440p High",
+            "fps": "200+ FPS",
+            "show_bar": true
+          }
+        }
+      },
+      "block_order": [
+        "benchmark-0",
+        "benchmark-1",
+        "benchmark-2",
+        "benchmark-3"
+      ],
+      "settings": {
+        "title": "Gaming Performance",
+        "subtitle": "Real-world gaming benchmarks",
+        "description": "Performance may vary based on specific in-game settings and scenes. All benchmarks conducted on a representative system configuration.",
+        "layout": "bar_graph",
+        "max_fps": 300,
+        "show_resolution": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "product-gallery": {
+      "type": "product-gallery",
+      "blocks": {
+        "gallery-0": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "caption": "Front view with RGB lighting"
+          }
+        },
+        "gallery-1": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "caption": "Internals showcasing premium components"
+          }
+        },
+        "gallery-2": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "caption": "Rear I/O panel"
+          }
+        },
+        "gallery-3": {
+          "type": "image",
+          "settings": {
+            "image": "",
+            "caption": "Side panel view highlighting cable management"
+          }
+        }
+      },
+      "block_order": [
+        "gallery-0",
+        "gallery-1",
+        "gallery-2",
+        "gallery-3"
+      ],
+      "settings": {
+        "title": "Product Gallery",
+        "layout": "grid",
+        "columns": 2,
+        "enable_lightbox": true,
+        "show_captions": true,
+        "padding_top": 40,
+        "padding_bottom": 60
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "title": "You May Also Like",
+        "subtitle": "Similar systems you might be interested in",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "enable_quick_view": true,
+        "enable_quick_buy": true,
+        "show_rating": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "product-comparison": {
+      "type": "product-comparison",
+      "blocks": {
+        "model-0": {
+          "type": "model",
+          "settings": {
+            "model_name": "Base Model",
+            "model_price": "$1,499",
+            "model_cpu": "Ryzen 5 / Core i5",
+            "model_gpu": "RTX 3060",
+            "model_ram": "16GB DDR4",
+            "model_storage": "500GB NVMe SSD",
+            "model_url": ""
+          }
+        },
+        "model-1": {
+          "type": "model",
+          "settings": {
+            "model_name": "Current Model",
+            "model_price": "$1,999",
+            "model_cpu": "Ryzen 7 / Core i7",
+            "model_gpu": "RTX 3070",
+            "model_ram": "32GB DDR4",
+            "model_storage": "1TB NVMe SSD",
+            "model_url": "",
+            "highlight": true
+          }
+        },
+        "model-2": {
+          "type": "model",
+          "settings": {
+            "model_name": "Pro Model",
+            "model_price": "$2,499",
+            "model_cpu": "Ryzen 9 / Core i9",
+            "model_gpu": "RTX 3080",
+            "model_ram": "32GB DDR4",
+            "model_storage": "2TB NVMe SSD",
+            "model_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "model-0",
+        "model-1",
+        "model-2"
+      ],
+      "settings": {
+        "title": "Model Comparison",
+        "subtitle": "Compare available configurations",
+        "show_price": true,
+        "show_specs": true,
+        "highlight_current": true,
+        "padding_top": 60,
+        "padding_bottom": 80
+      }
+    },
+    "recently-viewed": {
+      "type": "recently-viewed-products",
+      "settings": {
+        "title": "Recently Viewed",
+        "subtitle": "Products you've viewed",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "enable_quick_view": true,
+        "enable_quick_buy": true,
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "product-navigation",
+    "main-product",
+    "product-highlights",
+    "product-tabs",
+    "performance-benchmarks",
+    "product-gallery",
+    "product-recommendations",
+    "product-comparison",
+    "recently-viewed"
+  ]
+}

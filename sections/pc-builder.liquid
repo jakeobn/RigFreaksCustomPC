@@ -1,0 +1,761 @@
+{% comment %}
+  PC Builder Section
+  
+  A dynamic PC builder tool for creating custom PC builds with
+  real-time component compatibility checking
+{% endcomment %}
+
+<div class="pc-builder" id="pc-builder-{{ section.id }}">
+  <div class="page-width">
+    <div class="pc-builder__header">
+      <h2 class="pc-builder__title">{{ section.settings.title | escape }}</h2>
+      
+      {% if section.settings.description != blank %}
+        <div class="pc-builder__description">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+      
+      <div class="pc-builder__actions">
+        {% if section.settings.show_prebuilt_button %}
+          <a href="{{ section.settings.prebuilt_url }}" class="button button--secondary pc-builder__action-btn">
+            {{ section.settings.prebuilt_button_text }}
+          </a>
+        {% endif %}
+        
+        <button type="button" class="button button--outline pc-builder__action-btn pc-builder__save-btn">
+          {{ 'pc_builder.save_build' | t }}
+        </button>
+        
+        <button type="button" class="button button--outline pc-builder__action-btn pc-builder__share-btn">
+          {{ 'pc_builder.share_build' | t }}
+        </button>
+        
+        <button type="button" class="button button--outline pc-builder__action-btn pc-builder__reset-btn">
+          {{ 'pc_builder.reset_build' | t }}
+        </button>
+      </div>
+    </div>
+    
+    <div class="pc-builder__container">
+      <div class="pc-builder__component-list">
+        <div class="pc-builder__component-categories">
+          {% for block in section.blocks %}
+            {% if block.type == "component_category" %}
+              <div class="pc-builder__component-category" {{ block.shopify_attributes }}>
+                <div class="pc-builder__component-header" data-component-type="{{ block.settings.component_type }}">
+                  <div class="pc-builder__component-icon">
+                    {% case block.settings.component_type %}
+                      {% when 'cpu' %}
+                        {% render 'icon-cpu' %}
+                      {% when 'cpu_cooler' %}
+                        {% render 'icon-cooling' %}
+                      {% when 'motherboard' %}
+                        {% render 'icon-motherboard' %}
+                      {% when 'memory' %}
+                        {% render 'icon-ram' %}
+                      {% when 'gpu' %}
+                        {% render 'icon-gpu' %}
+                      {% when 'storage' %}
+                        {% render 'icon-storage' %}
+                      {% when 'psu' %}
+                        {% render 'icon-psu' %}
+                      {% when 'case' %}
+                        {% render 'icon-case' %}
+                      {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                        </svg>
+                    {% endcase %}
+                  </div>
+                  
+                  <div class="pc-builder__component-info">
+                    <span class="pc-builder__component-type">{{ block.settings.title }}</span>
+                    <div class="pc-builder__component-selection">
+                      <span class="pc-builder__component-selection-text pc-builder__component-selection-placeholder" data-default-text="{{ 'pc_builder.select_component' | t: component: block.settings.title }}">
+                        {{ 'pc_builder.select_component' | t: component: block.settings.title }}
+                      </span>
+                      <span class="pc-builder__component-selection-text pc-builder__component-selection-value" style="display: none;"></span>
+                    </div>
+                  </div>
+                  
+                  <div class="pc-builder__component-price">
+                    <span class="pc-builder__component-price-value"></span>
+                  </div>
+                  
+                  <div class="pc-builder__component-actions">
+                    <button type="button" class="pc-builder__component-choose-btn" title="{{ 'pc_builder.choose_component' | t }}">
+                      {{ 'pc_builder.choose' | t }}
+                    </button>
+                    <button type="button" class="pc-builder__component-remove-btn" title="{{ 'pc_builder.remove_component' | t }}" style="display: none;">
+                      {{ 'pc_builder.remove' | t }}
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="pc-builder__component-selector" style="display: none;">
+                  <div class="pc-builder__component-selector-header">
+                    <h3 class="pc-builder__component-selector-title">{{ 'pc_builder.choose_component' | t: component: block.settings.title }}</h3>
+                    <button type="button" class="pc-builder__component-selector-close">
+                      <span class="visually-hidden">{{ 'general.accessibility.close_modal' | t }}</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  <div class="pc-builder__component-selector-filters">
+                    <div class="pc-builder__component-selector-search">
+                      <input type="text" class="pc-builder__component-selector-search-input" placeholder="{{ 'pc_builder.search_components' | t }}" aria-label="{{ 'pc_builder.search_components' | t }}">
+                    </div>
+                    
+                    <div class="pc-builder__component-selector-sort">
+                      <label for="sort-{{ block.settings.component_type }}" class="visually-hidden">{{ 'pc_builder.sort_by' | t }}</label>
+                      <select id="sort-{{ block.settings.component_type }}" class="pc-builder__component-selector-sort-select">
+                        <option value="price-asc">{{ 'pc_builder.sort_price_low_high' | t }}</option>
+                        <option value="price-desc">{{ 'pc_builder.sort_price_high_low' | t }}</option>
+                        <option value="name-asc">{{ 'pc_builder.sort_name_a_z' | t }}</option>
+                        <option value="name-desc">{{ 'pc_builder.sort_name_z_a' | t }}</option>
+                      </select>
+                    </div>
+                    
+                    {% if block.settings.filter_by_spec %}
+                      <div class="pc-builder__component-selector-filter">
+                        <label for="filter-{{ block.settings.component_type }}" class="visually-hidden">{{ 'pc_builder.filter_by' | t: spec: block.settings.filter_spec_name }}</label>
+                        <select id="filter-{{ block.settings.component_type }}" class="pc-builder__component-selector-filter-select">
+                          <option value="">{{ 'pc_builder.filter_all' | t: spec: block.settings.filter_spec_name }}</option>
+                          {% if block.settings.filter_spec_values != blank %}
+                            {% assign filter_values = block.settings.filter_spec_values | split: ',' %}
+                            {% for value in filter_values %}
+                              <option value="{{ value | strip }}">{{ value | strip }}</option>
+                            {% endfor %}
+                          {% endif %}
+                        </select>
+                      </div>
+                    {% endif %}
+                  </div>
+                  
+                  <div class="pc-builder__component-selector-list">
+                    {% assign component_collection = collections[block.settings.collection] %}
+                    {% if component_collection != blank and component_collection.products.size > 0 %}
+                      {% for product in component_collection.products %}
+                        {% assign compatible = true %}
+                        {% if block.settings.compatibility_metafield %}
+                          {% comment %}
+                            This is where we'd check compatibility using metafields
+                            For now, we mark all as compatible
+                          {% endcomment %}
+                        {% endif %}
+                        
+                        <div class="pc-builder__component-item{% unless compatible %} pc-builder__component-item--incompatible{% endunless %}" 
+                          data-component-id="{{ product.id }}"
+                          data-component-name="{{ product.title }}"
+                          data-component-price="{{ product.price | money_without_currency }}"
+                          data-component-image="{{ product.featured_image | image_url: width: 100 }}"
+                          data-component-url="{{ product.url }}"
+                        >
+                          <div class="pc-builder__component-item-image">
+                            {% if product.featured_image != blank %}
+                              <img 
+                                src="{{ product.featured_image | image_url: width: 100 }}"
+                                alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                                loading="lazy"
+                                width="50"
+                                height="50"
+                              >
+                            {% else %}
+                              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg', 'width="50" height="50"' }}
+                            {% endif %}
+                          </div>
+                          
+                          <div class="pc-builder__component-item-info">
+                            <h4 class="pc-builder__component-item-name">{{ product.title }}</h4>
+                            
+                            <div class="pc-builder__component-item-specs">
+                              {% for spec_block in block.blocks %}
+                                {% if spec_block.type == "component_spec" and product.metafields.specs[spec_block.settings.spec_key] %}
+                                  <span class="pc-builder__component-item-spec">
+                                    <span class="pc-builder__component-item-spec-label">{{ spec_block.settings.spec_label }}:</span>
+                                    <span class="pc-builder__component-item-spec-value">{{ product.metafields.specs[spec_block.settings.spec_key] }}</span>
+                                  </span>
+                                {% endif %}
+                              {% endfor %}
+                            </div>
+                          </div>
+                          
+                          <div class="pc-builder__component-item-price">
+                            <span class="pc-builder__component-item-price-value">{{ product.price | money }}</span>
+                          </div>
+                          
+                          <div class="pc-builder__component-item-actions">
+                            <button type="button" class="pc-builder__component-item-select-btn">
+                              {{ 'pc_builder.select' | t }}
+                            </button>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    {% else %}
+                      <div class="pc-builder__component-list-empty">
+                        <p>{{ 'pc_builder.no_components_found' | t }}</p>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      
+      <div class="pc-builder__summary">
+        <div class="pc-builder__summary-header">
+          <h3 class="pc-builder__summary-title">{{ 'pc_builder.build_summary' | t }}</h3>
+        </div>
+        
+        <div class="pc-builder__summary-body">
+          <div class="pc-builder__summary-compatibility">
+            <div class="pc-builder__summary-compatibility-status pc-builder__summary-compatibility-status--compatible">
+              <span class="pc-builder__summary-compatibility-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </span>
+              <span class="pc-builder__summary-compatibility-text">{{ 'pc_builder.components_compatible' | t }}</span>
+            </div>
+            <div class="pc-builder__summary-compatibility-status pc-builder__summary-compatibility-status--incompatible" style="display: none;">
+              <span class="pc-builder__summary-compatibility-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="15" y1="9" x2="9" y2="15"></line>
+                  <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+              </span>
+              <span class="pc-builder__summary-compatibility-text">{{ 'pc_builder.components_incompatible' | t }}</span>
+              <div class="pc-builder__summary-compatibility-issues"></div>
+            </div>
+          </div>
+          
+          <div class="pc-builder__summary-totals">
+            <div class="pc-builder__summary-component-count">
+              <span class="pc-builder__summary-component-count-label">{{ 'pc_builder.components_selected' | t }}:</span>
+              <span class="pc-builder__summary-component-count-value">0</span>
+            </div>
+            
+            <div class="pc-builder__summary-price">
+              <span class="pc-builder__summary-price-label">{{ 'pc_builder.total_price' | t }}:</span>
+              <span class="pc-builder__summary-price-value">{{ 0 | money }}</span>
+            </div>
+          </div>
+          
+          <div class="pc-builder__summary-actions">
+            <button type="button" class="button button--primary pc-builder__summary-add-to-cart-btn" disabled>
+              {{ 'pc_builder.add_to_cart' | t }}
+            </button>
+          </div>
+          
+          {% if section.settings.show_build_note %}
+            <div class="pc-builder__summary-note">
+              <p>{{ section.settings.build_note }}</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const pcBuilder = document.getElementById('pc-builder-{{ section.id }}');
+    if (!pcBuilder) return;
+
+    const componentHeaders = pcBuilder.querySelectorAll('.pc-builder__component-header');
+    const chooseButtons = pcBuilder.querySelectorAll('.pc-builder__component-choose-btn');
+    const removeButtons = pcBuilder.querySelectorAll('.pc-builder__component-remove-btn');
+    const closeSelectorButtons = pcBuilder.querySelectorAll('.pc-builder__component-selector-close');
+    const componentItems = pcBuilder.querySelectorAll('.pc-builder__component-item');
+    const resetButton = pcBuilder.querySelector('.pc-builder__reset-btn');
+    const addToCartButton = pcBuilder.querySelector('.pc-builder__summary-add-to-cart-btn');
+    
+    const buildState = {
+      components: {},
+      totalPrice: 0,
+      componentCount: 0
+    };
+    
+    // Initialize the component selectors
+    componentHeaders.forEach(header => {
+      const componentType = header.getAttribute('data-component-type');
+      buildState.components[componentType] = null;
+    });
+
+    // Open component selector
+    chooseButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const category = this.closest('.pc-builder__component-category');
+        const selector = category.querySelector('.pc-builder__component-selector');
+        
+        // Hide all other selectors
+        pcBuilder.querySelectorAll('.pc-builder__component-selector').forEach(el => {
+          if (el !== selector) {
+            el.style.display = 'none';
+          }
+        });
+        
+        // Toggle this selector
+        selector.style.display = selector.style.display === 'none' ? 'block' : 'none';
+      });
+    });
+    
+    // Close component selector
+    closeSelectorButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const selector = this.closest('.pc-builder__component-selector');
+        selector.style.display = 'none';
+      });
+    });
+    
+    // Select a component
+    componentItems.forEach(item => {
+      item.querySelector('.pc-builder__component-item-select-btn').addEventListener('click', function() {
+        const componentId = item.getAttribute('data-component-id');
+        const componentName = item.getAttribute('data-component-name');
+        const componentPrice = parseFloat(item.getAttribute('data-component-price'));
+        const componentImage = item.getAttribute('data-component-image');
+        const componentUrl = item.getAttribute('data-component-url');
+        
+        const category = item.closest('.pc-builder__component-category');
+        const componentType = category.querySelector('.pc-builder__component-header').getAttribute('data-component-type');
+        
+        // Update build state
+        buildState.components[componentType] = {
+          id: componentId,
+          name: componentName,
+          price: componentPrice,
+          image: componentImage,
+          url: componentUrl
+        };
+        
+        // Update UI
+        const selectionPlaceholder = category.querySelector('.pc-builder__component-selection-placeholder');
+        const selectionValue = category.querySelector('.pc-builder__component-selection-value');
+        const priceValue = category.querySelector('.pc-builder__component-price-value');
+        const chooseBtn = category.querySelector('.pc-builder__component-choose-btn');
+        const removeBtn = category.querySelector('.pc-builder__component-remove-btn');
+        
+        selectionPlaceholder.style.display = 'none';
+        selectionValue.textContent = componentName;
+        selectionValue.style.display = 'block';
+        priceValue.textContent = new Intl.NumberFormat('{{ shop.locale }}', { 
+          style: 'currency', 
+          currency: '{{ shop.currency }}' 
+        }).format(componentPrice);
+        
+        chooseBtn.textContent = '{{ 'pc_builder.change' | t }}';
+        removeBtn.style.display = 'inline-block';
+        
+        // Close the selector
+        category.querySelector('.pc-builder__component-selector').style.display = 'none';
+        
+        // Update summary
+        updateBuildSummary();
+      });
+    });
+    
+    // Remove a component
+    removeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const category = this.closest('.pc-builder__component-category');
+        const componentType = category.querySelector('.pc-builder__component-header').getAttribute('data-component-type');
+        
+        // Update build state
+        buildState.components[componentType] = null;
+        
+        // Update UI
+        const selectionPlaceholder = category.querySelector('.pc-builder__component-selection-placeholder');
+        const selectionValue = category.querySelector('.pc-builder__component-selection-value');
+        const priceValue = category.querySelector('.pc-builder__component-price-value');
+        const chooseBtn = category.querySelector('.pc-builder__component-choose-btn');
+        
+        selectionPlaceholder.style.display = 'block';
+        selectionValue.style.display = 'none';
+        priceValue.textContent = '';
+        
+        chooseBtn.textContent = '{{ 'pc_builder.choose' | t }}';
+        this.style.display = 'none';
+        
+        // Update summary
+        updateBuildSummary();
+      });
+    });
+    
+    // Reset the build
+    if (resetButton) {
+      resetButton.addEventListener('click', function() {
+        if (confirm('{{ 'pc_builder.confirm_reset' | t }}')) {
+          resetBuild();
+        }
+      });
+    }
+    
+    // Add to cart
+    if (addToCartButton) {
+      addToCartButton.addEventListener('click', function() {
+        addBuildToCart();
+      });
+    }
+    
+    function updateBuildSummary() {
+      let totalPrice = 0;
+      let componentCount = 0;
+      let isComplete = true;
+      
+      for (const type in buildState.components) {
+        const component = buildState.components[type];
+        if (component) {
+          totalPrice += component.price;
+          componentCount++;
+        } else {
+          isComplete = false;
+        }
+      }
+      
+      buildState.totalPrice = totalPrice;
+      buildState.componentCount = componentCount;
+      
+      // Update UI
+      const componentCountElement = pcBuilder.querySelector('.pc-builder__summary-component-count-value');
+      const totalPriceElement = pcBuilder.querySelector('.pc-builder__summary-price-value');
+      
+      componentCountElement.textContent = componentCount;
+      totalPriceElement.textContent = new Intl.NumberFormat('{{ shop.locale }}', { 
+        style: 'currency', 
+        currency: '{{ shop.currency }}' 
+      }).format(totalPrice);
+      
+      // Enable/disable add to cart button
+      addToCartButton.disabled = !isComplete;
+    }
+    
+    function resetBuild() {
+      // Reset build state
+      for (const type in buildState.components) {
+        buildState.components[type] = null;
+      }
+      
+      // Reset UI
+      pcBuilder.querySelectorAll('.pc-builder__component-selection-placeholder').forEach(el => {
+        el.style.display = 'block';
+      });
+      
+      pcBuilder.querySelectorAll('.pc-builder__component-selection-value').forEach(el => {
+        el.style.display = 'none';
+        el.textContent = '';
+      });
+      
+      pcBuilder.querySelectorAll('.pc-builder__component-price-value').forEach(el => {
+        el.textContent = '';
+      });
+      
+      pcBuilder.querySelectorAll('.pc-builder__component-choose-btn').forEach(el => {
+        el.textContent = '{{ 'pc_builder.choose' | t }}';
+      });
+      
+      pcBuilder.querySelectorAll('.pc-builder__component-remove-btn').forEach(el => {
+        el.style.display = 'none';
+      });
+      
+      // Close all selectors
+      pcBuilder.querySelectorAll('.pc-builder__component-selector').forEach(el => {
+        el.style.display = 'none';
+      });
+      
+      // Update summary
+      updateBuildSummary();
+    }
+    
+    function addBuildToCart() {
+      const items = [];
+      
+      for (const type in buildState.components) {
+        const component = buildState.components[type];
+        if (component) {
+          items.push({
+            id: component.id,
+            quantity: 1
+          });
+        }
+      }
+      
+      if (items.length === 0) return;
+      
+      // Disable button while processing
+      addToCartButton.disabled = true;
+      addToCartButton.innerText = '{{ 'pc_builder.adding_to_cart' | t }}';
+      
+      fetch('{{ routes.cart_add_url }}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          items: items
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status) {
+          // Error occurred
+          alert('{{ 'pc_builder.error_adding_to_cart' | t }}: ' + data.description);
+        } else {
+          // Success, redirect to cart
+          window.location.href = '{{ routes.cart_url }}';
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('{{ 'pc_builder.error_adding_to_cart' | t }}');
+      })
+      .finally(() => {
+        addToCartButton.disabled = false;
+        addToCartButton.innerText = '{{ 'pc_builder.add_to_cart' | t }}';
+      });
+    }
+    
+    // Initialize the summary
+    updateBuildSummary();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "PC Builder",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Build Your Custom PC"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Select components to build your custom PC. The PC Builder will check compatibility between components and calculate the total price.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_prebuilt_button",
+      "label": "Show prebuilt PCs button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "prebuilt_button_text",
+      "label": "Prebuilt button text",
+      "default": "Browse Prebuilt PCs"
+    },
+    {
+      "type": "url",
+      "id": "prebuilt_url",
+      "label": "Prebuilt PCs URL",
+      "default": "/collections/gaming-pcs"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_build_note",
+      "label": "Show build note",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "build_note",
+      "label": "Build note",
+      "default": "<p>All custom PCs are professionally assembled by our expert team. Assembly and testing typically takes 3-5 business days before shipping.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "component_category",
+      "name": "Component Category",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category title",
+          "default": "CPU"
+        },
+        {
+          "type": "select",
+          "id": "component_type",
+          "label": "Component type",
+          "options": [
+            { "value": "cpu", "label": "CPU" },
+            { "value": "cpu_cooler", "label": "CPU Cooler" },
+            { "value": "motherboard", "label": "Motherboard" },
+            { "value": "memory", "label": "Memory" },
+            { "value": "storage", "label": "Storage" },
+            { "value": "gpu", "label": "Graphics Card" },
+            { "value": "case", "label": "Case" },
+            { "value": "psu", "label": "Power Supply" }
+          ],
+          "default": "cpu"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Component collection"
+        },
+        {
+          "type": "checkbox",
+          "id": "filter_by_spec",
+          "label": "Enable spec filtering",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "filter_spec_name",
+          "label": "Filter spec name",
+          "default": "Brand",
+          "info": "Display name for the filter dropdown"
+        },
+        {
+          "type": "text",
+          "id": "filter_spec_values",
+          "label": "Filter values",
+          "default": "Intel, AMD, Nvidia",
+          "info": "Comma-separated list of filter values"
+        },
+        {
+          "type": "text",
+          "id": "compatibility_metafield",
+          "label": "Compatibility metafield",
+          "info": "Metafield to use for compatibility checking"
+        }
+      ]
+    },
+    {
+      "type": "component_spec",
+      "name": "Component Specification",
+      "settings": [
+        {
+          "type": "text",
+          "id": "spec_label",
+          "label": "Specification label",
+          "default": "Core Count"
+        },
+        {
+          "type": "text",
+          "id": "spec_key",
+          "label": "Specification metafield key",
+          "default": "core_count",
+          "info": "Metafield key under specs namespace"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PC Builder",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "component_category",
+          "settings": {
+            "title": "CPU",
+            "component_type": "cpu",
+            "filter_by_spec": true,
+            "filter_spec_name": "Brand",
+            "filter_spec_values": "Intel, AMD"
+          }
+        },
+        {
+          "type": "component_category",
+          "settings": {
+            "title": "CPU Cooler",
+            "component_type": "cpu_cooler"
+          }
+        },
+        {
+          "type": "component_category",
+          "settings": {
+            "title": "Motherboard",
+            "component_type": "motherboard"
+          }
+        },
+        {
+          "type": "component_category",
+          "settings": {
+            "title": "Memory",
+            "component_type": "memory"
+          }
+        },
+        {
+          "type": "component_category",
+          "settings": {
+            "title": "Storage",
+            "component_type": "storage"
+          }
+        },
+        {
+          "type": "component_category",
+          "settings": {
+            "title": "Graphics Card",
+            "component_type": "gpu",
+            "filter_by_spec": true,
+            "filter_spec_name": "Brand",
+            "filter_spec_values": "Nvidia, AMD"
+          }
+        },
+        {
+          "type": "component_category",
+          "settings": {
+            "title": "Case",
+            "component_type": "case"
+          }
+        },
+        {
+          "type": "component_category",
+          "settings": {
+            "title": "Power Supply",
+            "component_type": "psu"
+          }
+        },
+        {
+          "type": "component_spec",
+          "settings": {
+            "spec_label": "Core Count",
+            "spec_key": "core_count"
+          }
+        },
+        {
+          "type": "component_spec",
+          "settings": {
+            "spec_label": "Clock Speed",
+            "spec_key": "clock_speed"
+          }
+        },
+        {
+          "type": "component_spec",
+          "settings": {
+            "spec_label": "Socket",
+            "spec_key": "socket"
+          }
+        },
+        {
+          "type": "component_spec",
+          "settings": {
+            "spec_label": "Memory Type",
+            "spec_key": "memory_type"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

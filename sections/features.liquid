@@ -1,0 +1,255 @@
+<section class="features section-padding">
+  <div class="container">
+    <header class="section-header">
+      {% if section.settings.title != blank %}
+        <h2 class="section-title">{{ section.settings.title }}</h2>
+      {% endif %}
+      
+      {% if section.settings.subtitle != blank %}
+        <div class="section-subtitle">{{ section.settings.subtitle }}</div>
+      {% endif %}
+    </header>
+    
+    <div class="features-grid features-grid--{{ section.settings.columns_desktop }}">
+      {% for block in section.blocks %}
+        <div class="feature-card" {{ block.shopify_attributes }}>
+          <div class="feature-icon feature-icon--{{ block.settings.icon_style }}">
+            {% case block.settings.icon %}
+              {% when 'performance' %}
+                {% render 'icon-performance' %}
+              {% when 'quality' %}
+                {% render 'icon-quality' %}
+              {% when 'cooling' %}
+                {% render 'icon-cooling' %}
+              {% when 'warranty' %}
+                {% render 'icon-warranty' %}
+              {% when 'support' %}
+                {% render 'icon-support' %}
+              {% when 'shipping' %}
+                {% render 'icon-shipping' %}
+              {% when 'customize' %}
+                {% render 'icon-customize' %}
+              {% when 'rgb' %}
+                {% render 'icon-rgb' %}
+              {% when 'security' %}
+                {% render 'icon-security' %}
+              {% when 'update' %}
+                {% render 'icon-update' %}
+            {% endcase %}
+          </div>
+          
+          <div class="feature-content">
+            <h3 class="feature-title">{{ block.settings.title }}</h3>
+            {% if block.settings.text != blank %}
+              <div class="feature-text">{{ block.settings.text }}</div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    {% if section.settings.cta_text != blank and section.settings.cta_link != blank %}
+      <div class="section-footer">
+        <a href="{{ section.settings.cta_link }}" class="btn btn-primary">{{ section.settings.cta_text }}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Features",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Why Choose RigFreaks?"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<p>Experience the difference with our custom-built PCs</p>"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "Number of columns on desktop"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Shop All Products"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link",
+      "default": "/collections/all"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Premium Components"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Only the highest quality components from trusted brands</p>"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "performance",
+              "label": "Performance"
+            },
+            {
+              "value": "quality",
+              "label": "Quality"
+            },
+            {
+              "value": "cooling",
+              "label": "Cooling"
+            },
+            {
+              "value": "warranty",
+              "label": "Warranty"
+            },
+            {
+              "value": "support",
+              "label": "Support"
+            },
+            {
+              "value": "shipping",
+              "label": "Shipping"
+            },
+            {
+              "value": "customize",
+              "label": "Customize"
+            },
+            {
+              "value": "rgb",
+              "label": "RGB / Lighting"
+            },
+            {
+              "value": "security",
+              "label": "Security"
+            },
+            {
+              "value": "update",
+              "label": "Upgrades"
+            }
+          ],
+          "default": "quality"
+        },
+        {
+          "type": "select",
+          "id": "icon_style",
+          "label": "Icon Style",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "outline",
+              "label": "Outline"
+            },
+            {
+              "value": "filled",
+              "label": "Filled"
+            },
+            {
+              "value": "circle",
+              "label": "Circle"
+            },
+            {
+              "value": "neon",
+              "label": "Neon"
+            }
+          ],
+          "default": "neon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Features",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Premium Components",
+            "text": "<p>Only the highest quality components from trusted brands</p>",
+            "icon": "quality",
+            "icon_style": "neon"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Superior Performance",
+            "text": "<p>Expertly assembled for maximum speed and stability</p>",
+            "icon": "performance",
+            "icon_style": "neon"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Advanced Cooling",
+            "text": "<p>Optimal thermal design to keep your system running cool under heavy loads</p>",
+            "icon": "cooling",
+            "icon_style": "neon"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "3-Year Warranty",
+            "text": "<p>Comprehensive coverage with lifetime technical support</p>",
+            "icon": "warranty",
+            "icon_style": "neon"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Customizable Options",
+            "text": "<p>Tailor your system to your exact specifications</p>",
+            "icon": "customize",
+            "icon_style": "neon"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Expert Support",
+            "text": "<p>Professional assistance from our team of PC building experts</p>",
+            "icon": "support",
+            "icon_style": "neon"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

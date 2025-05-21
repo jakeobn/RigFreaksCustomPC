@@ -1,0 +1,93 @@
+{%- if template == 'index' -%}
+  <meta name="robots" content="index, follow">
+{%- else -%}
+  <meta name="robots" content="follow">
+{%- endif -%}
+
+{%- if settings.social_sharing_meta -%}
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:url" content="{{ canonical_url | escape }}">
+
+  {%- if page_image -%}
+    <meta property="og:image" content="{{ page_image | img_url: 'original' }}">
+    <meta property="og:image:secure_url" content="{{ page_image | img_url: 'original' }}">
+    <meta property="og:image:width" content="{{ page_image.width }}">
+    <meta property="og:image:height" content="{{ page_image.height }}">
+  {%- endif -%}
+
+  {%- if request.page_type == 'product' -%}
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="{{ product.title | strip_html | escape }}">
+    
+    {%- if product.description -%}
+      <meta property="og:description" content="{{ product.description | strip_html | escape }}">
+    {%- endif -%}
+    
+    {%- if product.featured_image -%}
+      <meta property="og:image" content="{{ product.featured_image | img_url: 'original' }}">
+      <meta property="og:image:secure_url" content="{{ product.featured_image | img_url: 'original' }}">
+      <meta property="og:image:width" content="{{ product.featured_image.width }}">
+      <meta property="og:image:height" content="{{ product.featured_image.height }}">
+    {%- endif -%}
+  
+  {%- elsif request.page_type == 'article' -%}
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ article.title | strip_html | escape }}">
+    
+    {%- if article.excerpt -%}
+      <meta property="og:description" content="{{ article.excerpt | strip_html | escape }}">
+    {%- endif -%}
+    
+    {%- if article.image -%}
+      <meta property="og:image" content="{{ article.image | img_url: 'original' }}">
+      <meta property="og:image:secure_url" content="{{ article.image | img_url: 'original' }}">
+      <meta property="og:image:width" content="{{ article.image.width }}">
+      <meta property="og:image:height" content="{{ article.image.height }}">
+    {%- endif -%}
+    
+  {%- elsif request.page_type == 'collection' -%}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ collection.title | strip_html | escape }}">
+    
+    {%- if collection.description -%}
+      <meta property="og:description" content="{{ collection.description | strip_html | escape }}">
+    {%- endif -%}
+    
+    {%- if collection.image -%}
+      <meta property="og:image" content="{{ collection.image | img_url: 'original' }}">
+      <meta property="og:image:secure_url" content="{{ collection.image | img_url: 'original' }}">
+      <meta property="og:image:width" content="{{ collection.image.width }}">
+      <meta property="og:image:height" content="{{ collection.image.height }}">
+    {%- endif -%}
+    
+  {%- elsif request.page_type == 'page' -%}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ page.title | strip_html | escape }}">
+    
+    {%- if page.content -%}
+      <meta property="og:description" content="{{ page.content | strip_html | truncate: 160 | escape }}">
+    {%- endif -%}
+    
+  {%- else -%}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ page_title | strip_html | escape }}">
+    
+    {%- if page_description -%}
+      <meta property="og:description" content="{{ page_description | escape }}">
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if settings.favicon != blank -%}
+  <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+{%- endif -%}
+
+{%- if template.name == 'customers/addresses' -%}
+  <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- unless settings.custom_meta_tags == blank -%}
+  {{ settings.custom_meta_tags }}
+{%- endunless -%}
+
+<link rel="preconnect" href="https://cdn.shopify.com" crossorigin>

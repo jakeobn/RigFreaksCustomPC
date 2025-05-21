@@ -1,0 +1,83 @@
+2025-05-17T18:32:13.373886643Z ==> Cloning from https://github.com/jakeobn/rigfreaks-ecommerce
+2025-05-17T18:32:17.353635566Z ==> Checking out commit b98206c6b5b3f2656de4bd7d267de7cb92839775 in branch main
+2025-05-17T18:32:18.9470439Z ==> Downloading cache...
+2025-05-17T18:32:33.221978272Z ==> Transferred 231MB in 8s. Extraction took 6s.
+2025-05-17T18:32:40.743238422Z ==> Using Node.js version 22.14.0 (default)
+2025-05-17T18:32:40.769876732Z ==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+2025-05-17T18:32:40.910386777Z ==> Using Bun version 1.1.0 (default)
+2025-05-17T18:32:40.910405498Z ==> Docs on specifying a bun version: https://render.com/docs/bun-version
+2025-05-17T18:32:40.957147701Z ==> Running build command 'npm install; npm run build'...
+2025-05-17T18:32:42.276929099Z 
+2025-05-17T18:32:42.27695287Z up to date, audited 606 packages in 1s
+2025-05-17T18:32:42.2769638Z 
+2025-05-17T18:32:42.27697838Z 88 packages are looking for funding
+2025-05-17T18:32:42.27698212Z   run `npm fund` for details
+2025-05-17T18:32:42.302940868Z 
+2025-05-17T18:32:42.302958028Z 7 moderate severity vulnerabilities
+2025-05-17T18:32:42.302960339Z 
+2025-05-17T18:32:42.302962979Z To address issues that do not require attention, run:
+2025-05-17T18:32:42.302965199Z   npm audit fix
+2025-05-17T18:32:42.302966909Z 
+2025-05-17T18:32:42.302969119Z To address all issues (including breaking changes), run:
+2025-05-17T18:32:42.302971429Z   npm audit fix --force
+2025-05-17T18:32:42.302973069Z 
+2025-05-17T18:32:42.302975399Z Run `npm audit` for details.
+2025-05-17T18:32:42.451191333Z 
+2025-05-17T18:32:42.451207073Z > rest-express@1.0.0 build
+2025-05-17T18:32:42.451210263Z > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+2025-05-17T18:32:42.451212903Z 
+2025-05-17T18:32:42.634635562Z vite v5.4.14 building for production...
+2025-05-17T18:32:42.681208862Z transforming...
+2025-05-17T18:32:43.180901066Z Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
+2025-05-17T18:32:43.180921517Z   npx update-browserslist-db@latest
+2025-05-17T18:32:43.180926077Z   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+2025-05-17T18:32:52.050220735Z ✓ 2807 modules transformed.
+2025-05-17T18:32:52.460463005Z rendering chunks...
+2025-05-17T18:32:52.97903119Z [plugin:vite:reporter] [plugin vite:reporter] 
+2025-05-17T18:32:52.979050311Z (!) /opt/render/project/src/client/src/lib/supabaseStorage.ts is dynamically imported by /opt/render/project/src/client/src/pages/ComponentAdmin.tsx, /opt/render/project/src/client/src/pages/ComponentAdmin.tsx but also statically imported by /opt/render/project/src/client/src/components/ui/supabase-image-upload.tsx, /opt/render/project/src/client/src/pages/SupabaseComponentAdmin.tsx, dynamic import will not move module into another chunk.
+2025-05-17T18:32:52.979055831Z 
+2025-05-17T18:32:52.980816503Z [plugin:vite:reporter] [plugin vite:reporter] 
+2025-05-17T18:32:52.980834113Z (!) /opt/render/project/src/client/src/lib/themeLoader.ts is dynamically imported by /opt/render/project/src/client/src/pages/ThemeCustomizer.tsx but also statically imported by /opt/render/project/src/client/src/App.tsx, dynamic import will not move module into another chunk.
+2025-05-17T18:32:52.980838793Z 
+2025-05-17T18:32:53.040599011Z computing gzip size...
+2025-05-17T18:32:53.077338474Z ../dist/public/index.html                                    0.63 kB │ gzip:   0.38 kB
+2025-05-17T18:32:53.077488416Z ../dist/public/assets/RigFreaks-JtUMISZa.png                30.79 kB
+2025-05-17T18:32:53.077540167Z ../dist/public/assets/Untitled design (1)-D80XsI8K.png  10,034.51 kB
+2025-05-17T18:32:53.07767218Z ../dist/public/assets/Untitled design (3)-OyMEw82Y.png  10,350.15 kB
+2025-05-17T18:32:53.077738861Z ../dist/public/assets/index-C88jstg8.css                   148.88 kB │ gzip:  22.99 kB
+2025-05-17T18:32:53.077770541Z ../dist/public/assets/browser-JPJoPghg.js                    0.30 kB │ gzip:   0.25 kB
+2025-05-17T18:32:53.077781152Z ../dist/public/assets/index-C4lFoEoG.js                  1,672.20 kB │ gzip: 452.31 kB
+2025-05-17T18:32:53.077856613Z 
+2025-05-17T18:32:53.077863663Z (!) Some chunks are larger than 500 kB after minification. Consider:
+2025-05-17T18:32:53.077866643Z - Using dynamic import() to code-split the application
+2025-05-17T18:32:53.077869653Z - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+2025-05-17T18:32:53.077875313Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+2025-05-17T18:32:53.078163608Z ✓ built in 10.42s
+2025-05-17T18:32:53.180034556Z 
+2025-05-17T18:32:53.180053667Z   dist/index.js  126.6kb
+2025-05-17T18:32:53.180056707Z 
+2025-05-17T18:32:53.180059157Z ⚡ Done in 10ms
+2025-05-17T18:32:53.748941559Z ==> Uploading build...
+2025-05-17T18:33:09.172449462Z ==> Uploaded in 10.3s. Compression took 5.1s
+2025-05-17T18:33:09.290682074Z ==> Build successful 🎉
+2025-05-17T18:33:14.917000297Z ==> Deploying...
+2025-05-17T18:33:43.948234922Z ==> Running 'npm run start'
+2025-05-17T18:33:44.350656175Z 
+2025-05-17T18:33:44.350680955Z > rest-express@1.0.0 start
+2025-05-17T18:33:44.350685926Z > NODE_ENV=production node dist/index.js
+2025-05-17T18:33:44.350688806Z 
+2025-05-17T18:33:47.645501226Z Shopify API Configuration:
+2025-05-17T18:33:47.645814104Z Shop Name: Not set
+2025-05-17T18:33:47.645820744Z Admin Access Token: Not set
+2025-05-17T18:33:47.645836234Z Base URL: https://undefined/admin/api/2024-01
+2025-05-17T18:33:47.657113498Z Checking and initializing Supabase schema...
+2025-05-17T18:33:47.65720142Z Checking and initializing Supabase schema...
+2025-05-17T18:33:48.223642922Z Products table might not exist: relation "public.products" does not exist
+2025-05-17T18:33:48.62176258Z Supabase schema initialization complete.
+2025-05-17T18:33:48.621859912Z Supabase schema initialized successfully
+2025-05-17T18:33:48.623218585Z Checking and initializing Supabase schema...
+2025-05-17T18:33:48.820479611Z Products table might not exist: relation "public.products" does not exist
+2025-05-17T18:33:49.147361251Z Supabase schema initialization complete.
+2025-05-17T18:33:49.147539465Z Supabase schema initialized successfully
+2025-05-17T18:33:49.226495931Z 6:33:49 PM [express] serving on port 5000
+2025-05-17T18:33:55.600057338Z ==> Your service is live 🎉

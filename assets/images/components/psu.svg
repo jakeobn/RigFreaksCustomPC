@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>PSU</title>
+    <g id="PSU" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="PSU-Box" stroke="#FF00FF" stroke-width="12" fill="#1E1E2E" x="64" y="128" width="384" height="192" rx="8"></rect>
+        <rect id="Exhaust-Grill" stroke="#00FFFF" stroke-width="6" fill="#1E1E2E" x="304" y="160" width="112" height="112" rx="4"></rect>
+        <circle id="Fan" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" cx="360" cy="216" r="48"></circle>
+        <line x1="312" y1="216" x2="408" y2="216" id="Fan-Line-1" stroke="#FF00FF" stroke-width="4"></line>
+        <line x1="360" y1="168" x2="360" y2="264" id="Fan-Line-2" stroke="#FF00FF" stroke-width="4"></line>
+        <line x1="324" y1="180" x2="396" y2="252" id="Fan-Line-3" stroke="#FF00FF" stroke-width="4"></line>
+        <line x1="324" y1="252" x2="396" y2="180" id="Fan-Line-4" stroke="#FF00FF" stroke-width="4"></line>
+        <text id="PSU" font-family="Arial-BoldMT, Arial" font-size="32" font-weight="bold" fill="#00FFFF">
+            <tspan x="144" y="216">PSU</tspan>
+        </text>
+        <text id="Wattage" font-family="Arial-BoldMT, Arial" font-size="18" font-weight="bold" fill="#FF00FF">
+            <tspan x="144" y="248">750W GOLD</tspan>
+        </text>
+        <rect id="Power-Socket" stroke="#00FFFF" stroke-width="6" fill="#1E1E2E" x="96" y="288" width="80" height="32" rx="4"></rect>
+        <line x1="112" y1="288" x2="112" y2="320" id="Power-Socket-Line-1" stroke="#FF00FF" stroke-width="2"></line>
+        <line x1="128" y1="288" x2="128" y2="320" id="Power-Socket-Line-2" stroke="#FF00FF" stroke-width="2"></line>
+        <line x1="144" y1="288" x2="144" y2="320" id="Power-Socket-Line-3" stroke="#FF00FF" stroke-width="2"></line>
+        <line x1="160" y1="288" x2="160" y2="320" id="Power-Socket-Line-4" stroke="#FF00FF" stroke-width="2"></line>
+        <rect id="Switch" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="192" y="296" width="32" height="16" rx="2"></rect>
+        <line x1="200" y1="304" x2="216" y2="304" id="Switch-Line" stroke="#00FFFF" stroke-width="4"></line>
+        <rect id="Voltage-Switch" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="240" y="296" width="48" height="16" rx="2"></rect>
+        <text id="115V" font-family="Arial-BoldMT, Arial" font-size="10" font-weight="bold" fill="#00FFFF">
+            <tspan x="247" y="308">115V</tspan>
+        </text>
+        <g id="Cables" transform="translate(96, 96)">
+            <line x1="0" y1="0" x2="32" y2="32" id="Cable-1" stroke="#FF00FF" stroke-width="4" stroke-linecap="round"></line>
+            <line x1="32" y1="0" x2="64" y2="32" id="Cable-2" stroke="#FF00FF" stroke-width="4" stroke-linecap="round"></line>
+            <line x1="64" y1="0" x2="96" y2="32" id="Cable-3" stroke="#FF00FF" stroke-width="4" stroke-linecap="round"></line>
+            <line x1="96" y1="0" x2="128" y2="32" id="Cable-4" stroke="#FF00FF" stroke-width="4" stroke-linecap="round"></line>
+            <line x1="128" y1="0" x2="160" y2="32" id="Cable-5" stroke="#FF00FF" stroke-width="4" stroke-linecap="round"></line>
+            <line x1="160" y1="0" x2="192" y2="32" id="Cable-6" stroke="#FF00FF" stroke-width="4" stroke-linecap="round"></line>
+        </g>
+    </g>
+</svg>

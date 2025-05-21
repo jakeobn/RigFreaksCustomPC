@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="800px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Power Supply</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M2,4 C2,2.8954305 2.8954305,2 4,2 L20,2 C21.1045695,2 22,2.8954305 22,4 L22,20 C22,21.1045695 21.1045695,22 20,22 L4,22 C2.8954305,22 2,21.1045695 2,20 L2,4 Z" fill="#FF00FF" />
+        <path d="M4,4 L20,4 L20,20 L4,20 L4,4 Z" fill="#000000" />
+        
+        <!-- Power connector -->
+        <path d="M6,6 L18,6 L18,10 L6,10 L6,6 Z" fill="#00FFFF" />
+        
+        <!-- Fan grill -->
+        <path d="M9,12 C9,10.3431458 10.3431458,9 12,9 C13.6568542,9 15,10.3431458 15,12 C15,13.6568542 13.6568542,15 12,15 C10.3431458,15 9,13.6568542 9,12 Z" fill="#00FFFF" />
+        
+        <!-- Cables -->
+        <path d="M6,16 L8,16 L8,18 L6,18 L6,16 Z" fill="#FF00FF" />
+        <path d="M10,16 L12,16 L12,18 L10,18 L10,16 Z" fill="#FF00FF" />
+        <path d="M14,16 L16,16 L16,18 L14,18 L14,16 Z" fill="#FF00FF" />
+    </g>
+</svg>

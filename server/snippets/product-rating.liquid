@@ -1,0 +1,48 @@
+{% comment %}
+  Dawn Theme - Product Rating Snippet
+  Displays a 5-star rating based on a numeric value (0-5)
+  
+  Parameters:
+  - rating: Numeric value between 0 and 5
+{% endcomment %}
+
+<div class="product-rating">
+  {% assign rating_decimal = rating | default: 0 %}
+  {% assign rating_floor = rating_decimal | floor %}
+  {% assign rating_half = rating_decimal | minus: rating_floor | round: 1 %}
+  
+  {% for i in (1..5) %}
+    {% if i <= rating_floor %}
+      <span class="product-rating__star product-rating__star--filled">{% render 'icon-star' %}</span>
+    {% elsif rating_half >= 0.5 and i == rating_floor | plus: 1 %}
+      <span class="product-rating__star product-rating__star--half">{% render 'icon-star-half' %}</span>
+    {% else %}
+      <span class="product-rating__star product-rating__star--empty">{% render 'icon-star-empty' %}</span>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<style>
+.product-rating {
+  display: flex;
+  align-items: center;
+}
+
+.product-rating__star {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+}
+
+.product-rating__star--filled {
+  color: var(--color-accent-1, #ff00ff);
+}
+
+.product-rating__star--half {
+  color: var(--color-accent-1, #ff00ff);
+}
+
+.product-rating__star--empty {
+  color: rgba(var(--color-foreground-rgb), 0.2);
+}
+</style>

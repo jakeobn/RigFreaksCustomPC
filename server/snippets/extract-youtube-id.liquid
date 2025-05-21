@@ -1,0 +1,27 @@
+{% comment %}
+  Extracts YouTube video ID from a YouTube URL.
+  
+  Usage:
+  {% assign video_id = "https://www.youtube.com/watch?v=VIDEO_ID" | extract_youtube_id %}
+  
+  Supported URL formats:
+  - https://www.youtube.com/watch?v=VIDEO_ID
+  - https://youtu.be/VIDEO_ID
+  - https://www.youtube.com/embed/VIDEO_ID
+{% endcomment %}
+
+{% if value contains "youtube.com/watch" %}
+  {%- assign _id_src = value | split: "v=" -%}
+  {%- assign _id_pair = _id_src[1] | split: "&" -%}
+  {{ _id_pair[0] }}
+{% elsif value contains "youtu.be/" %}
+  {%- assign _id_src = value | split: "youtu.be/" -%}
+  {%- assign _id_pair = _id_src[1] | split: "?" -%}
+  {{ _id_pair[0] }}
+{% elsif value contains "youtube.com/embed/" %}
+  {%- assign _id_src = value | split: "youtube.com/embed/" -%}
+  {%- assign _id_pair = _id_src[1] | split: "?" -%}
+  {{ _id_pair[0] }}
+{% else %}
+  {{ value }}
+{% endif %}

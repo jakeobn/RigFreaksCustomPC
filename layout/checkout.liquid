@@ -1,0 +1,73 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_primary }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <title>{{ page_title }}</title>
+
+    {{ content_for_header }}
+
+    {{ checkout_stylesheets }}
+    
+    {% style %}
+      :root {
+        --color-primary: {{ settings.color_primary }};
+        --color-secondary: {{ settings.color_secondary }};
+        --color-accent: {{ settings.color_accent }};
+        --color-background: {{ settings.color_background }};
+        --color-text: {{ settings.color_text }};
+        --color-border: {{ settings.color_border }};
+        --color-button: {{ settings.color_button }};
+        --color-button-text: {{ settings.color_button_text }};
+        --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+        --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+      }
+      
+      /* Customize checkout styles */
+      .step__footer button,
+      .step__footer .step__footer__continue-btn {
+        background-color: var(--color-button) !important;
+        color: var(--color-button-text) !important;
+      }
+      
+      .step__footer button:hover,
+      .step__footer .step__footer__continue-btn:hover {
+        background-color: {{ settings.color_button | color_darken: 10 }} !important;
+      }
+      
+      .main__header {
+        border-color: var(--color-border) !important;
+      }
+      
+      .main h2 {
+        color: var(--color-primary) !important;
+        font-family: var(--font-heading) !important;
+      }
+      
+      .order-summary__section--product-list {
+        border-color: var(--color-border) !important;
+      }
+      
+      .product__description {
+        color: var(--color-text) !important;
+      }
+      
+      .total-line-table__footer {
+        border-color: var(--color-border) !important;
+      }
+    {% endstyle %}
+  </head>
+  <body>
+    {{ content_for_layout }}
+    
+    {{ checkout_scripts }}
+  </body>
+</html>

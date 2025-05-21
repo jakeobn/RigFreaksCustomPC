@@ -1,0 +1,683 @@
+{%- style -%}
+  .policy-container {
+    padding: {{ section.settings.padding_top | append: 'px' }} 0 {{ section.settings.padding_bottom | append: 'px' }};
+    max-width: {{ section.settings.content_width }}px;
+    margin: 0 auto;
+  }
+
+  @media screen and (min-width: 990px) {
+    .policy-layout {
+      display: flex;
+      gap: 40px;
+    }
+
+    .policy-sidebar {
+      width: {{ section.settings.sidebar_width }}px;
+      flex-shrink: 0;
+    }
+
+    .policy-content {
+      flex: 1;
+    }
+  }
+
+  .policy-sidebar-container {
+    position: sticky;
+    top: 20px;
+    border: 1px solid {{ section.settings.sidebar_border_color }};
+    border-radius: {{ section.settings.sidebar_border_radius }}px;
+    overflow: hidden;
+  }
+
+  .policy-sidebar-title {
+    padding: 15px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: {{ section.settings.sidebar_header_bg }};
+    color: {{ section.settings.sidebar_header_text }};
+    border-bottom: 1px solid {{ section.settings.sidebar_border_color }};
+  }
+
+  .policy-sidebar-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .policy-sidebar-item {
+    border-bottom: 1px solid {{ section.settings.sidebar_border_color }};
+  }
+
+  .policy-sidebar-item:last-child {
+    border-bottom: none;
+  }
+
+  .policy-sidebar-link {
+    display: block;
+    padding: 12px 15px;
+    color: {{ section.settings.sidebar_link_color }};
+    text-decoration: none;
+    font-size: {{ section.settings.sidebar_font_size }}px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .policy-sidebar-link:hover, 
+  .policy-sidebar-link:focus,
+  .policy-sidebar-link.active {
+    background-color: {{ section.settings.sidebar_active_bg }};
+    color: {{ section.settings.sidebar_active_text }};
+  }
+
+  .policy-section {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid {{ section.settings.content_border_color }};
+  }
+
+  .policy-section:last-child {
+    border-bottom: none;
+  }
+
+  .policy-heading {
+    font-size: {{ section.settings.section_heading_size }}px;
+    color: {{ section.settings.heading_color }};
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .policy-subheading {
+    font-size: {{ section.settings.subsection_heading_size }}px;
+    color: {{ section.settings.subheading_color }};
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+
+  .policy-text {
+    color: {{ section.settings.text_color }};
+    font-size: {{ section.settings.body_font_size }}px;
+    line-height: 1.6;
+  }
+
+  .policy-list {
+    padding-left: 20px;
+  }
+
+  .policy-list-item {
+    margin-bottom: 10px;
+  }
+
+  .policy-card {
+    background-color: {{ section.settings.card_background }};
+    border-radius: {{ section.settings.card_border_radius }}px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .policy-card-header {
+    background-color: {{ section.settings.card_header_bg }};
+    color: {{ section.settings.card_header_text }};
+    padding: 15px;
+    border-top-left-radius: {{ section.settings.card_border_radius }}px;
+    border-top-right-radius: {{ section.settings.card_border_radius }}px;
+    margin: -20px -20px 15px -20px;
+    font-weight: 600;
+  }
+
+  .policy-highlight {
+    background-color: {{ section.settings.highlight_background }};
+    border-radius: {{ section.settings.card_border_radius }}px;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  .effective-date {
+    font-size: 14px;
+    color: {{ section.settings.subdued_text_color }};
+    margin-bottom: 20px;
+  }
+
+  .policy-back-button {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: {{ section.settings.button_background }};
+    color: {{ section.settings.button_text_color }};
+    border-radius: {{ section.settings.button_border_radius }}px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+
+  .policy-back-button:hover {
+    background-color: {{ section.settings.button_background | color_darken: 10 }};
+  }
+
+  @media screen and (max-width: 989px) {
+    .policy-sidebar {
+      margin-bottom: 30px;
+    }
+    
+    .policy-sidebar-container {
+      position: relative;
+      top: 0;
+    }
+  }
+{%- endstyle -%}
+
+<div class="policy-container">
+  {% if section.settings.show_effective_date %}
+    <div class="effective-date">
+      {{ section.settings.effective_date_text }}: {{ section.settings.effective_date }}
+    </div>
+  {% endif %}
+
+  <div class="policy-layout">
+    {% if section.blocks.size > 0 %}
+      <div class="policy-sidebar">
+        <div class="policy-sidebar-container">
+          {% if section.settings.show_sidebar_title %}
+            <h3 class="policy-sidebar-title">{{ section.settings.sidebar_title }}</h3>
+          {% endif %}
+          <ul class="policy-sidebar-list" id="policy-sidebar-list">
+            {% for block in section.blocks %}
+              {% if block.type == 'section' %}
+                <li class="policy-sidebar-item">
+                  <a href="#{{ block.settings.id }}" class="policy-sidebar-link">{{ block.settings.title }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="policy-content">
+      <div class="rte policy-text">
+        {% if section.settings.introduction != blank %}
+          <p>{{ section.settings.introduction }}</p>
+        {% endif %}
+
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'section' %}
+              <div id="{{ block.settings.id }}" class="policy-section">
+                <h2 class="policy-heading">{{ block.settings.title }}</h2>
+                <div class="policy-text">{{ block.settings.content }}</div>
+              </div>
+            {% when 'subsection' %}
+              <h3 class="policy-subheading">{{ block.settings.title }}</h3>
+              <div class="policy-text">{{ block.settings.content }}</div>
+            {% when 'card' %}
+              <div class="policy-card">
+                {% if block.settings.card_title != blank %}
+                  <div class="policy-card-header">{{ block.settings.card_title }}</div>
+                {% endif %}
+                <div class="policy-text">{{ block.settings.content }}</div>
+              </div>
+            {% when 'highlight' %}
+              <div class="policy-highlight">
+                <div class="policy-text">{{ block.settings.content }}</div>
+              </div>
+          {% endcase %}
+        {% endfor %}
+
+        {% if section.settings.show_back_button %}
+          <a href="{{ section.settings.back_button_link }}" class="policy-back-button">{{ section.settings.back_button_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Smooth scrolling for sidebar links
+    const sidebarLinks = document.querySelectorAll('.policy-sidebar-link');
+    
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+          // Scroll to the section
+          window.scrollTo({
+            top: targetElement.offsetTop - 80, // Offset for header
+            behavior: 'smooth'
+          });
+          
+          // Update active state
+          sidebarLinks.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        }
+      });
+    });
+    
+    // Highlight active section on scroll
+    const sections = document.querySelectorAll('.policy-section');
+    
+    function highlightActiveSection() {
+      let currentSectionId = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const scrollPosition = window.scrollY;
+        
+        if (scrollPosition >= sectionTop - 100 && scrollPosition < sectionTop + sectionHeight - 100) {
+          currentSectionId = section.id;
+        }
+      });
+      
+      if (currentSectionId) {
+        sidebarLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + currentSectionId) {
+            link.classList.add('active');
+          }
+        });
+      }
+    }
+    
+    window.addEventListener('scroll', highlightActiveSection);
+    
+    // Initialize active section
+    highlightActiveSection();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Policy Content",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Content width",
+      "min": 800,
+      "max": 1600,
+      "step": 50,
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "checkbox",
+      "id": "show_effective_date",
+      "label": "Show effective date",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "effective_date_text",
+      "label": "Effective date text",
+      "default": "Effective Date"
+    },
+    {
+      "type": "text",
+      "id": "effective_date",
+      "label": "Effective date",
+      "default": "May 7, 2025"
+    },
+    {
+      "type": "richtext",
+      "id": "introduction",
+      "label": "Introduction text",
+      "default": "<p>Welcome to RigFreaks! This document outlines our policies.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar Settings"
+    },
+    {
+      "type": "range",
+      "id": "sidebar_width",
+      "label": "Sidebar width",
+      "min": 200,
+      "max": 400,
+      "step": 10,
+      "default": 250
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sidebar_title",
+      "label": "Show sidebar title",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sidebar_title",
+      "label": "Sidebar title",
+      "default": "Table of Contents"
+    },
+    {
+      "type": "range",
+      "id": "sidebar_font_size",
+      "label": "Sidebar font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "sidebar_border_radius",
+      "label": "Sidebar border radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "sidebar_border_color",
+      "label": "Sidebar border color",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "sidebar_header_bg",
+      "label": "Sidebar header background",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "sidebar_header_text",
+      "label": "Sidebar header text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "sidebar_link_color",
+      "label": "Sidebar link color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "sidebar_active_bg",
+      "label": "Active sidebar item background",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "sidebar_active_text",
+      "label": "Active sidebar item text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Content Styling"
+    },
+    {
+      "type": "range",
+      "id": "section_heading_size",
+      "label": "Section heading size",
+      "min": 18,
+      "max": 36,
+      "step": 1,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "subsection_heading_size",
+      "label": "Subsection heading size",
+      "min": 16,
+      "max": 30,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "body_font_size",
+      "label": "Body text size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "subdued_text_color",
+      "label": "Subdued text color",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "content_border_color",
+      "label": "Section border color",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background color",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "card_header_bg",
+      "label": "Card header background",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "card_header_text",
+      "label": "Card header text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "highlight_background",
+      "label": "Highlight background",
+      "default": "rgba(255, 0, 119, 0.1)"
+    },
+    {
+      "type": "header",
+      "content": "Back Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_back_button",
+      "label": "Show back button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "back_button_text",
+      "label": "Back button text",
+      "default": "← Back to Home"
+    },
+    {
+      "type": "url",
+      "id": "back_button_link",
+      "label": "Back button link",
+      "default": "/"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    }
+  ],
+  "blocks": [
+    {
+      "type": "section",
+      "name": "Policy Section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "id",
+          "label": "Section ID",
+          "info": "Used for sidebar navigation. Create a unique ID without spaces (e.g., information-we-collect)",
+          "default": "section-1"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Section title",
+          "default": "Section Title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Section content",
+          "default": "<p>Enter your policy content here. This can include paragraphs, lists, and other HTML content.</p>"
+        }
+      ]
+    },
+    {
+      "type": "subsection",
+      "name": "Subsection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Subsection title",
+          "default": "Subsection Title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Subsection content",
+          "default": "<p>Enter your subsection content here.</p>"
+        }
+      ]
+    },
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Card header (optional)",
+          "default": "Card Title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Card content",
+          "default": "<p>Content displayed in a card-style box.</p>"
+        }
+      ]
+    },
+    {
+      "type": "highlight",
+      "name": "Highlight",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Highlight content",
+          "default": "<p>Important information to highlight.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Policy Content",
+      "blocks": [
+        {
+          "type": "section",
+          "settings": {
+            "id": "section-1",
+            "title": "Section 1",
+            "content": "<p>This is the first section of your policy.</p>"
+          }
+        },
+        {
+          "type": "section",
+          "settings": {
+            "id": "section-2",
+            "title": "Section 2",
+            "content": "<p>This is the second section of your policy.</p>"
+          }
+        },
+        {
+          "type": "subsection",
+          "settings": {
+            "title": "Subsection Example",
+            "content": "<p>A sample subsection with additional details.</p>"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "card_title": "Important Information",
+            "content": "<p>Information presented in a card format.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

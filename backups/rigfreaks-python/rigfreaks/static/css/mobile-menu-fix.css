@@ -1,0 +1,58 @@
+/* Mobile menu fix to ensure menu appears above all content */
+#navbarNav {
+    position: fixed !important;
+    width: 100%;
+    top: 100px; /* Position below header */
+    left: 0;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    z-index: 9999 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    background-color: #fff;
+}
+
+/* Ensure menu has proper padding */
+#navbarNav .navbar-nav {
+    padding: 1rem !important;
+    background-color: #fff;
+}
+
+/* Mobile menu fixes */
+@media (max-width: 991.98px) {
+    /* Bottom padding removed since we removed the bottom bar */
+    
+    .site-footer {
+        position: relative;
+        z-index: 1 !important; /* Lower z-index than menu */
+    }
+    
+    .navbar-toggler {
+        z-index: 9999;
+        padding: 8px 10px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+    
+    .navbar-toggler:hover {
+        opacity: 0.9;
+    }
+    
+    header {
+        position: relative;
+        z-index: 9998;
+    }
+}
+
+/* Make sure dropdown menus in mobile navigation stay above other elements */
+@media (max-width: 991.98px) {
+    .dropdown-menu {
+        z-index: 10000 !important;
+        position: relative;
+    }
+}
+
+/* Fix for body content */
+.main-content {
+    position: relative;
+    z-index: 1;
+}

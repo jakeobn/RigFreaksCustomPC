@@ -1,0 +1,71 @@
+<div class="product-breadcrumbs">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="/" class="breadcrumbs__link">Home</a>
+      <span class="breadcrumbs__separator">
+        {% render 'icon-chevron-right', class: 'breadcrumbs__icon' %}
+      </span>
+      
+      {% if collection.url %}
+        <a href="{{ collection.url }}" class="breadcrumbs__link">{{ collection.title }}</a>
+        <span class="breadcrumbs__separator">
+          {% render 'icon-chevron-right', class: 'breadcrumbs__icon' %}
+        </span>
+      {% else %}
+        <a href="/collections/all" class="breadcrumbs__link">All Products</a>
+        <span class="breadcrumbs__separator">
+          {% render 'icon-chevron-right', class: 'breadcrumbs__icon' %}
+        </span>
+      {% endif %}
+      
+      <span class="breadcrumbs__current">{{ product.title }}</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.product-breadcrumbs {
+  padding: 1rem 0;
+  background-color: {{ settings.color_background }};
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 0.875rem;
+}
+
+.breadcrumbs__link {
+  color: {{ settings.color_text_secondary }};
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbs__link:hover {
+  color: {{ settings.color_primary }};
+}
+
+.breadcrumbs__separator {
+  margin: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  color: {{ settings.color_text_secondary }};
+}
+
+.breadcrumbs__icon {
+  width: 14px;
+  height: 14px;
+}
+
+.breadcrumbs__current {
+  color: {{ settings.color_text }};
+  font-weight: 500;
+}
+
+@media screen and (max-width: 767px) {
+  .product-breadcrumbs {
+    display: none;
+  }
+}
+</style>

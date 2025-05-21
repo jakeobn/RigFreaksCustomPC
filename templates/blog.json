@@ -1,0 +1,87 @@
+{
+  "name": "Blog",
+  "sections": {
+    "blog-header": {
+      "type": "blog-header",
+      "settings": {
+        "title": "Blog",
+        "subtitle": "Tech news, build guides, and gaming insights",
+        "show_image": true,
+        "image": "",
+        "image_height": "medium",
+        "text_alignment": "center",
+        "overlay_opacity": 30,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "main-blog": {
+      "type": "main-blog",
+      "settings": {
+        "layout": "grid",
+        "blog_posts_per_page": 9,
+        "posts_per_row": 3,
+        "show_image": true,
+        "image_height": "medium",
+        "show_date": true,
+        "show_author": true,
+        "show_excerpt": true,
+        "excerpt_truncate": 30,
+        "show_read_more": true,
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    },
+    "blog-sidebar": {
+      "type": "blog-sidebar",
+      "blocks": {
+        "categories": {
+          "type": "categories",
+          "settings": {
+            "title": "Categories",
+            "show_post_count": true
+          }
+        },
+        "recent-posts": {
+          "type": "recent_posts",
+          "settings": {
+            "title": "Recent Posts",
+            "post_limit": 5,
+            "show_date": true,
+            "show_image": true
+          }
+        },
+        "tags": {
+          "type": "tags",
+          "settings": {
+            "title": "Tags",
+            "show_post_count": true
+          }
+        },
+        "newsletter": {
+          "type": "newsletter",
+          "settings": {
+            "title": "Subscribe",
+            "subtext": "Stay updated with our latest news and articles"
+          }
+        }
+      },
+      "block_order": [
+        "categories",
+        "recent-posts",
+        "tags",
+        "newsletter"
+      ],
+      "settings": {
+        "enable_sticky_sidebar": true,
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "blog-header",
+    "main-blog",
+    "blog-sidebar"
+  ]
+}

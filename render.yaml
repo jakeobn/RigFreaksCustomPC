@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: rigfreaks-pc-builder
+    env: node
+    repo: https://github.com/jakeobn/rigfreaks-ecommerce.git
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
+      - key: PGDATABASE
+        sync: false
+      - key: PGHOST
+        sync: false
+      - key: PGPASSWORD
+        sync: false
+      - key: PGPORT
+        sync: false
+      - key: PGUSER
+        sync: false
+    autoDeploy: true
+    domains:
+      - rigfreaks.shop
+    sshEnabled: true

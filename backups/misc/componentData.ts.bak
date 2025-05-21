@@ -1,0 +1,2385 @@
+// Component data with real product images from manufacturers and GitHub repository
+import React from 'react';
+import { 
+  Cpu, 
+  HardDrive, 
+  Fan, 
+  Box, 
+  Zap, 
+  Server, 
+  MemoryStick, 
+  Monitor
+} from 'lucide-react';
+
+// Define build step interface
+export interface BuildStep {
+  id: string;
+  name: string;
+  icon: React.ReactNode;
+  description: string;
+  isRequired: boolean;
+}
+
+// Define PC build steps
+export const BUILD_STEPS: BuildStep[] = [
+  {
+    id: 'case',
+    name: 'Case',
+    icon: React.createElement(Box),
+    description: 'Select a case that fits your style and has enough room for all your components.',
+    isRequired: true
+  },
+  {
+    id: 'cpu',
+    name: 'CPU',
+    icon: React.createElement(Cpu),
+    description: 'The brain of your computer that handles all the processing tasks.',
+    isRequired: true
+  },
+  {
+    id: 'motherboard',
+    name: 'Motherboard',
+    icon: React.createElement(Server),
+    description: 'The main circuit board that connects all components together.',
+    isRequired: true
+  },
+  {
+    id: 'cooling',
+    name: 'CPU Cooling',
+    icon: React.createElement(Fan),
+    description: 'Keeps your CPU cool under heavy workloads.',
+    isRequired: true
+  },
+  {
+    id: 'memory',
+    name: 'Memory (RAM)',
+    icon: React.createElement(MemoryStick),
+    description: 'Temporary storage for data that your CPU needs to access quickly.',
+    isRequired: true
+  },
+  {
+    id: 'gpu',
+    name: 'Graphics Card',
+    icon: React.createElement(Monitor),
+    description: 'Dedicated hardware for rendering graphics and video processing.',
+    isRequired: true
+  },
+  {
+    id: 'power',
+    name: 'Power Supply',
+    icon: React.createElement(Zap),
+    description: 'Provides the electricity needed to run all your components.',
+    isRequired: true
+  },
+  {
+    id: 'storage',
+    name: 'Storage',
+    icon: React.createElement(HardDrive),
+    description: 'Long-term storage for your operating system, applications, and files.',
+    isRequired: true
+  },
+  {
+    id: 'review',
+    name: 'Review',
+    icon: null,
+    description: 'Review your build configuration.',
+    isRequired: false
+  }
+];
+
+// Define component data interface
+export type InventoryStatus = 'in-stock' | 'out-of-stock' | 'pre-order';
+
+// Extend Window interface to add our custom properties
+declare global {
+  interface Window {
+    __rigfreaksComponents?: any;
+    __rigfreaksComponentsTimestamp?: number;
+    __rigfreaksHasLoaded?: boolean;
+  }
+}
+
+export interface PCComponentData {
+  id: string;
+  name: string;
+  brand: string;
+  price: number;
+  description: string;
+  image?: string;
+  imagesGallery?: string[];
+  category: string;
+  inStock: boolean;
+  stockQuantity?: number;
+  inventoryStatus?: InventoryStatus;
+  specs: Record<string, string | number | boolean>;
+  specsHtml?: string; // HTML formatted specifications
+  compatibility?: string[];
+}
+
+// Define static component data
+export const allComponents: Record<string, PCComponentData[]> = {
+  gpu: [], // All GPUs removed as requested
+  cpu: [
+    {
+      id: 'cpu-amd-9950x3d',
+      name: 'AMD Ryzen 9 9950X3D',
+      brand: 'AMD',
+      price: 907.50,
+      description: 'AMD Ryzen 9 9950X3D processor with 16 cores, 32 threads, massive 128MB of 3D V-Cache, and integrated Radeon graphics for ultimate gaming and professional workloads on the Zen 5 architecture.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-9-9950x3d.jpg',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 16,
+        threads: 32,
+        baseClock: '4.3 GHz',
+        boostClock: '5.7 GHz',
+        socket: 'AM5',
+        architecture: 'Zen 5',
+        tdp: '230W',
+        l3Cache: '128MB',
+        integratedGraphics: 'Radeon'
+      },
+      compatibility: ['am5']
+    },
+    {
+      id: 'cpu-amd-9900x3d',
+      name: 'AMD Ryzen 9 9900X3D',
+      brand: 'AMD',
+      price: 744.54,
+      description: 'AMD Ryzen 9 9900X3D processor with 12 cores, 24 threads, massive 128MB of 3D V-Cache, and integrated Radeon graphics for ultimate gaming and professional workloads on the Zen 5 architecture.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-9-9900x3d.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 12,
+        threads: 24,
+        baseClock: '4.4 GHz',
+        boostClock: '5.5 GHz',
+        socket: 'AM5',
+        architecture: 'Zen 5',
+        tdp: '230W',
+        l3Cache: '128MB',
+        integratedGraphics: 'Radeon'
+      },
+      compatibility: ['am5']
+    },
+    {
+      id: 'cpu-intel-ultra-9-285k',
+      name: 'Intel Core Ultra 9 285K',
+      brand: 'Intel',
+      price: 681.63,
+      description: 'Intel Core Ultra 9 285K processor with 24 cores (8P+16E), 24 threads, unlocked multiplier, and integrated Intel Graphics for extreme performance in gaming, content creation, and professional workloads on the Arrow Lake architecture.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-ultra-9-285k.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 24,
+        performanceCores: 8,
+        efficiencyCores: 16,
+        threads: 24,
+        baseClock: '3.7 GHz',
+        boostClock: '5.7 GHz',
+        socket: 'LGA1851',
+        architecture: 'Arrow Lake',
+        tdp: '125W-250W',
+        l2Cache: '40MB',
+        l3Cache: '36MB',
+        integratedGraphics: 'Intel Graphics'
+      },
+      compatibility: ['lga1851']
+    },
+    {
+      id: 'cpu-amd-9950x',
+      name: 'AMD Ryzen 9 9950X',
+      brand: 'AMD',
+      price: 660.14,
+      description: 'AMD Ryzen 9 9950X processor with 16 cores, 32 threads, and integrated Radeon graphics for extreme performance in gaming, content creation, and professional workloads on the Zen 5 architecture.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-9-9950x.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 16,
+        threads: 32,
+        baseClock: '4.3 GHz',
+        boostClock: '5.7 GHz',
+        socket: 'AM5',
+        architecture: 'Zen 5',
+        tdp: '170W',
+        l2Cache: '16MB',
+        l3Cache: '64MB',
+        integratedGraphics: 'Radeon'
+      },
+      compatibility: ['am5']
+    },
+    {
+      id: 'cpu-intel-i9-14900f',
+      name: 'Intel Core i9-14900F',
+      brand: 'Intel',
+      price: 620.15,
+      description: 'Intel Core i9 14900F processor with 24 cores (8P+16E), 32 threads, locked multiplier, no integrated graphics, and includes stock cooler for ultra-high performance desktop computing with reduced power consumption.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i9-14900f.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 24,
+        performanceCores: 8,
+        efficiencyCores: 16,
+        threads: 32,
+        baseClock: '2.0 GHz',
+        boostClock: '5.8 GHz',
+        socket: 'LGA1700',
+        architecture: 'Raptor Lake',
+        tdp: '65W-219W',
+        l2Cache: '32MB',
+        l3Cache: '36MB',
+        integratedGraphics: 'None'
+      },
+      compatibility: ['lga1700']
+    },
+    {
+      id: 'cpu-intel-i9-14900k',
+      name: 'Intel Core i9-14900K',
+      brand: 'Intel',
+      price: 519.24,
+      description: 'Intel Core i9 14900K processor with 24 cores (8P+16E), 32 threads, unlocked multiplier, and integrated Intel UHD Graphics 770 for ultimate gaming, content creation, and professional workload performance.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i9-14900k.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 24,
+        performanceCores: 8,
+        efficiencyCores: 16,
+        threads: 32,
+        baseClock: '3.2 GHz',
+        boostClock: '6.0 GHz',
+        socket: 'LGA1700',
+        architecture: 'Raptor Lake-S Refresh',
+        tdp: '125W-253W',
+        l2Cache: '32MB',
+        l3Cache: '36MB',
+        integratedGraphics: 'Intel UHD Graphics 770'
+      },
+      compatibility: ['lga1700']
+    },
+    {
+      id: 'cpu-amd-9900x',
+      name: 'AMD Ryzen 9 9900X',
+      brand: 'AMD',
+      price: 516.43,
+      description: 'AMD Ryzen 9 9900X processor with 12 cores, 24 threads, and integrated Radeon graphics for high-performance computing in a surprisingly efficient package on the Zen 5 architecture.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-9-9900x.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 12,
+        threads: 24,
+        baseClock: '4.4 GHz',
+        boostClock: '5.5 GHz',
+        socket: 'AM5',
+        architecture: 'Zen 5',
+        tdp: '120W',
+        l2Cache: '12MB',
+        l3Cache: '64MB',
+        integratedGraphics: 'Radeon'
+      },
+      compatibility: ['am5']
+    },
+    {
+      id: 'cpu-intel-ultra-7-255k',
+      name: 'Intel Core Ultra 7 255K',
+      brand: 'Intel',
+      price: 472.53,
+      description: 'Intel Core Ultra 7 255K processor with 20 cores (8P+12E), 20 threads, unlocked multiplier, and integrated Intel Graphics for excellent performance in gaming and content creation on the Arrow Lake architecture.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-ultra-7-255k.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 20,
+        performanceCores: 8,
+        efficiencyCores: 12,
+        threads: 20,
+        baseClock: '3.5 GHz',
+        boostClock: '5.5 GHz',
+        socket: 'LGA1851',
+        architecture: 'Arrow Lake',
+        tdp: '125W-230W',
+        l2Cache: '36MB',
+        l3Cache: '28MB',
+        integratedGraphics: 'Intel Graphics'
+      },
+      compatibility: ['lga1851']
+    },
+    {
+      id: 'cpu-intel-i9-14900kf',
+      name: 'Intel Core i9-14900KF',
+      brand: 'Intel',
+      price: 449.25,
+      description: 'Intel Core i9 14900KF processor with 24 cores (8P+16E), 32 threads, unlocked multiplier, and no integrated graphics for ultimate gaming, content creation, and professional workloads with dedicated GPUs.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i9-14900kf.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 24,
+        performanceCores: 8,
+        efficiencyCores: 16,
+        threads: 32,
+        baseClock: '3.2 GHz',
+        boostClock: '6.0 GHz',
+        socket: 'LGA1700',
+        architecture: 'Raptor Lake-S Refresh',
+        tdp: '125W-253W',
+        l2Cache: '32MB',
+        l3Cache: '36MB',
+        integratedGraphics: 'None'
+      },
+      compatibility: ['lga1700']
+    },
+    {
+      id: 'cpu-amd-9700x',
+      name: 'AMD Ryzen 7 9700X',
+      brand: 'AMD',
+      price: 428.04,
+      description: 'AMD Ryzen 7 9700X processor with 8 cores, 16 threads, and integrated Radeon graphics delivering excellent performance for gaming and productivity on the Zen 5 architecture.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-7-9700x.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 8,
+        threads: 16,
+        baseClock: '4.5 GHz',
+        boostClock: '5.5 GHz',
+        socket: 'AM5',
+        architecture: 'Zen 5',
+        tdp: '65W',
+        l2Cache: '8MB',
+        l3Cache: '32MB',
+        integratedGraphics: 'Radeon'
+      },
+      compatibility: ['am5']
+    },
+    {
+      id: 'cpu-intel-i7-14700kf',
+      name: 'Intel Core i7-14700KF',
+      brand: 'Intel',
+      price: 389.96,
+      description: 'Intel Core i7 14700KF processor with 20 cores (8P+12E), 28 threads, unlocked multiplier, and no integrated graphics for excellent gaming and content creation performance with dedicated GPUs.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i7-14700kf.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 20,
+        performanceCores: 8,
+        efficiencyCores: 12,
+        threads: 28,
+        baseClock: '3.4 GHz',
+        boostClock: '5.6 GHz',
+        socket: 'LGA1700',
+        architecture: 'Raptor Lake-S Refresh',
+        tdp: '125W-253W',
+        l2Cache: '28MB',
+        l3Cache: '33MB',
+        integratedGraphics: 'None'
+      },
+      compatibility: ['lga1700']
+    },
+    {
+      id: 'cpu-amd-7900x',
+      name: 'AMD Ryzen 9 7900X',
+      brand: 'AMD',
+      price: 399.99,
+      description: '12-core, 24-thread processor with high clock speeds for gaming and content creation',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-9-7900x.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 12,
+        threads: 24,
+        baseClock: '4.7 GHz',
+        boostClock: '5.6 GHz',
+        socket: 'AM5',
+        tdp: '170W'
+      },
+      compatibility: ['am5']
+    },
+    {
+      id: 'cpu-intel-i7-14700k',
+      name: 'Intel Core i7-14700K',
+      brand: 'Intel',
+      price: 379.99,
+      description: 'Intel Core i7 14700K processor with 20 cores (8P+12E), 28 threads, unlocked multiplier, and integrated Intel UHD Graphics 770 for excellent gaming and multitasking performance.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i7-14700k.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 20,
+        performanceCores: 8,
+        efficiencyCores: 12,
+        threads: 28,
+        baseClock: '3.4 GHz',
+        boostClock: '5.6 GHz',
+        socket: 'LGA1700',
+        architecture: 'Raptor Lake-S Refresh',
+        tdp: '125W-253W',
+        l2Cache: '28MB',
+        l3Cache: '33MB',
+        integratedGraphics: 'Intel UHD Graphics 770'
+      },
+      compatibility: ['lga1700']
+    },
+    {
+      id: 'cpu-amd-7800x3d',
+      name: 'AMD Ryzen 7 7800X3D',
+      brand: 'AMD',
+      price: 349.99,
+      description: '8-core, 16-thread processor with 3D V-Cache technology for ultimate gaming performance',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-7-7800x3d.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 8,
+        threads: 16,
+        baseClock: '4.2 GHz',
+        boostClock: '5.0 GHz',
+        socket: 'AM5',
+        tdp: '120W',
+        l3Cache: '96MB'
+      },
+      compatibility: ['am5']
+    },
+    {
+      id: 'cpu-intel-ultra-5-245k',
+      name: 'Intel Core Ultra 5 245K',
+      brand: 'Intel',
+      price: 334.27,
+      description: 'Intel Core Ultra 5 245K processor with 14 cores (6P+8E), 14 threads, unlocked multiplier, and integrated Intel Graphics for excellent mid-range gaming and multitasking on the Arrow Lake architecture.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-ultra-5-245k.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 14,
+        performanceCores: 6,
+        efficiencyCores: 8,
+        threads: 14,
+        baseClock: '3.3 GHz',
+        boostClock: '5.2 GHz',
+        socket: 'LGA1851',
+        architecture: 'Arrow Lake',
+        tdp: '125W-200W',
+        l2Cache: '25MB',
+        l3Cache: '20MB',
+        integratedGraphics: 'Intel Graphics'
+      },
+      compatibility: ['lga1851']
+    },
+    {
+      id: 'cpu-amd-7700x',
+      name: 'AMD Ryzen 7 7700X',
+      brand: 'AMD',
+      price: 329.99,
+      description: '8-core, 16-thread processor with excellent gaming performance',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-7-7700.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 8,
+        threads: 16,
+        baseClock: '4.5 GHz',
+        boostClock: '5.4 GHz',
+        socket: 'AM5',
+        tdp: '105W'
+      },
+      compatibility: ['am5']
+    },
+    {
+      id: 'cpu-intel-i5-14600kf',
+      name: 'Intel Core i5-14600KF',
+      brand: 'Intel',
+      price: 300.67,
+      description: 'Intel Core i5 14600KF processor with 14 cores (6P+8E), 20 threads, unlocked multiplier, and no integrated graphics for great gaming performance with dedicated GPUs at a mid-range price.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i5-14600kf.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 14,
+        performanceCores: 6,
+        efficiencyCores: 8,
+        threads: 20,
+        baseClock: '3.5 GHz',
+        boostClock: '5.3 GHz',
+        socket: 'LGA1700',
+        architecture: 'Raptor Lake-S Refresh',
+        tdp: '125W-181W',
+        l2Cache: '20MB',
+        l3Cache: '24MB',
+        integratedGraphics: 'None'
+      },
+      compatibility: ['lga1700']
+    },
+    {
+      id: 'cpu-intel-i5-14600k',
+      name: 'Intel Core i5-14600K',
+      brand: 'Intel',
+      price: 299.99,
+      description: 'Intel Core i5 14600K processor with 14 cores (6P+8E), 20 threads, unlocked multiplier, and integrated Intel UHD Graphics 770 for great gaming performance at a mid-range price.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i5-14600k.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 14,
+        performanceCores: 6,
+        efficiencyCores: 8,
+        threads: 20,
+        baseClock: '3.5 GHz',
+        boostClock: '5.3 GHz',
+        socket: 'LGA1700',
+        architecture: 'Raptor Lake-S Refresh',
+        tdp: '125W-181W',
+        l2Cache: '20MB',
+        l3Cache: '24MB',
+        integratedGraphics: 'Intel UHD Graphics 770'
+      },
+      compatibility: ['lga1700']
+    },
+    {
+      id: 'cpu-amd-9600x',
+      name: 'AMD Ryzen 5 9600X',
+      brand: 'AMD',
+      price: 292.86,
+      description: 'AMD Ryzen 5 9600X processor with 6 cores, 12 threads, and integrated Radeon graphics delivering solid performance for gaming and everyday computing on the Zen 5 architecture.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-5-9600x.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 6,
+        threads: 12,
+        baseClock: '4.7 GHz',
+        boostClock: '5.4 GHz',
+        socket: 'AM5',
+        architecture: 'Zen 5',
+        tdp: '65W',
+        l2Cache: '6MB',
+        l3Cache: '32MB',
+        integratedGraphics: 'Radeon'
+      },
+      compatibility: ['am5']
+    },
+    {
+      id: 'cpu-amd-7600x',
+      name: 'AMD Ryzen 5 7600X',
+      brand: 'AMD',
+      price: 229.99,
+      description: '6-core, 12-thread processor with great gaming performance at a mid-range price',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-5-7600x.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 6,
+        threads: 12,
+        baseClock: '4.7 GHz',
+        boostClock: '5.3 GHz',
+        socket: 'AM5',
+        tdp: '105W'
+      },
+      compatibility: ['am5']
+    },
+    {
+      id: 'cpu-intel-i5-13600k',
+      name: 'Intel Core i5-13600K',
+      brand: 'Intel',
+      price: 319.99,
+      description: '14-core hybrid processor with excellent gaming performance at a mid-range price point',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i5-13600k.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 14,
+        threads: 20,
+        baseClock: '3.5 GHz',
+        boostClock: '5.1 GHz',
+        socket: 'LGA 1700',
+        tdp: '125W'
+      },
+      compatibility: ['lga1700']
+    },
+    {
+      id: 'cpu-intel-i5-13400f',
+      name: 'Intel Core i5-13400F',
+      brand: 'Intel',
+      price: 209.99,
+      description: '10-core hybrid processor with good gaming performance at a budget-friendly price',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i5-13400f.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 10,
+        threads: 16,
+        baseClock: '2.5 GHz',
+        boostClock: '4.6 GHz',
+        socket: 'LGA 1700',
+        tdp: '65W'
+      },
+      compatibility: ['lga1700']
+    },
+    {
+      id: 'cpu-amd-5600x',
+      name: 'AMD Ryzen 5 5600X',
+      brand: 'AMD',
+      price: 189.99,
+      description: '6-core, 12-thread processor with good gaming performance on the AM4 platform',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-5-5600x.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 6,
+        threads: 12,
+        baseClock: '3.7 GHz',
+        boostClock: '4.6 GHz',
+        socket: 'AM4',
+        tdp: '65W'
+      },
+      compatibility: ['am4']
+    },
+    {
+      id: 'cpu-intel-i3-14100f',
+      name: 'Intel Core i3-14100F',
+      brand: 'Intel',
+      price: 124.99,
+      description: '4-core, 8-thread processor with entry-level gaming performance at a budget price',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i3-14100f.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 4,
+        threads: 8,
+        baseClock: '3.5 GHz',
+        boostClock: '4.7 GHz',
+        socket: 'LGA 1700',
+        tdp: '65W'
+      },
+      compatibility: ['lga1700']
+    },
+    {
+      id: 'cpu-intel-i7-14700',
+      name: 'Intel Core i7 14700',
+      brand: 'Intel',
+      price: 372.51,
+      description: 'Intel Core i7 14700 processor with 20 cores (8P+12E), 28 threads, and integrated Intel UHD Graphics 770 for exceptional performance in demanding applications, gaming, and content creation.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i7-14700.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 20,
+        performanceCores: 8,
+        efficiencyCores: 12,
+        threads: 28,
+        baseClock: '2.1 GHz',
+        boostClock: '5.4 GHz',
+        socket: 'LGA1700',
+        architecture: 'Raptor Lake-S',
+        tdp: '65W-219W',
+        l2Cache: '28MB',
+        l3Cache: '33MB',
+        integratedGraphics: 'Intel UHD Graphics 770'
+      },
+      compatibility: ['lga1700']
+    },
+    {
+      id: 'cpu-amd-ryzen-7-8700g',
+      name: 'AMD Ryzen 7 8700G',
+      brand: 'AMD',
+      price: 277.55,
+      description: 'AMD Ryzen 7 8700G processor with 8 cores, 16 threads, and integrated Radeon 780M graphics for powerful gaming and content creation without the need for a dedicated GPU.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-7-8700g.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 8,
+        threads: 16,
+        baseClock: '4.2 GHz',
+        boostClock: '5.1 GHz',
+        socket: 'AM5',
+        architecture: 'Zen 4',
+        tdp: '65W',
+        l3Cache: '24MB',
+        integratedGraphics: 'Radeon 780M'
+      },
+      compatibility: ['am5']
+    },
+    {
+      id: 'cpu-intel-i5-14500',
+      name: 'Intel Core i5 14500',
+      brand: 'Intel',
+      price: 275.17,
+      description: 'Intel Core i5 14500 processor with 14 cores (6P+8E), 20 threads, and integrated Intel UHD Graphics 770 for excellent all-around performance in gaming and productivity applications.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i5-14500.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 14,
+        performanceCores: 6,
+        efficiencyCores: 8,
+        threads: 20,
+        baseClock: '2.6 GHz',
+        boostClock: '5.0 GHz',
+        socket: 'LGA1700',
+        architecture: 'Raptor Lake-S',
+        tdp: '65W',
+        l2Cache: '11.5MB',
+        l3Cache: '24MB',
+        integratedGraphics: 'Intel UHD Graphics 770'
+      },
+      compatibility: ['lga1700']
+    },
+    {
+      id: 'cpu-amd-ryzen-5-8600g',
+      name: 'AMD Ryzen 5 8600G',
+      brand: 'AMD',
+      price: 186.03,
+      description: 'AMD Ryzen 5 8600G processor with 6 cores, 12 threads and integrated Radeon 760M graphics for versatile computing.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/amd-ryzen-5-8600g.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 6,
+        threads: 12,
+        baseClock: '4.3 GHz',
+        boostClock: '5.0 GHz',
+        socket: 'AM5',
+        architecture: 'Zen 4',
+        tdp: '65W',
+        l3Cache: '22MB',
+        integratedGraphics: 'Radeon 760M'
+      },
+      compatibility: ['am5']
+    },
+    {
+      id: 'cpu-intel-i7-14700f',
+      name: 'Intel Core i7 14700F',
+      brand: 'Intel',
+      price: 347.36,
+      description: 'Intel Core i7 14700F processor with 20 cores (8P+12E), 28 threads, and no integrated graphics for ultimate high-end performance computing, gaming, and content creation.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/cpu/intel-core-i7-14700f.png',
+      category: 'cpu',
+      inStock: true,
+      specs: {
+        cores: 20,
+        performanceCores: 8,
+        efficiencyCores: 12,
+        threads: 28,
+        baseClock: '2.1 GHz',
+        boostClock: '5.4 GHz',
+        socket: 'LGA1700',
+        architecture: 'Raptor Lake-S',
+        tdp: '65W-219W',
+        l2Cache: '28MB',
+        l3Cache: '33MB',
+        integratedGraphics: 'None'
+      },
+      compatibility: ['lga1700']
+    }
+  ],
+  
+  motherboard: [
+    {
+      id: 'motherboard-asus-x870',
+      name: 'ASUS TUF Gaming X870-Plus WiFi',
+      brand: 'ASUS',
+      price: 329.99,
+      description: 'Premium AM5 motherboard with extensive features and high-performance design',
+      image: 'https://dlcdnwebimgs.asus.com/files/media/29A95264-0BE9-40B9-9EC2-3F0D7F51A5F5/v1/websites/global/products/wxkuuiocy0ivoqo9/img/hero.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'AM5',
+        chipset: 'X870',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 3,
+        m2Slots: 4
+      },
+      compatibility: ['am5', 'ddr5', 'atx']
+    },
+    {
+      id: 'motherboard-asus-z890',
+      name: 'ASUS ROG Strix Z890-F Gaming WiFi',
+      brand: 'ASUS',
+      price: 399.99,
+      description: 'Feature-rich Z890 motherboard for Intel 13th and 14th gen processors',
+      image: 'https://dlcdnwebimgs.asus.com/gain/6a6da82f-a6bc-4c31-8cab-1dfda9dfccf3/w800/h600',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'LGA 1700',
+        chipset: 'Z890',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 3,
+        m2Slots: 4
+      },
+      compatibility: ['lga1700', 'ddr5', 'atx']
+    },
+    {
+      id: 'motherboard-asus-b650m',
+      name: 'ASUS Prime B650M-A WiFi II',
+      brand: 'ASUS',
+      price: 169.99,
+      description: 'Compact micro-ATX motherboard for AMD Ryzen 7000 series CPUs',
+      image: 'https://dlcdnwebimgs.asus.com/gain/6ae82a02-4a27-42b2-baef-5c3fa5f34060/w717/h525',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'AM5',
+        chipset: 'B650',
+        formFactor: 'mATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 2,
+        m2Slots: 2
+      },
+      compatibility: ['am5', 'ddr5', 'micro-atx']
+    },
+    {
+      id: 'motherboard-gigabyte-x870',
+      name: 'Gigabyte X870 AORUS Elite WiFi7',
+      brand: 'Gigabyte',
+      price: 349.99,
+      description: 'Premium ATX motherboard with latest connectivity and robust features',
+      image: 'https://www.gigabyte.com/FileUpload/Global/news/1978/42D16000-CC48-40BD-A49C-90E9B49DDF30.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'AM5',
+        chipset: 'X870',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 3,
+        m2Slots: 4
+      },
+      compatibility: ['am5', 'ddr5', 'atx']
+    },
+    {
+      id: 'motherboard-gigabyte-z890',
+      name: 'Gigabyte Z890 Gaming X WiFi7',
+      brand: 'Gigabyte',
+      price: 329.99,
+      description: 'High-performance Z890 motherboard with advanced connectivity',
+      image: 'https://www.gigabyte.com/FileUpload/Global/KeyFeature/2396/images/gaming.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'LGA 1700',
+        chipset: 'Z890',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 3,
+        m2Slots: 4
+      },
+      compatibility: ['lga1700', 'ddr5', 'atx']
+    },
+    {
+      id: 'motherboard-asus-tuf-b650m',
+      name: 'ASUS TUF Gaming B650M-Plus WiFi',
+      brand: 'ASUS',
+      price: 184.10,
+      description: 'ASUS TUF Gaming B650M-Plus WiFi mATX motherboard with AMD B650 chipset, DDR5 support, WiFi 6, and Bluetooth 5.2',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/asus-tuf-gaming-b650m-plus-wifi.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'AM5',
+        chipset: 'B650',
+        formFactor: 'mATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 3,
+        m2Slots: 2
+      },
+      compatibility: ['am5', 'ddr5', 'micro-atx']
+    },
+    {
+      id: 'motherboard-asus-tuf-b760',
+      name: 'ASUS TUF Gaming B760-PLUS WiFi',
+      brand: 'ASUS',
+      price: 182.46,
+      description: 'ASUS TUF Gaming B760-PLUS WiFi ATX motherboard with Intel B760 chipset, DDR5 support, and WiFi 6',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/asus-tuf-gaming-b760-plus-wifi.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'LGA1700',
+        chipset: 'B760',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '192GB',
+        pciSlots: 4,
+        m2Slots: 3
+      },
+      compatibility: ['lga1700', 'ddr5', 'atx']
+    },
+    {
+      id: 'motherboard-gigabyte-b650',
+      name: 'Gigabyte B650 Gaming X AX V2',
+      brand: 'Gigabyte',
+      price: 199.99,
+      description: 'Gigabyte B650 Gaming X AX V2 ATX motherboard with AMD B650 chipset and WiFi 6E',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/gigabyte-b650-gaming-x-ax-v2.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'AM5',
+        chipset: 'B650',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 3,
+        m2Slots: 3
+      },
+      compatibility: ['am5', 'ddr5', 'atx']
+    },
+    {
+      id: 'motherboard-asus-tuf-a620m',
+      name: 'ASUS TUF Gaming A620M-Plus WiFi',
+      brand: 'ASUS',
+      price: 149.99,
+      description: 'ASUS TUF Gaming A620M-Plus WiFi mATX motherboard with AMD A620 chipset for budget builds',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/asus-tuf-gaming-a620m-plus-wifi.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'AM5',
+        chipset: 'A620',
+        formFactor: 'mATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 2,
+        m2Slots: 2
+      },
+      compatibility: ['am5', 'ddr5', 'micro-atx']
+    },
+    {
+      id: 'motherboard-gigabyte-b760m-ddr4',
+      name: 'Gigabyte B760M DS3H AX DDR4',
+      brand: 'Gigabyte',
+      price: 134.99,
+      description: 'Gigabyte B760M DS3H AX DDR4 mATX motherboard with Intel B760 chipset and DDR4 support',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/gigabyte-b760m-ds3h-ax-ddr4.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'LGA1700',
+        chipset: 'B760',
+        formFactor: 'mATX',
+        ramType: 'DDR4',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 2,
+        m2Slots: 2
+      },
+      compatibility: ['lga1700', 'ddr4', 'micro-atx']
+    },
+    {
+      id: 'motherboard-msi-b760m-wifi',
+      name: 'MSI PRO B760M-A WiFi',
+      brand: 'MSI',
+      price: 179.99,
+      description: 'MSI PRO B760M-A WiFi mATX motherboard with Intel B760 chipset and DDR5 support',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/msi-pro-b760m-a-wifi.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'LGA1700',
+        chipset: 'B760',
+        formFactor: 'mATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 2,
+        m2Slots: 3
+      },
+      compatibility: ['lga1700', 'ddr5', 'micro-atx']
+    },
+    {
+      id: 'motherboard-asrock-z790',
+      name: 'ASRock Z790 Pro RS WiFi',
+      brand: 'ASRock',
+      price: 229.99,
+      description: 'ASRock Z790 Pro RS WiFi ATX motherboard with Intel Z790 chipset for high-performance builds',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/asrock-z790-pro-rs-wifi.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'LGA1700',
+        chipset: 'Z790',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 3,
+        m2Slots: 4
+      },
+      compatibility: ['lga1700', 'ddr5', 'atx']
+    },
+    {
+      id: 'motherboard-gigabyte-x670e',
+      name: 'Gigabyte X670E AORUS PRO',
+      brand: 'Gigabyte',
+      price: 339.99,
+      description: 'Gigabyte X670E AORUS PRO ATX motherboard with AMD X670E chipset for high-end AMD builds',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/gigabyte-x670e-aorus-pro.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'AM5',
+        chipset: 'X670E',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 3,
+        m2Slots: 4
+      },
+      compatibility: ['am5', 'ddr5', 'atx']
+    },
+    {
+      id: 'motherboard-msi-z790-carbon',
+      name: 'MSI MPG Z790 Carbon WiFi',
+      brand: 'MSI',
+      price: 399.99,
+      description: 'MSI MPG Z790 Carbon WiFi ATX motherboard with Intel Z790 chipset and premium features',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/msi-mpg-z790-carbon-wifi.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'LGA1700',
+        chipset: 'Z790',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 3,
+        m2Slots: 5
+      },
+      compatibility: ['lga1700', 'ddr5', 'atx']
+    },
+    {
+      id: 'motherboard-msi-b650-tomahawk',
+      name: 'MSI MAG B650 TOMAHAWK WIFI',
+      brand: 'MSI',
+      price: 209.99,
+      description: 'MSI MAG B650 TOMAHAWK WIFI ATX motherboard with AMD B650 chipset for mid-range AMD builds',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/msi-mag-b650-tomahawk-wifi.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'AM5',
+        chipset: 'B650',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 3,
+        m2Slots: 3
+      },
+      compatibility: ['am5', 'ddr5', 'atx']
+    },
+    {
+      id: 'motherboard-asus-rog-hero',
+      name: 'ASUS ROG Maximus Z790 Hero',
+      brand: 'ASUS',
+      price: 599.99,
+      description: 'ASUS ROG Maximus Z790 Hero ATX motherboard with Intel Z790 chipset for premium Intel builds',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/asus-rog-maximus-z790-hero.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'LGA1700',
+        chipset: 'Z790',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '192GB',
+        pciSlots: 4,
+        m2Slots: 5
+      },
+      compatibility: ['lga1700', 'ddr5', 'atx']
+    },
+    {
+      id: 'motherboard-asrock-b650m',
+      name: 'ASRock B650M PG Riptide WiFi',
+      brand: 'ASRock',
+      price: 169.99,
+      description: 'ASRock B650M PG Riptide WiFi mATX motherboard with AMD B650 chipset for compact AMD builds',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/asrock-b650m-pg-riptide-wifi.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'AM5',
+        chipset: 'B650',
+        formFactor: 'mATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 2,
+        m2Slots: 2
+      },
+      compatibility: ['am5', 'ddr5', 'micro-atx']
+    },
+    {
+      id: 'motherboard-asus-strix-b760i',
+      name: 'ASUS ROG Strix B760-I Gaming WiFi',
+      brand: 'ASUS',
+      price: 219.99,
+      description: 'ASUS ROG Strix B760-I Gaming WiFi mini-ITX motherboard with Intel B760 chipset for compact Intel builds',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/asus-rog-strix-b760i-gaming-wifi.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'LGA1700',
+        chipset: 'B760',
+        formFactor: 'mini-ITX',
+        ramType: 'DDR5',
+        ramSlots: 2,
+        maxRam: '64GB',
+        pciSlots: 1,
+        m2Slots: 2
+      },
+      compatibility: ['lga1700', 'ddr5', 'mini-itx']
+    },
+    {
+      id: 'motherboard-asrock-b650e',
+      name: 'ASRock B650E Steel Legend WiFi',
+      brand: 'ASRock',
+      price: 239.99,
+      description: 'ASRock B650E Steel Legend WiFi ATX motherboard with AMD B650E chipset for high-performance AMD builds',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/asrock-b650e-steel-legend-wifi.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'AM5',
+        chipset: 'B650E',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 3,
+        m2Slots: 3
+      },
+      compatibility: ['am5', 'ddr5', 'atx']
+    },
+    {
+      id: 'motherboard-msi-b760i',
+      name: 'MSI MAG B760I EDGE WIFI',
+      brand: 'MSI',
+      price: 199.99,
+      description: 'MSI MAG B760I EDGE WIFI mini-ITX motherboard with Intel B760 chipset for compact Intel builds',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/msi-mag-b760i-edge-wifi.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'LGA1700',
+        chipset: 'B760',
+        formFactor: 'mini-ITX',
+        ramType: 'DDR5',
+        ramSlots: 2,
+        maxRam: '64GB',
+        pciSlots: 1,
+        m2Slots: 2
+      },
+      compatibility: ['lga1700', 'ddr5', 'mini-itx']
+    },
+    {
+      id: 'motherboard-gigabyte-a620m',
+      name: 'Gigabyte A620M DS3H',
+      brand: 'Gigabyte',
+      price: 119.99,
+      description: 'Gigabyte A620M DS3H mATX motherboard with AMD A620 chipset for budget AMD builds',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/gigabyte-a620m-ds3h.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'AM5',
+        chipset: 'A620',
+        formFactor: 'mATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 2,
+        m2Slots: 2
+      },
+      compatibility: ['am5', 'ddr5', 'micro-atx']
+    },
+    {
+      id: 'motherboard-asus-prime-z790',
+      name: 'ASUS Prime Z790-P WiFi',
+      brand: 'ASUS',
+      price: 259.99,
+      description: 'ASUS Prime Z790-P WiFi ATX motherboard with Intel Z790 chipset for mainstream Intel builds',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/img/motherboard/asus-prime-z790p-wifi.png',
+      category: 'motherboard',
+      inStock: true,
+      specs: {
+        socket: 'LGA1700',
+        chipset: 'Z790',
+        formFactor: 'ATX',
+        ramType: 'DDR5',
+        ramSlots: 4,
+        maxRam: '128GB',
+        pciSlots: 3,
+        m2Slots: 4
+      },
+      compatibility: ['lga1700', 'ddr5', 'atx']
+    }
+  ],
+  
+  memory: [
+    {
+      id: 'ram-gskill-trident-z5-neo-rgb-32gb',
+      name: 'G.Skill Trident Z5 Neo RGB DDR5-6000 32GB (2x16GB)',
+      brand: 'G.Skill',
+      price: 159.99,
+      description: 'High-performance RGB DDR5 memory for latest-gen systems',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/gskill-trident-z5-neo-rgb-32gb.png',
+      category: 'memory',
+      inStock: true,
+      specs: {
+        capacity: '32GB (2x16GB)',
+        type: 'DDR5',
+        speed: '6000MHz',
+        casLatency: 'CL36',
+        voltage: '1.35V',
+        rgb: true
+      },
+      compatibility: ['ddr5']
+    },
+    {
+      id: 'ram-gskill-trident-z5-neo-white-32gb',
+      name: 'G.Skill Trident Z5 Neo RGB White DDR5-6400 32GB (2x16GB)',
+      brand: 'G.Skill',
+      price: 189.99,
+      description: 'Premium white RGB DDR5 memory with excellent overclocking potential',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/gskill-trident-z5-neo-rgb-white-32gb.png',
+      category: 'memory',
+      inStock: true,
+      specs: {
+        capacity: '32GB (2x16GB)',
+        type: 'DDR5',
+        speed: '6400MHz',
+        casLatency: 'CL32',
+        voltage: '1.4V',
+        rgb: true
+      },
+      compatibility: ['ddr5']
+    },
+    {
+      id: 'ram-kingston-fury-beast-ddr5-32gb',
+      name: 'Kingston FURY Beast DDR5-5200 32GB (2x16GB)',
+      brand: 'Kingston',
+      price: 119.99,
+      description: 'Reliable DDR5 memory for gaming and productivity',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/kingston-fury-beast-ddr5-32gb.png',
+      category: 'memory',
+      inStock: true,
+      specs: {
+        capacity: '32GB (2x16GB)',
+        type: 'DDR5',
+        speed: '5200MHz',
+        casLatency: 'CL40',
+        voltage: '1.25V',
+        rgb: false
+      },
+      compatibility: ['ddr5']
+    },
+    {
+      id: 'ram-kingston-fury-beast-32gb',
+      name: 'Kingston FURY Beast DDR4-3600 32GB (2x16GB)',
+      brand: 'Kingston',
+      price: 99.99,
+      description: 'High-performance DDR4 memory for gaming and multitasking',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/kingston-fury-beast-32gb.png',
+      category: 'memory',
+      inStock: true,
+      specs: {
+        capacity: '32GB (2x16GB)',
+        type: 'DDR4',
+        speed: '3600MHz',
+        casLatency: 'CL18',
+        voltage: '1.35V',
+        rgb: false
+      },
+      compatibility: ['ddr4']
+    },
+    {
+      id: 'ram-kingston-fury-beast-rgb-32gb',
+      name: 'Kingston FURY Beast RGB DDR4-3600 32GB (2x16GB)',
+      brand: 'Kingston',
+      price: 129.99,
+      description: 'RGB DDR4 memory with excellent compatibility and performance',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/kingston-fury-beast-rgb-32gb.png',
+      category: 'memory',
+      inStock: true,
+      specs: {
+        capacity: '32GB (2x16GB)',
+        type: 'DDR4',
+        speed: '3600MHz',
+        casLatency: 'CL18',
+        voltage: '1.35V',
+        rgb: true
+      },
+      compatibility: ['ddr4']
+    },
+    {
+      id: 'ram-kingston-fury-beast-rgb-ddr5-64gb',
+      name: 'Kingston FURY Beast RGB DDR5-6000 64GB (2x32GB)',
+      brand: 'Kingston',
+      price: 259.99,
+      description: 'High-capacity RGB DDR5 memory for content creation and heavy multitasking',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/kingston-fury-beast-rgb-ddr5-64gb.png',
+      category: 'memory',
+      inStock: false,
+      specs: {
+        capacity: '64GB (2x32GB)',
+        type: 'DDR5',
+        speed: '6000MHz',
+        casLatency: 'CL36',
+        voltage: '1.35V',
+        rgb: true
+      },
+      compatibility: ['ddr5']
+    },
+    {
+      id: 'ram-kingston-fury-beast-rgb-ddr5-128gb',
+      name: '128GB Kingston FURY Beast RGB DDR5',
+      brand: 'Kingston',
+      price: 368.09,
+      description: 'Extreme capacity RGB DDR5 memory for professional workstations',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/kingston-fury-beast-rgb-ddr5-128gb.png',
+      category: 'memory',
+      inStock: true,
+      specs: {
+        capacity: '128GB (4x32GB)',
+        type: 'DDR5',
+        speed: '5600MHz',
+        casLatency: 'CL40',
+        voltage: '1.25V',
+        rgb: true
+      },
+      compatibility: ['ddr5']
+    },
+    {
+      id: 'ram-kingston-fury-beast-ddr5-128gb',
+      name: '128GB Kingston FURY Beast DDR5',
+      brand: 'Kingston',
+      price: 337.60,
+      description: 'Extreme capacity DDR5 memory for professional workstations',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/kingston-fury-beast-ddr5-128gb.png',
+      category: 'memory',
+      inStock: true,
+      specs: {
+        capacity: '128GB (4x32GB)',
+        type: 'DDR5',
+        speed: '5600MHz',
+        casLatency: 'CL40',
+        voltage: '1.25V',
+        rgb: false
+      },
+      compatibility: ['ddr5']
+    },
+    {
+      id: 'ram-gskill-trident-z5-neo-rgb-white-64gb',
+      name: '64GB G.Skill Trident Z5 Neo RGB White',
+      brand: 'G.Skill',
+      price: 249.99,
+      description: 'High-capacity white RGB DDR5 memory with excellent aesthetics',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/gskill-trident-z5-neo-rgb-white-64gb.png',
+      category: 'memory',
+      inStock: true,
+      specs: {
+        capacity: '64GB (2x32GB)',
+        type: 'DDR5',
+        speed: '6400MHz',
+        casLatency: 'CL32',
+        voltage: '1.4V',
+        rgb: true
+      },
+      compatibility: ['ddr5']
+    },
+    {
+      id: 'ram-kingston-fury-beast-ddr5-64gb',
+      name: '64GB Kingston FURY Beast DDR5',
+      brand: 'Kingston',
+      price: 219.99,
+      description: 'High-capacity DDR5 memory for content creation and virtualization',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/kingston-fury-beast-ddr5-64gb.png',
+      category: 'memory',
+      inStock: true,
+      specs: {
+        capacity: '64GB (2x32GB)',
+        type: 'DDR5',
+        speed: '5600MHz',
+        casLatency: 'CL40',
+        voltage: '1.25V',
+        rgb: false
+      },
+      compatibility: ['ddr5']
+    },
+    {
+      id: 'ram-kingston-fury-beast-16gb',
+      name: '16GB Kingston FURY Beast',
+      brand: 'Kingston',
+      price: 49.99,
+      description: 'Entry-level DDR4 memory for budget gaming systems',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/kingston-fury-beast-16gb.png',
+      category: 'memory',
+      inStock: true,
+      specs: {
+        capacity: '16GB (2x8GB)',
+        type: 'DDR4',
+        speed: '3200MHz',
+        casLatency: 'CL16',
+        voltage: '1.35V',
+        rgb: false
+      },
+      compatibility: ['ddr4']
+    },
+    {
+      id: 'ram-kingston-fury-beast-rgb-16gb',
+      name: '16GB Kingston FURY Beast RGB',
+      brand: 'Kingston',
+      price: 64.99,
+      description: 'Entry-level RGB DDR4 memory for budget gaming systems',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/kingston-fury-beast-rgb-16gb.png',
+      category: 'memory',
+      inStock: true,
+      specs: {
+        capacity: '16GB (2x8GB)',
+        type: 'DDR4',
+        speed: '3200MHz',
+        casLatency: 'CL16',
+        voltage: '1.35V',
+        rgb: true
+      },
+      compatibility: ['ddr4']
+    },
+    {
+      id: 'ram-kingston-fury-beast-rgb-32gb-3600',
+      name: '32GB Kingston FURY Beast RGB',
+      brand: 'Kingston',
+      price: 119.99,
+      description: 'Mid-range RGB DDR4 memory for gaming and multitasking',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/ram/kingston-fury-beast-rgb-32gb.png',
+      category: 'memory',
+      inStock: true,
+      specs: {
+        capacity: '32GB (2x16GB)',
+        type: 'DDR4',
+        speed: '3600MHz',
+        casLatency: 'CL18',
+        voltage: '1.35V',
+        rgb: true
+      },
+      compatibility: ['ddr4']
+    }
+  ],
+  
+  storage: [
+    {
+      id: 'storage-samsung-990pro-1tb',
+      name: 'Samsung 990 PRO 1TB NVMe SSD',
+      brand: 'Samsung',
+      price: 129.99,
+      description: 'Ultra-fast PCIe 4.0 NVMe SSD with excellent performance for gaming and content creation',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/storage/samsung-990-pro-1tb.png',
+      category: 'storage',
+      inStock: true,
+      specs: {
+        capacity: '1TB',
+        type: 'NVMe PCIe 4.0',
+        formFactor: 'M.2 2280',
+        readSpeed: '7,450 MB/s',
+        writeSpeed: '6,900 MB/s',
+        tbw: '600 TBW'
+      },
+      compatibility: ['m2', 'pcie4']
+    },
+    {
+      id: 'storage-crucial-t500-1tb',
+      name: 'Crucial T500 1TB NVMe SSD',
+      brand: 'Crucial',
+      price: 99.99,
+      description: 'High-performance PCIe 4.0 NVMe SSD with excellent value',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/storage/crucial-t500-1tb.png',
+      category: 'storage',
+      inStock: true,
+      specs: {
+        capacity: '1TB',
+        type: 'NVMe PCIe 4.0',
+        formFactor: 'M.2 2280',
+        readSpeed: '7,400 MB/s',
+        writeSpeed: '6,800 MB/s',
+        tbw: '600 TBW'
+      },
+      compatibility: ['m2', 'pcie4']
+    },
+    {
+      id: 'storage-crucial-p310-1tb',
+      name: 'Crucial P310 1TB NVMe SSD',
+      brand: 'Crucial',
+      price: 79.99,
+      description: 'Budget-friendly PCIe 3.0 NVMe SSD with good performance',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/storage/crucial-p310-1tb.png',
+      category: 'storage',
+      inStock: true,
+      specs: {
+        capacity: '1TB',
+        type: 'NVMe PCIe 3.0',
+        formFactor: 'M.2 2280',
+        readSpeed: '3,500 MB/s',
+        writeSpeed: '3,000 MB/s',
+        tbw: '440 TBW'
+      },
+      compatibility: ['m2', 'pcie3']
+    },
+    {
+      id: 'storage-kingston-nv3-500gb',
+      name: 'Kingston NV3 500GB NVMe SSD',
+      brand: 'Kingston',
+      price: 39.99,
+      description: 'Entry-level NVMe SSD for system and game storage',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/storage/kingston-nv3-500gb.png',
+      category: 'storage',
+      inStock: true,
+      specs: {
+        capacity: '500GB',
+        type: 'NVMe PCIe 3.0',
+        formFactor: 'M.2 2280',
+        readSpeed: '2,100 MB/s',
+        writeSpeed: '1,700 MB/s',
+        tbw: '320 TBW'
+      },
+      compatibility: ['m2', 'pcie3']
+    }
+  ],
+  
+  power: [
+    {
+      id: 'psu-our-choice-850w-gold',
+      name: 'RigFreaks Choice 850W Gold',
+      brand: 'RigFreaks',
+      price: 129.99,
+      description: 'High-quality fully modular power supply with 80+ Gold efficiency',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/power_supply/our-choice-850w-gold.png',
+      category: 'power',
+      inStock: true,
+      specs: {
+        wattage: '850W',
+        efficiency: '80+ Gold',
+        modularity: 'Fully Modular',
+        fanSize: '135mm',
+        certification: '80+ Gold',
+        protections: 'OVP, UVP, OCP, OPP, SCP'
+      },
+      compatibility: ['atx']
+    },
+    {
+      id: 'psu-our-choice-1000w-gold',
+      name: 'RigFreaks Choice 1000W Gold',
+      brand: 'RigFreaks',
+      price: 179.99,
+      description: 'High-capacity fully modular power supply for high-end systems',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/power_supply/our-choice-1000w-gold.png',
+      category: 'power',
+      inStock: true,
+      specs: {
+        wattage: '1000W',
+        efficiency: '80+ Gold',
+        modularity: 'Fully Modular',
+        fanSize: '135mm',
+        certification: '80+ Gold',
+        protections: 'OVP, UVP, OCP, OPP, SCP'
+      },
+      compatibility: ['atx']
+    },
+    {
+      id: 'psu-our-choice-750w-gold',
+      name: 'RigFreaks Choice 750W Gold',
+      brand: 'RigFreaks',
+      price: 109.99,
+      description: 'Reliable fully modular power supply with excellent build quality',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/power_supply/our-choice-750w-gold.png',
+      category: 'power',
+      inStock: true,
+      specs: {
+        wattage: '750W',
+        efficiency: '80+ Gold',
+        modularity: 'Fully Modular',
+        fanSize: '120mm',
+        certification: '80+ Gold',
+        protections: 'OVP, UVP, OCP, OPP, SCP'
+      },
+      compatibility: ['atx']
+    },
+    {
+      id: 'psu-our-choice-750w-bronze',
+      name: 'RigFreaks Choice 750W Bronze',
+      brand: 'RigFreaks',
+      price: 89.99,
+      description: 'Budget-friendly power supply with good efficiency',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/power_supply/our-choice-750w-bronze.png',
+      category: 'power',
+      inStock: true,
+      specs: {
+        wattage: '750W',
+        efficiency: '80+ Bronze',
+        modularity: 'Semi-Modular',
+        fanSize: '120mm',
+        certification: '80+ Bronze',
+        protections: 'OVP, UVP, OCP, OPP, SCP'
+      },
+      compatibility: ['atx']
+    },
+    {
+      id: 'psu-our-choice-650w-bronze',
+      name: 'RigFreaks Choice 650W Bronze',
+      brand: 'RigFreaks',
+      price: 69.99,
+      description: 'Entry-level power supply for mid-range builds',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/power_supply/our-choice-650w-bronze.png',
+      category: 'power',
+      inStock: true,
+      specs: {
+        wattage: '650W',
+        efficiency: '80+ Bronze',
+        modularity: 'Semi-Modular',
+        fanSize: '120mm',
+        certification: '80+ Bronze',
+        protections: 'OVP, UVP, OCP, OPP, SCP'
+      },
+      compatibility: ['atx']
+    }
+  ],
+  
+  case: [
+    {
+      id: 'case-msi-mpg-sekira-500x',
+      name: 'MSI MPG SEKIRA 500X ARGB',
+      brand: 'MSI',
+      price: 179.95,
+      description: 'Premium mid-tower gaming case with tempered glass panels, ARGB lighting effects, excellent cooling capabilities, and a sleek brushed aluminum design',
+      image: '/assets/cases/msi-sekira-500x/1.png',
+      imagesGallery: [
+        '/assets/cases/msi-sekira-500x/1.png',
+        '/assets/cases/msi-sekira-500x/2.png',
+        '/assets/cases/msi-sekira-500x/3.png',
+        '/assets/cases/msi-sekira-500x/4.png',
+        '/assets/cases/msi-sekira-500x/5.png',
+        '/assets/cases/msi-sekira-500x/6.png',
+        '/assets/cases/msi-sekira-500x/7.png',
+        '/assets/cases/msi-sekira-500x/8.png',
+        '/assets/cases/msi-sekira-500x/9.png'
+      ],
+      category: 'case',
+      inStock: true,
+      specs: {
+        formFactor: 'Mid Tower',
+        motherboardSupport: 'E-ATX, ATX, Micro-ATX, Mini-ITX',
+        dimensions: '530mm x 232mm x 545.5mm',
+        weight: '8.5 kg',
+        internalHeight: '400mm',
+        cpuCoolerClearance: '170mm',
+        gpuClearance: '400mm',
+        psuClearance: '200mm',
+        ioPorts: 'USB 3.2 Gen 2 Type-C, 4x USB 3.2 Gen 1 Type-A, Audio-out, Mic-in',
+        driveMounts: '3x 2.5", 4x 3.5"',
+        expansionSlots: '10 (8+2)',
+        radiatorSupport: 'Front: 280mm, Top: 360mm, Rear: 120mm',
+        includedFans: 'Front: 2x 200mm (1x ARGB, 1x Non-LED), Top: 2x 200mm ARGB, Rear: 1x 120mm ARGB',
+        fanSupport: 'Front: 3x 120mm/3x 140mm/2x 200mm, Top: 3x 120mm/2x 140mm/2x 200mm, Rear: 1x 120mm/1x 140mm',
+        features: 'Tempered glass front and side panels, ARGB lighting, LED control button, brushed aluminum finish'
+      },
+      compatibility: ['e-atx', 'atx', 'micro-atx', 'mini-itx']
+    }
+  ],
+  cooling: [
+    {
+      id: 'cooling-be-quiet-dark-rock-pro-5',
+      name: 'be quiet! Dark Rock Pro 5',
+      brand: 'be quiet!',
+      price: 99.99,
+      description: 'Premium dual-tower air cooler with excellent cooling performance and low noise',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/cooling/be-quiet-dark-rock-pro-5.png',
+      category: 'cooling',
+      inStock: true,
+      specs: {
+        type: 'Air Cooler',
+        dimensions: '165mm x 150mm x 161mm',
+        fanSize: '2x 140mm',
+        noise: '24.6 dBA',
+        tdp: '250W',
+        compatibility: 'Intel: LGA1700, LGA1200, LGA115x, LGA2066; AMD: AM4, AM5'
+      },
+      compatibility: ['lga1700', 'lga1200', 'am4', 'am5']
+    },
+    {
+      id: 'cooling-deepcool-le520',
+      name: 'Deepcool LE520 240mm',
+      brand: 'Deepcool',
+      price: 129.99,
+      description: '240mm AIO liquid cooler with RGB lighting and excellent cooling performance',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/cooling/deepcool-le520.png',
+      category: 'cooling',
+      inStock: true,
+      specs: {
+        type: 'Liquid Cooler (AIO)',
+        radiatorSize: '240mm',
+        fanSize: '2x 120mm',
+        noise: '10-36 dBA',
+        tdp: '250W+',
+        rgb: true,
+        compatibility: 'Intel: LGA1700, LGA1200, LGA115x, LGA2066; AMD: AM4, AM5'
+      },
+      compatibility: ['lga1700', 'lga1200', 'am4', 'am5']
+    },
+    {
+      id: 'cooling-deepcool-ak620-zero-dark',
+      name: 'Deepcool AK620 Zero Dark',
+      brand: 'Deepcool',
+      price: 79.99,
+      description: 'High-performance dual-tower air cooler with excellent price-to-performance ratio',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/cooling/deepcool-ak620-zero-dark.png',
+      category: 'cooling',
+      inStock: true,
+      specs: {
+        type: 'Air Cooler',
+        dimensions: '129mm x 138mm x 160mm',
+        fanSize: '2x 120mm',
+        noise: '29 dBA',
+        tdp: '260W',
+        rgb: false,
+        compatibility: 'Intel: LGA1700, LGA1200, LGA115x, LGA2066; AMD: AM4, AM5'
+      },
+      compatibility: ['lga1700', 'lga1200', 'am4', 'am5']
+    },
+    {
+      id: 'cooling-be-quiet-dark-rock-5',
+      name: 'be quiet! Dark Rock 5',
+      brand: 'be quiet!',
+      price: 79.99,
+      description: 'Single-tower air cooler with excellent noise levels and cooling performance',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/cooling/be-quiet-dark-rock-5.png',
+      category: 'cooling',
+      inStock: true,
+      specs: {
+        type: 'Air Cooler',
+        dimensions: '136mm x 120mm x 160mm',
+        fanSize: '1x 120mm',
+        noise: '21.4 dBA',
+        tdp: '230W',
+        compatibility: 'Intel: LGA1700, LGA1200, LGA115x, LGA2066; AMD: AM4, AM5'
+      },
+      compatibility: ['lga1700', 'lga1200', 'am4', 'am5']
+    },
+    {
+      id: 'cooling-deepcool-ak400-digital',
+      name: 'Deepcool AK400 Digital',
+      brand: 'Deepcool',
+      price: 49.99,
+      description: 'Budget-friendly single-tower cooler with digital display and good performance',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/cooling/deepcool-ak400-digital.png',
+      category: 'cooling',
+      inStock: true,
+      specs: {
+        type: 'Air Cooler',
+        dimensions: '127mm x 98mm x 155mm',
+        fanSize: '1x 120mm',
+        noise: '28 dBA',
+        tdp: '220W',
+        rgb: true,
+        compatibility: 'Intel: LGA1700, LGA1200, LGA115x, LGA2066; AMD: AM4, AM5'
+      },
+      compatibility: ['lga1700', 'lga1200', 'am4', 'am5']
+    },
+    {
+      id: 'cooling-be-quiet-pure-rock-2',
+      name: 'be quiet! Pure Rock 2 Black',
+      brand: 'be quiet!',
+      price: 44.99,
+      description: 'Affordable air cooler with good cooling performance and low noise',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/cooling/be-quiet-pure-rock-2-black.png',
+      category: 'cooling',
+      inStock: true,
+      specs: {
+        type: 'Air Cooler',
+        dimensions: '87mm x 121mm x 155mm',
+        fanSize: '1x 120mm',
+        noise: '26.8 dBA',
+        tdp: '150W',
+        rgb: false,
+        compatibility: 'Intel: LGA1700, LGA1200, LGA115x, LGA2066; AMD: AM4, AM5'
+      },
+      compatibility: ['lga1700', 'lga1200', 'am4', 'am5']
+    },
+    {
+      id: 'cooling-deepcool-ak400-zero-dark',
+      name: 'DeepCool AK400 ZERO DARK',
+      brand: 'DeepCool',
+      price: 30.14,
+      description: 'High-performance CPU cooler with a 120mm fluid dynamic bearing fan',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/cooling/deepcool-ak400-zero-dark.png',
+      category: 'cooling',
+      inStock: true,
+      specs: {
+        type: 'Air Cooler',
+        dimensions: '97mm x 155mm x 127mm',
+        fanSize: '1x 120mm',
+        noise: '29 dBA',
+        tdp: '220W',
+        rgb: false,
+        compatibility: 'Intel: LGA1700, LGA1200, LGA115x; AMD: AM4, AM5'
+      },
+      compatibility: ['lga1700', 'lga1200', 'am4', 'am5']
+    }
+  ],
+  os: [
+    {
+      id: 'os-windows-11-pro',
+      name: 'Windows 11 Pro',
+      brand: 'Microsoft',
+      price: 139.99,
+      description: 'Windows 11 Pro is the ultimate operating system for professional PC builders and power users. Packed with advanced features, it offers robust security measures, including BitLocker encryption and Windows Hello biometric authentication.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/os/windows-11-pro.png',
+      category: 'os',
+      inStock: true,
+      specs: {
+        type: 'Operating System',
+        licenseType: 'OEM',
+        architecture: '64-bit',
+        version: 'Windows 11 Pro',
+        activationMethod: 'Digital License',
+        features: 'Pre-installed & activated, BitLocker Encryption, Remote Desktop, Windows Sandbox, Group Policy Management, Advanced security features, Hyper-V virtualization'
+      },
+      compatibility: ['windows']
+    },
+    {
+      id: 'os-windows-11-home',
+      name: 'Windows 11 Home',
+      brand: 'Microsoft',
+      price: 114.99,
+      description: 'Windows 11 Home is the latest operating system from Microsoft, designed to bring a fresh and intuitive experience to your PC. With its sleek and modern interface, users can enjoy a seamless multitasking environment.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/os/windows-11-home.png',
+      category: 'os',
+      inStock: true,
+      specs: {
+        type: 'Operating System',
+        licenseType: 'OEM',
+        architecture: '64-bit',
+        version: 'Windows 11 Home',
+        activationMethod: 'Digital License',
+        features: 'Pre-installed & activated, Centralized Start menu, Microsoft Store, DirectX 12 Ultimate, Xbox Game Pass integration, Microsoft Teams, Windows Hello'
+      },
+      compatibility: ['windows']
+    },
+    {
+      id: 'os-none',
+      name: 'No Windows',
+      brand: 'RIGFREAKS',
+      price: 0.00,
+      description: 'With this option, you are responsible for understanding the process for installing Windows or your chosen operating system, as well as sourcing your own license.',
+      image: 'https://raw.githubusercontent.com/jakeobn/rigfreaks/1a913823e4c1cae6365a2974a963e2541391e442/static/images/os/no-windows.png',
+      category: 'os',
+      inStock: true,
+      specs: {
+        type: 'None',
+        features: 'No preinstalled operating system, BIOS configured for installation, No OS support included'
+      },
+      compatibility: ['any']
+    }
+  ]
+};
+
+// Function to check if a component is compatible with current selections
+export const checkComponentCompatibility = (
+  component: PCComponentData,
+  selectedComponents: Record<string, PCComponentData | null>
+): boolean => {
+  // If no other components are selected, everything is compatible
+  if (Object.keys(selectedComponents).filter(key => selectedComponents[key] !== null).length === 0) {
+    return true;
+  }
+  
+  // Check CPU and motherboard socket compatibility
+  if (component.category === 'cpu' && selectedComponents.motherboard) {
+    const motherboard = selectedComponents.motherboard;
+    const motherboardSocket = motherboard.specs.socket as string;
+    return component.compatibility?.includes(motherboardSocket.toLowerCase()) || false;
+  }
+  
+  if (component.category === 'motherboard' && selectedComponents.cpu) {
+    const cpu = selectedComponents.cpu;
+    const cpuSocket = cpu.specs.socket as string;
+    return component.specs.socket.toString().toLowerCase() === cpuSocket.toLowerCase();
+  }
+  
+  // RAM and motherboard compatibility
+  if (component.category === 'memory' && selectedComponents.motherboard) {
+    const motherboard = selectedComponents.motherboard;
+    const ramType = motherboard.specs.ramType as string;
+    return component.specs.type.toString().toLowerCase() === ramType.toLowerCase();
+  }
+  
+  // Case and motherboard form factor compatibility
+  if (component.category === 'case' && selectedComponents.motherboard) {
+    const motherboard = selectedComponents.motherboard;
+    const formFactor = motherboard.specs.formFactor as string;
+    return component.compatibility?.some(ff => ff.toLowerCase() === formFactor.toLowerCase()) || false;
+  }
+  
+  if (component.category === 'motherboard' && selectedComponents.case) {
+    const pcCase = selectedComponents.case;
+    const supportedFormFactors = pcCase.compatibility || [];
+    return supportedFormFactors.some(ff => 
+      ff.toLowerCase() === component.specs.formFactor.toString().toLowerCase()
+    );
+  }
+  
+  // CPU and cooler compatibility
+  if (component.category === 'cooling' && selectedComponents.cpu) {
+    const cpu = selectedComponents.cpu;
+    const cpuSocket = cpu.specs.socket as string;
+    return component.compatibility?.includes(cpuSocket.toLowerCase()) || false;
+  }
+  
+  // Default to compatible if no specific check is needed
+  return true;
+};
+
+// Function to get recommended components based on compatibility
+export const getRecommendedComponents = (
+  category: string,
+  selectedComponents: Record<string, PCComponentData | null>
+): PCComponentData[] => {
+  const components = allComponents[category] || [];
+  
+  // If no components have been selected yet, return all options
+  if (Object.keys(selectedComponents).filter(key => selectedComponents[key] !== null).length === 0) {
+    return components;
+  }
+  
+  // Filter based on compatibility with existing components
+  let filtered = [...components];
+  
+  // Example: CPU and Motherboard socket compatibility
+  if (category === 'cpu' && selectedComponents.motherboard) {
+    const motherboard = selectedComponents.motherboard;
+    const motherboardSocket = motherboard.specs.socket as string;
+    filtered = filtered.filter(cpu => 
+      cpu.compatibility?.includes(motherboardSocket.toLowerCase())
+    );
+  }
+  
+  if (category === 'motherboard' && selectedComponents.cpu) {
+    const cpu = selectedComponents.cpu;
+    const cpuSocket = cpu.specs.socket as string;
+    filtered = filtered.filter(motherboard => 
+      motherboard.specs.socket.toString().toLowerCase() === cpuSocket.toLowerCase()
+    );
+  }
+  
+  // RAM and Motherboard compatibility
+  if (category === 'memory' && selectedComponents.motherboard) {
+    const motherboard = selectedComponents.motherboard;
+    const ramType = motherboard.specs.ramType as string;
+    filtered = filtered.filter(ram => 
+      ram.specs.type.toString().toLowerCase() === ramType.toLowerCase()
+    );
+  }
+  
+  // Case and Motherboard form factor compatibility
+  if (category === 'case' && selectedComponents.motherboard) {
+    const motherboard = selectedComponents.motherboard;
+    const formFactor = motherboard.specs.formFactor as string;
+    filtered = filtered.filter(pcCase => 
+      pcCase.compatibility?.some(ff => ff.toLowerCase() === formFactor.toLowerCase())
+    );
+  }
+  
+  if (category === 'motherboard' && selectedComponents.case) {
+    const pcCase = selectedComponents.case;
+    const supportedFormFactors = pcCase.compatibility || [];
+    filtered = filtered.filter(motherboard => 
+      supportedFormFactors.some(ff => 
+        ff.toLowerCase() === motherboard.specs.formFactor.toString().toLowerCase()
+      )
+    );
+  }
+  
+  // CPU and cooler compatibility
+  if (category === 'cooling' && selectedComponents.cpu) {
+    const cpu = selectedComponents.cpu;
+    const cpuSocket = cpu.specs.socket as string;
+    filtered = filtered.filter(cooler => 
+      cooler.compatibility?.includes(cpuSocket.toLowerCase())
+    );
+  }
+  
+  return filtered;
+};
+
+// Create a flattened array of all components for easier management in admin
+export const componentsArray: PCComponentData[] = Object.values(allComponents)
+  .flat()
+  .map(component => ({...component}));
+
+// Function to save all components to localStorage
+// Using database-like approach with server endpoints
+// This approach creates a JSON string in localStorage as a shared data store
+// Save components to both localStorage and an in-memory object
+const saveComponentsToStorage = () => {
+  try {
+    // Add a timestamp to track when the data was last updated
+    const timestamp = Date.now();
+    const dataWithTimestamp = {
+      components: allComponents,
+      lastUpdated: timestamp
+    };
+    
+    // Save data with timestamp
+    const componentsData = JSON.stringify(dataWithTimestamp);
+    
+    // Save to localStorage for persistence
+    localStorage.setItem('rigfreaks-components', componentsData);
+    
+    // Also store in sessionStorage for current session
+    sessionStorage.setItem('rigfreaks-components', componentsData);
+    
+    // Save the timestamp separately for easy access
+    localStorage.setItem('rigfreaks-components-timestamp', timestamp.toString());
+    
+    // Additionally store in a global variable that can be accessed
+    if (typeof window !== 'undefined') {
+      (window as any).__rigfreaksComponents = allComponents;
+      (window as any).__rigfreaksComponentsTimestamp = timestamp;
+      
+      console.log(`Component data saved with timestamp: ${new Date(timestamp).toLocaleTimeString()}`);
+      
+      // Dispatch a custom event to notify other components in the same tab
+      const updateEvent = new CustomEvent('rigfreaks-components-updated', { 
+        detail: { timestamp: timestamp } 
+      });
+      window.dispatchEvent(updateEvent);
+    }
+  } catch (error) {
+    console.error('Error saving components to storage:', error);
+  }
+};
+
+// Function to check if user has created custom components
+const hasCustomComponents = (): boolean => {
+  try {
+    const flag = localStorage.getItem('rigfreaks-has-custom-components');
+    return flag === 'true';
+  } catch {
+    return false;
+  }
+};
+
+// Function to mark that custom components have been created
+export const markCustomComponentsCreated = (): void => {
+  try {
+    localStorage.setItem('rigfreaks-has-custom-components', 'true');
+    console.log('Marked custom components as created');
+  } catch (error) {
+    console.error('Error marking custom components:', error);
+  }
+};
+
+// Function to load components from storage sources
+export const loadComponentsFromStorage = (): void => {
+  try {
+    // Create a backup of component data if it exists but hasn't been backed up yet
+    // This ensures we can recover components if something goes wrong
+    const localData = localStorage.getItem('rigfreaks-components');
+    const backupData = localStorage.getItem('rigfreaks-components-backup');
+    
+    // If we have component data but no backup, create one
+    if (localData && !backupData) {
+      localStorage.setItem('rigfreaks-components-backup', localData);
+      console.log('Created component data backup for safety');
+    }
+    
+    // Now try to load the data, with fallback to backup if main data is missing or corrupted
+    const dataToUse = localData || backupData;
+    
+    console.log('Loading components from storage:', dataToUse ? 'Data found' : 'No data');
+    
+    let timestamp: number | null = null;
+    
+    if (dataToUse) {
+      try {
+        const parsedData = JSON.parse(dataToUse);
+        
+        // Check if we're using the new format with timestamp
+        let componentsData = parsedData;
+        
+        // Handle both formats - the new format with timestamp and the old format
+        if (parsedData.components && parsedData.lastUpdated) {
+          componentsData = parsedData.components;
+          timestamp = parsedData.lastUpdated;
+          console.log('Using timestamped data from:', new Date(timestamp).toLocaleString());
+        }
+        
+        // Clear existing data
+        Object.keys(allComponents).forEach(key => {
+          allComponents[key] = [];
+        });
+        
+        // Load data from storage
+        Object.keys(componentsData).forEach(key => {
+          allComponents[key] = componentsData[key];
+        });
+        
+        // Restore main storage from backup if it was missing
+        if (!localData && backupData) {
+          localStorage.setItem('rigfreaks-components', backupData);
+          console.log('Restored component data from backup');
+        }
+        
+        // Set flag indicating we have custom components to preserve
+        localStorage.setItem('rigfreaks-has-custom-components', 'true');
+        
+        // Log the first component from each category to verify data
+        const sampleData: Record<string, { id: string, price: number } | string> = {};
+        Object.keys(allComponents).forEach(key => {
+          if (allComponents[key] && allComponents[key].length > 0) {
+            const sample = allComponents[key][0];
+            sampleData[key] = sample ? { id: sample.id, price: sample.price } : 'No components';
+          }
+        });
+        console.log('Loaded component samples:', sampleData);
+      } catch (parseError) {
+        console.error('Error parsing component data, reverting to defaults:', parseError);
+        // If parsing fails, clear the corrupted data but keep the backup
+        if (localData) {
+          localStorage.removeItem('rigfreaks-components');
+        }
+        // Try to load from backup if available
+        if (backupData) {
+          try {
+            JSON.parse(backupData); // Just to validate it can be parsed
+            localStorage.setItem('rigfreaks-components', backupData);
+            console.log('Recovered from backup after data corruption');
+            // Reload recursively, but only once (to avoid infinite loop)
+            loadComponentsFromStorage();
+            return;
+          } catch (backupError) {
+            console.error('Backup also corrupted, using defaults:', backupError);
+          }
+        }
+      }
+    }
+    
+    // Update the global variable
+    if (typeof window !== 'undefined') {
+      (window as any).__rigfreaksComponents = allComponents;
+      if (timestamp) {
+        (window as any).__rigfreaksComponentsTimestamp = timestamp;
+      }
+    }
+  } catch (error) {
+    console.error('Error loading components from storage:', error);
+  }
+      // No data in storage
+      console.log('No data in storage - loading default components');
+      
+      // Check if user has created custom components before
+      const customComponentsExist = hasCustomComponents();
+      
+      if (customComponentsExist) {
+        console.warn('Custom components flag exists but no data found - possible data loss');
+        // In this case we should not overwrite with defaults - load minimal defaults instead
+        // This could happen if localStorage was cleared but the flag remains
+      }
+      
+      // Always save the component data to ensure there's something in storage
+      // This will either be our default components (first visit) or the current
+      // state of allComponents (which might be empty or have defaults)
+      saveComponentsToStorage();
+      
+      // Set flag to indicate we've loaded once
+      if (typeof window !== 'undefined') {
+        window.__rigfreaksHasLoaded = true;
+      }
+    }
+  } catch (error) {
+    console.error('Error loading components from storage:', error);
+  }
+};
+
+// Function to add a component to the appropriate category
+export function addComponent(component: PCComponentData): boolean {
+  try {
+    const { category } = component;
+    
+    // Create the category array if it doesn't exist
+    if (!allComponents[category]) {
+      allComponents[category] = [];
+    }
+    
+    // Check if component with same ID already exists
+    const existingIndex = allComponents[category].findIndex(comp => comp.id === component.id);
+    
+    if (existingIndex >= 0) {
+      // Replace existing component
+      allComponents[category][existingIndex] = { ...component };
+      
+      console.log(`Updated component ${component.id} price to ${component.price}`);
+    } else {
+      // Add new component
+      allComponents[category].push({ ...component });
+      
+      console.log(`Added new component ${component.id} with price ${component.price}`);
+      
+      // Mark that user has created/modified custom components 
+      // This is used for recovery in case of data loss
+      markCustomComponentsCreated();
+    }
+    
+    // Save to localStorage
+    saveComponentsToStorage();
+    
+    return true;
+  } catch (error) {
+    console.error('Error adding component:', error);
+    return false;
+  }
+}
+
+// Function to update just the price of a component
+export function updateComponentPrice(componentId: string, newPrice: number): boolean {
+  try {
+    // Find the component in all categories
+    for (const category in allComponents) {
+      const index = allComponents[category].findIndex(comp => comp.id === componentId);
+      
+      if (index >= 0) {
+        // Create a completely new object to ensure React detects the change
+        // This is important for immutability and proper re-rendering
+        allComponents[category][index] = {
+          ...allComponents[category][index],
+          price: newPrice
+        };
+        
+        console.log(`Updated component ${componentId} price to ${newPrice}`);
+        
+        // Mark that custom components have been modified
+        markCustomComponentsCreated();
+        
+        // Save to localStorage with a fresh timestamp
+        saveComponentsToStorage();
+        
+        // Dispatch a custom event to notify other components in the same tab
+        if (typeof window !== 'undefined') {
+          const updateEvent = new CustomEvent('component-price-updated', { 
+            detail: { componentId, newPrice, timestamp: Date.now() } 
+          });
+          window.dispatchEvent(updateEvent);
+        }
+        
+        return true;
+      }
+    }
+    
+    console.error(`Component ${componentId} not found for price update`);
+    return false;
+  } catch (error) {
+    console.error('Error updating component price:', error);
+    return false;
+  }
+}
+
+// Function to update a component's stock quantity
+export function updateComponentStock(componentId: string, quantity: number): boolean {
+  try {
+    // Find the component in all categories
+    for (const category in allComponents) {
+      const index = allComponents[category].findIndex(comp => comp.id === componentId);
+      
+      if (index >= 0) {
+        const component = allComponents[category][index];
+        const currentStock = component.stockQuantity || 0;
+        const newStock = Math.max(0, currentStock - quantity); // Ensure stock doesn't go below 0
+        
+        // Create a completely new object to ensure React detects the change
+        allComponents[category][index] = {
+          ...component,
+          stockQuantity: newStock,
+          // Update inventory status based on new stock quantity
+          inStock: newStock > 0,
+          inventoryStatus: newStock > 0 ? 'in-stock' : 'out-of-stock'
+        };
+        
+        console.log(`Updated component ${componentId} stock quantity from ${currentStock} to ${newStock}`);
+        
+        // Mark that custom components have been modified
+        markCustomComponentsCreated();
+        
+        // Save to localStorage with a fresh timestamp
+        saveComponentsToStorage();
+        
+        // Dispatch a custom event to notify other components in the same tab
+        if (typeof window !== 'undefined') {
+          const updateEvent = new CustomEvent('component-stock-updated', { 
+            detail: { componentId, newStock, timestamp: Date.now() } 
+          });
+          window.dispatchEvent(updateEvent);
+        }
+        
+        return true;
+      }
+    }
+    
+    console.error(`Component ${componentId} not found for stock update`);
+    return false;
+  } catch (error) {
+    console.error('Error updating component stock:', error);
+    return false;
+  }
+}
+
+// Function to remove a component by ID
+export function removeComponent(componentId: string): boolean {
+  try {
+    // Find the category that contains this component
+    for (const category in allComponents) {
+      const index = allComponents[category].findIndex(comp => comp.id === componentId);
+      
+      if (index >= 0) {
+        // Remove the component
+        allComponents[category].splice(index, 1);
+        
+        // Save to localStorage
+        saveComponentsToStorage();
+        
+        return true;
+      }
+    }
+    
+    return false; // Component not found
+  } catch (error) {
+    console.error('Error removing component:', error);
+    return false;
+  }
+}

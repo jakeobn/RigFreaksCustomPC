@@ -1,0 +1,262 @@
+{
+  "name": "Gaming PCs Collection",
+  "sections": {
+    "collection-hero": {
+      "type": "collection-hero",
+      "settings": {
+        "title": "Gaming PCs",
+        "subtitle": "High-performance custom gaming computers built for enthusiasts",
+        "description": "Experience gaming like never before with our meticulously crafted gaming PCs. Each system is designed for maximum performance, stunning visuals, and smooth gameplay.",
+        "show_collection_image": true,
+        "image_height": "large",
+        "text_alignment": "center",
+        "overlay_opacity": 40,
+        "button_text": "Shop All Gaming PCs",
+        "button_link": "#main-collection",
+        "second_button_text": "Build Your Custom PC",
+        "second_button_link": "/pages/pc-builder",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "collection-subcategories": {
+      "type": "collection-subcategories",
+      "blocks": {
+        "subcategory-0": {
+          "type": "subcategory",
+          "settings": {
+            "title": "Vortex Series",
+            "subtitle": "Ultimate 4K Gaming PCs",
+            "description": "Our flagship series designed for maximum performance at 4K resolution",
+            "image": "",
+            "link": "/collections/vortex-series"
+          }
+        },
+        "subcategory-1": {
+          "type": "subcategory",
+          "settings": {
+            "title": "Nova Series",
+            "subtitle": "Mid-Range Gaming PCs",
+            "description": "Perfect for 1080p-1440p gaming with excellent value",
+            "image": "",
+            "link": "/collections/nova-series"
+          }
+        },
+        "subcategory-2": {
+          "type": "subcategory",
+          "settings": {
+            "title": "Pulse Series",
+            "subtitle": "Entry-Level Gaming PCs",
+            "description": "Affordable gaming PCs that don't compromise on performance",
+            "image": "",
+            "link": "/collections/pulse-series"
+          }
+        }
+      },
+      "block_order": [
+        "subcategory-0",
+        "subcategory-1",
+        "subcategory-2"
+      ],
+      "settings": {
+        "title": "Browse By Series",
+        "subtitle": "We have the perfect gaming PC for every budget and need",
+        "layout": "grid",
+        "columns": 3,
+        "show_description": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "main-collection": {
+      "type": "main-collection",
+      "settings": {
+        "products_per_page": 12,
+        "products_per_row": 4,
+        "image_ratio": "square",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": true,
+        "enable_quick_add": true,
+        "enable_filtering": true,
+        "filter_type": "sidebar",
+        "enable_sorting": true,
+        "enable_color_swatch": true,
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    },
+    "gaming-performance": {
+      "type": "gaming-performance-comparison",
+      "blocks": {
+        "game-0": {
+          "type": "game",
+          "settings": {
+            "game_title": "Cyberpunk 2077",
+            "game_image": "",
+            "vortex_fps": "120+ FPS at 4K Ultra",
+            "nova_fps": "100+ FPS at 1440p Ultra",
+            "pulse_fps": "80+ FPS at 1080p High"
+          }
+        },
+        "game-1": {
+          "type": "game",
+          "settings": {
+            "game_title": "Fortnite",
+            "game_image": "",
+            "vortex_fps": "240+ FPS at 4K High",
+            "nova_fps": "200+ FPS at 1440p High",
+            "pulse_fps": "144+ FPS at 1080p High"
+          }
+        },
+        "game-2": {
+          "type": "game",
+          "settings": {
+            "game_title": "Call of Duty: Warzone",
+            "game_image": "",
+            "vortex_fps": "160+ FPS at 4K High",
+            "nova_fps": "140+ FPS at 1440p High",
+            "pulse_fps": "100+ FPS at 1080p High"
+          }
+        }
+      },
+      "block_order": [
+        "game-0",
+        "game-1",
+        "game-2"
+      ],
+      "settings": {
+        "title": "Gaming Performance",
+        "subtitle": "See how our PCs perform in popular games",
+        "description": "Real-world performance metrics for our different gaming PC series. All values represent average FPS (frames per second) in typical gameplay scenarios.",
+        "show_game_images": true,
+        "image_position": "left",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "why-choose": {
+      "type": "why-choose-us",
+      "blocks": {
+        "feature-0": {
+          "type": "feature",
+          "settings": {
+            "icon": "cpu",
+            "title": "Premium Components",
+            "text": "We use only the highest quality branded components"
+          }
+        },
+        "feature-1": {
+          "type": "feature",
+          "settings": {
+            "icon": "thermometer",
+            "title": "Optimal Cooling",
+            "text": "Advanced cooling solutions for maximum performance"
+          }
+        },
+        "feature-2": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield-check",
+            "title": "3-Year Warranty",
+            "text": "Comprehensive warranty coverage for peace of mind"
+          }
+        },
+        "feature-3": {
+          "type": "feature",
+          "settings": {
+            "icon": "headphones",
+            "title": "Lifetime Support",
+            "text": "Technical support for the lifetime of your PC"
+          }
+        }
+      ],
+      "block_order": [
+        "feature-0",
+        "feature-1",
+        "feature-2",
+        "feature-3"
+      ],
+      "settings": {
+        "title": "Why Choose a RigFreaks Gaming PC",
+        "subtitle": "The difference is in the details",
+        "layout": "grid",
+        "background_color": "#111111",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "gaming-faq": {
+      "type": "faq",
+      "blocks": {
+        "faq-0": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What makes a good gaming PC?",
+            "answer": "A good gaming PC needs a balanced combination of CPU, GPU, RAM, and storage. For modern gaming, we recommend at least a current-gen mid-range CPU, 16GB of RAM, an SSD for storage, and a GPU capable of handling your desired resolution and frame rates."
+          }
+        },
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What's the difference between your gaming PC series?",
+            "answer": "Our Vortex series is designed for 4K gaming and streaming with top-tier components. The Nova series offers excellent 1440p gaming performance at a mid-range price point. Our Pulse series provides great 1080p gaming performance on a budget."
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer financing options?",
+            "answer": "Yes, we offer several financing options to make your dream gaming PC more affordable. You can apply during checkout for quick approval."
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does it take to build and ship my PC?",
+            "answer": "We typically build, test, and ship custom gaming PCs within 5-7 business days. Rush options are available for an additional fee."
+          }
+        }
+      ],
+      "block_order": [
+        "faq-0",
+        "faq-1",
+        "faq-2",
+        "faq-3"
+      ],
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Common questions about our gaming PCs",
+        "layout": "accordion",
+        "padding_top": 60,
+        "padding_bottom": 80
+      }
+    },
+    "collection-cta": {
+      "type": "cta",
+      "settings": {
+        "title": "Not Finding What You're Looking For?",
+        "subtitle": "Build your own custom gaming PC with our PC Builder tool",
+        "button_text": "Build Your PC",
+        "button_link": "/pages/pc-builder",
+        "second_button_text": "Contact Us",
+        "second_button_link": "/pages/contact",
+        "text_alignment": "center",
+        "background_color": "#ff0077",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "collection-hero",
+    "collection-subcategories",
+    "main-collection",
+    "gaming-performance",
+    "why-choose",
+    "gaming-faq",
+    "collection-cta"
+  ]
+}

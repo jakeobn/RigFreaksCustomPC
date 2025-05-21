@@ -1,0 +1,87 @@
+{
+  "name": "Article",
+  "sections": {
+    "main-article": {
+      "type": "main-article",
+      "blocks": {
+        "featured-image": {
+          "type": "featured_image",
+          "settings": {
+            "image_height": "adapt",
+            "enable_image_zoom": false
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "title_size": "large",
+            "text_alignment": "center"
+          }
+        },
+        "meta-info": {
+          "type": "meta_info",
+          "settings": {
+            "show_date": true,
+            "show_author": true,
+            "show_reading_time": true,
+            "text_alignment": "center"
+          }
+        },
+        "content": {
+          "type": "content",
+          "settings": {
+            "text_size": "medium",
+            "enable_image_lightbox": true
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share this article",
+            "share_facebook": true,
+            "share_twitter": true,
+            "share_pinterest": true
+          }
+        },
+        "tags": {
+          "type": "tags",
+          "settings": {
+            "show_tags": true
+          }
+        }
+      },
+      "block_order": [
+        "featured-image",
+        "title",
+        "meta-info",
+        "content",
+        "share",
+        "tags"
+      ],
+      "settings": {
+        "max_width": "medium",
+        "show_navigation": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "related-articles": {
+      "type": "related-articles",
+      "settings": {
+        "title": "Related Articles",
+        "subtitle": "You might also be interested in",
+        "blog": "",
+        "post_limit": 3,
+        "show_date": true,
+        "show_author": true,
+        "show_excerpt": true,
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main-article",
+    "related-articles"
+  ]
+}

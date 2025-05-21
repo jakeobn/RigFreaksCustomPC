@@ -1,0 +1,197 @@
+{% comment %}
+  Latest Blog Posts Section
+  
+  Display the latest blog posts from a selected blog
+  with customizable display options
+{% endcomment %}
+
+<div class="section-blog-posts" id="section-{{ section.id }}">
+  <div class="page-width">
+    <div class="section-blog-posts__header">
+      <h2 class="section-blog-posts__title">{{ section.settings.title | escape }}</h2>
+      
+      {% if section.settings.description != blank %}
+        <div class="section-blog-posts__description">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+      
+      {% if section.settings.show_view_all %}
+        <a href="{{ blogs[section.settings.blog].url }}" class="section-blog-posts__view-all">
+          {{ 'blogs.article.view_all' | t }}
+          {% render 'icon-chevron-right' %}
+        </a>
+      {% endif %}
+    </div>
+    
+    <div class="section-blog-posts__grid section-blog-posts__grid--{{ section.settings.columns }}-col">
+      {% assign blog = blogs[section.settings.blog] %}
+      
+      {% if blog == blank or blog.articles.size == 0 %}
+        <div class="section-blog-posts__empty">
+          <p>{{ 'blogs.article.no_articles' | t }}</p>
+        </div>
+      {% else %}
+        {% for article in blog.articles limit: section.settings.posts_to_show %}
+          <div class="section-blog-posts__article">
+            <article class="article-card">
+              <a href="{{ article.url }}" class="article-card__link">
+                <div class="article-card__media">
+                  {% if article.image != blank %}
+                    <img
+                      srcset="{{ article.image | image_url: width: 300 }} 300w,
+                              {{ article.image | image_url: width: 400 }} 400w,
+                              {{ article.image | image_url: width: 533 }} 533w,
+                              {{ article.image | image_url: width: 600 }} 600w,
+                              {{ article.image | image_url: width: 800 }} 800w"
+                      src="{{ article.image | image_url: width: 533 }}"
+                      sizes="(min-width: 1200px) {{ 1200 | divided_by: section.settings.columns }}px, (min-width: 750px) calc(100vw / {{ section.settings.columns }}), 100vw"
+                      alt="{{ article.image.alt | default: article.title | escape }}"
+                      width="{{ article.image.width }}"
+                      height="{{ article.image.height }}"
+                      loading="lazy"
+                      class="article-card__image"
+                    >
+                  {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'article-card__image placeholder-svg' }}
+                  {% endif %}
+                  
+                  {% if section.settings.show_date %}
+                    <span class="article-card__date">
+                      {{ article.published_at | time_tag: format: 'month_day_year' }}
+                    </span>
+                  {% endif %}
+                </div>
+                
+                <div class="article-card__content">
+                  {% if section.settings.show_categories and article.tags.size > 0 %}
+                    <div class="article-card__categories">
+                      {% assign main_tag = article.tags.first %}
+                      <span class="article-card__category">{{ main_tag }}</span>
+                    </div>
+                  {% endif %}
+                  
+                  <h3 class="article-card__title">{{ article.title }}</h3>
+                  
+                  {% if section.settings.show_excerpts and article.excerpt != blank %}
+                    <div class="article-card__excerpt">
+                      {{ article.excerpt | strip_html | truncatewords: 30 }}
+                    </div>
+                  {% elsif section.settings.show_excerpts %}
+                    <div class="article-card__excerpt">
+                      {{ article.content | strip_html | truncatewords: 30 }}
+                    </div>
+                  {% endif %}
+                  
+                  {% if section.settings.show_author and article.author != blank %}
+                    <div class="article-card__author">
+                      {{ 'blogs.article.by_author' | t: author: article.author }}
+                    </div>
+                  {% endif %}
+                  
+                  <div class="article-card__read-more">
+                    <span class="article-card__read-more-text">{{ 'blogs.article.read_more' | t }}</span>
+                    {% render 'icon-chevron-right', class: 'article-card__read-more-icon' %}
+                  </div>
+                </div>
+              </a>
+            </article>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+    
+    {% if blog.articles.size > section.settings.posts_to_show and section.settings.show_view_more %}
+      <div class="section-blog-posts__more">
+        <a href="{{ blog.url }}" class="button button--outline">
+          {{ 'blogs.article.view_all_posts' | t }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Latest Blog Posts",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Latest News"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "posts_to_show",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "Posts to show"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 3,
+      "label": "Columns"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpts",
+      "label": "Show excerpts",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_categories",
+      "label": "Show categories (tags)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View all' link",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_more",
+      "label": "Show 'View more' button",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Latest Blog Posts",
+      "category": "Blog"
+    }
+  ]
+}
+{% endschema %}

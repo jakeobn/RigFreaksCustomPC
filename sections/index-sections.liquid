@@ -1,0 +1,94 @@
+{% for block in section.blocks %}
+  {% case block.type %}
+    
+    {% when 'home_hero' %}
+      {% section 'home-hero' %}
+    
+    {% when 'featured_collections' %}
+      {% section 'featured-collections' %}
+    
+    {% when 'featured_products' %}
+      {% section 'featured-products' %}
+    
+    {% when 'custom_pc_builder_cta' %}
+      {% section 'custom-pc-builder-cta' %}
+    
+    {% when 'why_choose_us' %}
+      {% section 'why-choose-us' %}
+    
+    {% when 'latest_blog_posts' %}
+      {% section 'latest-blog-posts' %}
+    
+  {% endcase %}
+{% endfor %}
+
+{% schema %}
+{
+  "name": "Index Sections",
+  "class": "index-sections",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "home_hero",
+      "name": "Home Hero",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "featured_collections",
+      "name": "Featured Collections",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "featured_products",
+      "name": "Featured Products",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "custom_pc_builder_cta",
+      "name": "Custom PC Builder CTA",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "why_choose_us",
+      "name": "Why Choose Us",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "latest_blog_posts",
+      "name": "Latest Blog Posts",
+      "limit": 1,
+      "settings": []
+    }
+  ],
+  "presets": [
+    {
+      "name": "Index Sections",
+      "blocks": [
+        {
+          "type": "home_hero"
+        },
+        {
+          "type": "featured_collections"
+        },
+        {
+          "type": "featured_products"
+        },
+        {
+          "type": "custom_pc_builder_cta"
+        },
+        {
+          "type": "why_choose_us"
+        },
+        {
+          "type": "latest_blog_posts"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

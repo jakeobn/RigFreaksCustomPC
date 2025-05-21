@@ -1,0 +1,160 @@
+/* Simplified Header with gradient background */
+.simplified-header {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.85);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1050; /* Higher than hero::before (z-index: 5) */
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+/* Add padding to container for better spacing */
+.simplified-header .container {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+}
+
+/* Logo styling */
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo img {
+    height: 40px;
+    width: auto;
+    max-width: 180px;
+    object-fit: contain;
+}
+
+/* Main navigation links */
+.main-nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.main-nav .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.main-nav .nav-link:hover,
+.main-nav .nav-link.active {
+    color: white;
+}
+
+.main-nav .nav-link.active:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--bs-primary);
+}
+
+/* Right side actions */
+.header-actions {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.action-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.action-link:hover,
+.action-link.active {
+    color: white;
+}
+
+/* Mobile menu toggle button */
+.navbar-toggler {
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background-color 0.2s ease;
+}
+
+.navbar-toggler:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Mobile navigation menu */
+#mobileNav, header .navbar-collapse#mobileNav {
+    background: #121212 !important; /* Solid dark background with !important */
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 100%;
+    z-index: 9999;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-nav-container {
+    padding: 1rem 0;
+    background-color: #121212 !important;
+}
+
+#mobileNav .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: color 0.2s ease;
+    font-weight: 500;
+}
+
+#mobileNav .nav-link:hover,
+#mobileNav .nav-link.active {
+    color: white;
+}
+
+#mobileNav .nav-item:last-child .nav-link {
+    border-bottom: none;
+}
+
+/* Dropdown menu in header */
+.dropdown-menu {
+    background-color: #121212; /* Solid dark background matching mobile nav */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-item {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.dropdown-item:hover, 
+.dropdown-item:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.dropdown-divider {
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-header {
+    color: var(--bs-primary);
+}

@@ -1,0 +1,186 @@
+{
+  "name": "Home",
+  "sections": {
+    "home-hero": {
+      "type": "home-hero",
+      "settings": {
+        "title": "Build Your Dream Gaming PC",
+        "subtitle": "Powerful Custom PCs & Premium Components",
+        "button_text": "Shop Now",
+        "button_link": "/collections/all",
+        "second_button_text": "Build Your PC",
+        "second_button_link": "/pages/pc-builder",
+        "overlay_opacity": 30,
+        "height": "large",
+        "text_alignment": "center",
+        "image": "",
+        "mobile_image": "",
+        "enable_video": false,
+        "video_url": "",
+        "color_scheme": "dark",
+        "stack_images_on_mobile": true
+      }
+    },
+    "featured-collections": {
+      "type": "featured-collections",
+      "blocks": {
+        "featured-collection-0": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "",
+            "title": "Gaming PCs",
+            "description": "High-performance gaming computers built for enthusiasts",
+            "button_text": "Shop Gaming PCs",
+            "button_link": "",
+            "image": ""
+          }
+        },
+        "featured-collection-1": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "",
+            "title": "Creator Workstations",
+            "description": "Powerful PCs designed for content creation and productivity",
+            "button_text": "Shop Workstations",
+            "button_link": "",
+            "image": ""
+          }
+        },
+        "featured-collection-2": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "",
+            "title": "Components",
+            "description": "Premium PC components for your custom build",
+            "button_text": "Shop Components",
+            "button_link": "",
+            "image": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured-collection-0",
+        "featured-collection-1",
+        "featured-collection-2"
+      ],
+      "settings": {
+        "title": "Shop By Category",
+        "subtitle": "Explore our collections of high-performance PCs and components",
+        "layout": "grid",
+        "products_per_row": 3,
+        "show_view_all": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "featured-products": {
+      "type": "featured-products",
+      "settings": {
+        "title": "Best Sellers",
+        "subtitle": "Our most popular gaming PCs",
+        "collection": "",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "show_rating": true,
+        "enable_quick_view": true,
+        "enable_quick_buy": true,
+        "show_view_all": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "custom-pc-builder-cta": {
+      "type": "custom-pc-builder-cta",
+      "settings": {
+        "title": "Build Your Custom PC",
+        "subtitle": "Create the perfect gaming PC tailored to your needs",
+        "description": "Our Custom PC Builder tool helps you configure a PC that matches your budget and performance requirements. Choose from hundreds of components with real-time compatibility checks.",
+        "button_text": "Start Building",
+        "button_link": "/pages/pc-builder",
+        "second_button_text": "Learn More",
+        "second_button_link": "/pages/about-custom-pcs",
+        "image": "",
+        "image_position": "right",
+        "background_color": "#111111",
+        "text_color": "#ffffff",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "why-choose-us": {
+      "type": "why-choose-us",
+      "blocks": {
+        "feature-0": {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "Free Shipping",
+            "text": "Free shipping on all orders over $1000"
+          }
+        },
+        "feature-1": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield-check",
+            "title": "3-Year Warranty",
+            "text": "All our custom PCs include a comprehensive 3-year warranty"
+          }
+        },
+        "feature-2": {
+          "type": "feature",
+          "settings": {
+            "icon": "headphones",
+            "title": "Expert Support",
+            "text": "Lifetime technical support from our team of PC experts"
+          }
+        },
+        "feature-3": {
+          "type": "feature",
+          "settings": {
+            "icon": "settings",
+            "title": "Easy Upgrades",
+            "text": "Modular design for simple future upgrades"
+          }
+        }
+      },
+      "block_order": [
+        "feature-0",
+        "feature-1",
+        "feature-2",
+        "feature-3"
+      ],
+      "settings": {
+        "title": "Why Choose RigFreaks",
+        "subtitle": "Building high-performance custom PCs since 2015",
+        "layout": "grid",
+        "background_color": "#0a0a0a",
+        "text_color": "#ffffff",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "latest-blog-posts": {
+      "type": "latest-blog-posts",
+      "settings": {
+        "title": "Latest From Our Blog",
+        "subtitle": "Tech news, build guides, and gaming insights",
+        "blog": "",
+        "post_limit": 3,
+        "show_author": true,
+        "show_date": true,
+        "show_excerpt": true,
+        "show_read_more": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "home-hero",
+    "featured-collections",
+    "featured-products",
+    "custom-pc-builder-cta",
+    "why-choose-us",
+    "latest-blog-posts"
+  ]
+}

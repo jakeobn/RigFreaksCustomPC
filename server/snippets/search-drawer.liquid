@@ -1,0 +1,171 @@
+<div class="drawer__panel">
+  <div class="drawer__header">
+    <h2 class="drawer__title">{{ 'general.search.search' | t }}</h2>
+    <button class="drawer__close" data-drawer-close aria-label="{{ 'accessibility.close' | t }}">
+      {% render 'icon-close' %}
+    </button>
+  </div>
+  
+  <div class="drawer__content">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="search-drawer__form">
+      <div class="search-drawer__input-wrapper">
+        <input 
+          type="search" 
+          name="q" 
+          id="SearchDrawerInput" 
+          class="search-drawer__input" 
+          placeholder="{{ 'general.search.placeholder' | t }}"
+          aria-label="{{ 'general.search.placeholder' | t }}"
+          autocomplete="off"
+          autofocus
+        >
+        <div class="search-drawer__icon">
+          {% render 'icon-search' %}
+        </div>
+        <button type="reset" class="search-drawer__reset-button" aria-label="{{ 'general.search.reset' | t }}">
+          {% render 'icon-close' %}
+        </button>
+      </div>
+      
+      <button type="submit" class="search-drawer__submit-button">
+        {{ 'general.search.submit' | t }}
+      </button>
+    </form>
+    
+    <div class="search-drawer__results" data-search-results hidden></div>
+  </div>
+</div>
+
+<style>
+  .search-drawer__form {
+    margin-bottom: 1.5rem;
+  }
+  
+  .search-drawer__input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-drawer__input {
+    width: 100%;
+    height: 48px;
+    padding: 0 45px;
+    border: 1px solid {{ settings.color_border }};
+    border-radius: {{ settings.button_border_radius }}px;
+    background-color: {{ settings.color_background }};
+    color: {{ settings.color_text }};
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: border-color 0.2s ease;
+  }
+  
+  .search-drawer__input:focus {
+    outline: none;
+    border-color: {{ settings.color_primary }};
+  }
+  
+  .search-drawer__icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    width: 20px;
+    height: 20px;
+    color: {{ settings.color_text | color_mix: settings.color_background, 60 }};
+    pointer-events: none;
+  }
+  
+  .search-drawer__reset-button {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: none;
+    background: none;
+    color: {{ settings.color_text | color_mix: settings.color_background, 60 }};
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .search-drawer__input:not(:placeholder-shown) ~ .search-drawer__reset-button {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .search-drawer__submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 48px;
+    margin-top: 1rem;
+    padding: 0 1.5rem;
+    border: none;
+    border-radius: {{ settings.button_border_radius }}px;
+    background-color: {{ settings.color_button }};
+    color: {{ settings.color_button_text }};
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .search-drawer__submit-button:hover {
+    background-color: {{ settings.color_button | color_darken: 10 }};
+  }
+  
+  .search-drawer__results {
+    display: none;
+  }
+  
+  .search-drawer__results[hidden="false"] {
+    display: block;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchForm = document.querySelector('.search-drawer__form');
+    const searchInput = document.getElementById('SearchDrawerInput');
+    const searchResetButton = document.querySelector('.search-drawer__reset-button');
+    const searchResults = document.querySelector('[data-search-results]');
+    
+    if (!searchForm || !searchInput || !searchResetButton) return;
+    
+    // Clear search input and hide results when reset button is clicked
+    searchResetButton.addEventListener('click', function() {
+      searchInput.value = '';
+      searchInput.focus();
+      searchResults.hidden = true;
+    });
+    
+    // Predictive search functionality can be added here
+    // For now, we'll just submit the form when the user presses Enter
+    searchInput.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        searchResetButton.click();
+        event.preventDefault();
+      }
+    });
+    
+    // Close search drawer when form is submitted
+    searchForm.addEventListener('submit', function() {
+      const drawer = this.closest('.drawer');
+      if (drawer && drawer.getAttribute('aria-hidden') === 'false') {
+        setTimeout(function() {
+          const closeButton = drawer.querySelector('[data-drawer-close]');
+          if (closeButton) closeButton.click();
+        }, 100);
+      }
+    });
+  });
+</script>

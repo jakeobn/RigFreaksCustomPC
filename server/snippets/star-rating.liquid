@@ -1,0 +1,44 @@
+{% comment %}
+  Star Rating Snippet
+  Used to display a star rating
+
+  Parameters:
+  - rating: A numeric rating value between 0 and 5 (required)
+{% endcomment %}
+
+{% assign rating_decimal = rating | modulo: 1 | times: 10 | floor | divided_by: 10.0 %}
+{% assign rating_whole = rating | floor %}
+
+<div class="star-rating" aria-label="{{ rating }} out of 5 stars">
+  {% for i in (1..5) %}
+    {% if i <= rating_whole %}
+      <span class="star-rating__star star-rating__star--filled">{% render 'icon-star-filled' %}</span>
+    {% elsif i == rating_whole | plus: 1 and rating_decimal > 0 %}
+      <span class="star-rating__star star-rating__star--half">{% render 'icon-star-half' %}</span>
+    {% else %}
+      <span class="star-rating__star star-rating__star--empty">{% render 'icon-star-empty' %}</span>
+    {% endif %}
+  {% endfor %}
+  <span class="star-rating__text">{{ rating }}</span>
+</div>
+
+<style>
+.star-rating {
+  display: flex;
+  align-items: center;
+}
+
+.star-rating__star {
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
+  color: var(--color-star-rating, var(--color-primary));
+}
+
+.star-rating__text {
+  margin-left: 4px;
+  font-size: 0.875rem;
+  color: var(--color-star-rating-text, var(--color-foreground));
+  opacity: 0.8;
+}
+</style>

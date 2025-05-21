@@ -1,0 +1,1399 @@
+import { useState, useEffect, useRef, ChangeEvent } from 'react';
+import { Helmet } from 'react-helmet';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { useGlobalState } from '@/lib/GlobalState';
+import { PersistentGalleryUpload } from '@/components/ui/persistent-gallery-upload';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription,
+  DialogFooter,
+  DialogClose
+} from '@/components/ui/dialog';
+import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/hooks/use-toast';
+import { 
+  Trash2, 
+  Plus, 
+  Edit, 
+  Save, 
+  Upload,
+  Image,
+  RefreshCw,
+  FileText,
+  AlertCircle,
+  Check,
+  X,
+  Bug,
+  Download,
+  Cpu,
+  Shield
+} from 'lucide-react';
+import { Link } from 'wouter';
+import { PCComponentData, InventoryStatus, allComponents, BUILD_STEPS, addComponent, removeComponent, loadComponentsFromStorage } from '@/lib/componentData';
+import { importComponentsFromCSV } from '@/lib/csvUtils';
+import { runComponentFixes } from '@/lib/threadripperFix';
+
+// Admin Component Page
+function ComponentAdmin() {
+  const { toast } = useToast();
+  const [components, setComponents] = useState<PCComponentData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('cpu');
+  const [isAddComponentOpen, setIsAddComponentOpen] = useState(false);
+  const [isEditComponentOpen, setIsEditComponentOpen] = useState(false);
+  const [isImportCSVOpen, setIsImportCSVOpen] = useState(false);
+  const [csvFile, setCsvFile] = useState<File | null>(null);
+  const [csvImportStatus, setCsvImportStatus] = useState<{
+    success: boolean;
+    imported: number;
+    errors: string[];
+  } | null>(null);
+  const [editingComponent, setEditingComponent] = useState<PCComponentData | null>(null);
+  const [newComponent, setNewComponent] = useState<Partial<PCComponentData>>({
+    category: 'cpu',
+    name: '',
+    brand: '',
+    price: 0,
+    description: '',
+    specs: {},
+    specsHtml: '',
+    image: '',
+    imagesGallery: [],
+    inStock: true,
+    inventoryStatus: 'in-stock'
+  });
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const galleryFileInputRef = useRef<HTMLInputElement>(null);
+
+  // Function to refresh components from localStorage
+  const refreshLocalComponents = () => {
+    setLoading(true);
+    
+    // Use the global refresh function to ensure all components are updated
+    globalRefresh();
+    
+    // Extract all components from allComponents object into a flat array
+    const flattenedComponents = Object.values(allComponents).flat();
+    setComponents(flattenedComponents);
+    
+    setLoading(false);
+    
+    toast({
+      title: "Components Refreshed",
+      description: "Component data has been refreshed from storage."
+    });
+  };
+  
+  // Use global state to keep component data in sync
+  const { lastUpdateTime, refreshComponents: globalRefresh } = useGlobalState();
+  
+  // Function to save the current component state to ensure changes persist
+  const saveCurrentState = async () => {
+    try {
+      // If in edit mode, save the edited component
+      if (isEditComponentOpen && editingComponent) {
+        // This will update the component in the global state
+        await updateComponent(editingComponent.id as string, editingComponent);
+        
+        // Update the local component list
+        const updatedComponents = components.map(comp => 
+          comp.id === editingComponent.id ? editingComponent : comp
+        );
+        setComponents(updatedComponents);
+        
+        // Trigger backup to CSV
+        await fetch('/api/components/backup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ components: getAllComponents() }),
+        });
+        
+        console.log('Component state saved with persistent storage');
+      }
+      // For new components, we don't need to do anything as they'll be saved when added
+    } catch (error) {
+      console.error('Error saving current state:', error);
+    }
+  };
+
+  // Run component fixes and update when global state updates
+  useEffect(() => {
+    // Update local component state with the latest data
+    const flattenedComponents = Object.values(allComponents).flat();
+    setComponents(flattenedComponents);
+    
+    console.log('ComponentAdmin updated from global state:', new Date(lastUpdateTime).toLocaleTimeString());
+  }, [lastUpdateTime]);
+  
+  // Run component fixes once when the component mounts
+  useEffect(() => {
+    // Only run once when the component mounts
+    const runFixes = async () => {
+      try {
+        await runComponentFixes();
+        
+        // After fixing duplicates, refresh components to show the updated state
+        setTimeout(() => {
+          globalRefresh();
+          toast({
+            title: "Component Maintenance Complete",
+            description: "Fixed any component duplicates and ensured proper inventory status.",
+          });
+        }, 500);
+      } catch (error) {
+        console.error("Error running component fixes:", error);
+      }
+    };
+    
+    runFixes();
+    // Empty dependency array ensures this only runs once
+  }, []);
+  
+  // Handle CSV file change
+  const handleCsvFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setCsvFile(e.target.files[0]);
+      setCsvImportStatus(null); // Reset status when a new file is selected
+    }
+  };
+  
+  // Import CSV file
+  const importCsvFile = async () => {
+    if (!csvFile) {
+      toast({
+        title: "No file selected",
+        description: "Please select a CSV file to import",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    try {
+      // Read the file
+      const fileContent = await csvFile.text();
+      
+      // Process the CSV
+      const result = importComponentsFromCSV(fileContent);
+      setCsvImportStatus(result);
+      
+      if (result.success) {
+        toast({
+          title: "Import successful",
+          description: `Successfully imported ${result.imported} components`,
+          variant: "default",
+        });
+        
+        // Refresh the component list
+        refreshLocalComponents();
+        
+        // Close the dialog if successful and no errors
+        if (result.errors.length === 0) {
+          setIsImportCSVOpen(false);
+          setCsvFile(null);
+        }
+      } else {
+        toast({
+          title: "Import failed",
+          description: "There were errors during the import. See the details in the dialog.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error importing CSV file:', error);
+      toast({
+        title: "Import failed",
+        description: `Error: ${error instanceof Error ? error.message : String(error)}`,
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Initial load
+  useEffect(() => {
+    // First load any saved components from localStorage
+    loadComponentsFromStorage();
+    
+    // Then extract all components from allComponents object into a flat array
+    const flattenedComponents = Object.values(allComponents).flat();
+    setComponents(flattenedComponents);
+    setLoading(false);
+  }, []);
+
+  const filteredComponents = components.filter(
+    component => component.category === selectedCategory
+  );
+
+  const handleAddComponent = async () => {
+    try {
+      // Validate required fields
+      if (!newComponent.name || !newComponent.category || newComponent.price === undefined) {
+        toast({
+          title: "Missing Required Fields",
+          description: "Please fill in all required fields: Name, Category, and Price.",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      // Generate a unique ID for the new component
+      const categoryPrefix = newComponent.category || 'component';
+      const timestamp = Date.now().toString(36);
+      const sanitizedName = (newComponent.name || '').toLowerCase().replace(/[^a-z0-9]/g, '-');
+      const newId = `${categoryPrefix}-${sanitizedName}-${timestamp}`;
+      
+      // Clean the specsHtml field to ensure it's a string
+      const cleanedSpecsHtml = newComponent.specsHtml || '';
+      
+      // Create the new component with all required fields
+      const componentToAdd: PCComponentData = {
+        id: newId,
+        category: newComponent.category as string,
+        name: newComponent.name as string,
+        brand: newComponent.brand as string || 'Generic',
+        price: Number(newComponent.price) || 0,
+        description: newComponent.description as string || '',
+        specs: newComponent.specs as Record<string, string | number | boolean> || {},
+        specsHtml: cleanedSpecsHtml,
+        image: newComponent.image as string || '',
+        imagesGallery: newComponent.imagesGallery || [],
+        inStock: newComponent.inStock === undefined ? true : newComponent.inStock,
+        inventoryStatus: newComponent.inventoryStatus as InventoryStatus || 'in-stock'
+      };
+      
+      console.log('Adding component with specs HTML:', componentToAdd.specsHtml ? 'HTML present' : 'No HTML');
+      
+      // Add component to the global allComponents object using the async function
+      const addResult = await addComponent(componentToAdd);
+      
+      if (!addResult) {
+        throw new Error('Failed to add component to the global state');
+      }
+      
+      // Update local state
+      setComponents([...components, componentToAdd]);
+      
+      // Reset the form
+      setNewComponent({
+        category: selectedCategory,
+        name: '',
+        brand: '',
+        price: 0,
+        description: '',
+        specs: {},
+        specsHtml: '',
+        image: '',
+        imagesGallery: [],
+        inStock: true,
+
+        inventoryStatus: 'in-stock'
+      });
+      
+      setIsAddComponentOpen(false);
+      
+      // Trigger a server backup after adding
+      try {
+        await fetch('/api/components/backup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ components: allComponents }),
+        });
+        console.log('Component successfully backed up to CSV after addition');
+      } catch (backupError) {
+        console.error('Failed to backup component after addition:', backupError);
+      }
+      
+      toast({
+        title: "Component Added",
+        description: `${componentToAdd.name} has been added successfully. It will now be available in the Step Builder.`,
+      });
+    } catch (error) {
+      console.error('Error adding component:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add component. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleEditComponent = async () => {
+    if (!editingComponent) return;
+    
+    try {
+      // Make sure the price is a number
+      if (typeof editingComponent.price === 'string') {
+        editingComponent.price = parseFloat(editingComponent.price);
+      }
+      
+      // Ensure HTML specs are properly handled
+      if (!editingComponent.specsHtml) {
+        editingComponent.specsHtml = '';
+      }
+      
+      console.log('Updating component with price:', editingComponent.price);
+      console.log('Specs HTML present:', editingComponent.specsHtml ? 'Yes' : 'No');
+      
+      // Add updated component to the global allComponents object using async function
+      const updateResult = await addComponent(editingComponent);
+      
+      if (!updateResult) {
+        throw new Error('Failed to update component in the global state');
+      }
+      
+      // Refresh the entire components list from the global state
+      const flattenedComponents = Object.values(allComponents).flat();
+      setComponents(flattenedComponents);
+      
+      setIsEditComponentOpen(false);
+      
+      // Trigger a server backup after updating
+      try {
+        await fetch('/api/components/backup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ components: allComponents }),
+        });
+        console.log('Component successfully backed up to CSV after update');
+      } catch (backupError) {
+        console.error('Failed to backup component after update:', backupError);
+      }
+      
+      toast({
+        title: "Component Updated",
+        description: `${editingComponent.name} has been updated successfully. Changes will be reflected in the Step Builder.`,
+      });
+    } catch (error) {
+      console.error('Error updating component:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update component. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleDeleteComponent = async (componentId: string) => {
+    try {
+      // Remove the component from the global allComponents object and database
+      const removeResult = await removeComponent(componentId);
+      
+      if (!removeResult) {
+        throw new Error('Failed to delete component from the global state');
+      }
+      
+      // Update local state
+      const updatedComponents = components.filter(comp => comp.id !== componentId);
+      setComponents(updatedComponents);
+      
+      // Trigger a server backup after deleting to ensure consistency
+      try {
+        await fetch('/api/components/backup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ components: allComponents }),
+        });
+        console.log('Components successfully backed up to CSV after deletion');
+      } catch (backupError) {
+        console.error('Failed to backup components after deletion:', backupError);
+      }
+      
+      toast({
+        title: "Component Deleted",
+        description: "Component has been deleted successfully and removed from the database.",
+      });
+    } catch (error) {
+      console.error('Error deleting component:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete component. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>, isForGallery = false) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    
+    const file = files[0];
+    
+    try {
+      // Show loading toast
+      toast({
+        title: "Uploading Image",
+        description: "Please wait while your image is being uploaded to the server..."
+      });
+      
+      // Create FormData object to send file to server with metadata to make images persistent
+      const formData = new FormData();
+      formData.append('image', file);
+      
+      // Add component metadata to ensure proper file naming and persistence
+      const componentType = isEditComponentOpen 
+        ? (editingComponent?.category || newComponent.category || 'unknown')
+        : (newComponent.category || 'unknown');
+      
+      const componentName = isEditComponentOpen
+        ? (editingComponent?.name || newComponent.name || '')
+        : (newComponent.name || '');
+        
+      formData.append('componentType', componentType);
+      formData.append('componentName', componentName);
+      
+      // Upload the file to the server
+      const response = await fetch('/api/uploads/component-image', {
+        method: 'POST',
+        body: formData
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to upload image');
+      }
+      
+      const data = await response.json();
+      
+      if (!data.success) {
+        throw new Error(data.message || 'Upload failed');
+      }
+      
+      // Get the permanent URL path to the uploaded image
+      const imageUrl = data.imagePath;
+      
+      if (isForGallery) {
+        if (isEditComponentOpen && editingComponent) {
+          const updatedGallery = [...(editingComponent.imagesGallery || []), imageUrl];
+          setEditingComponent({
+            ...editingComponent,
+            imagesGallery: updatedGallery
+          });
+        } else {
+          const updatedGallery = [...(newComponent.imagesGallery || []), imageUrl];
+          setNewComponent({
+            ...newComponent,
+            imagesGallery: updatedGallery
+          });
+        }
+        
+        toast({
+          title: "Image Added",
+          description: "Image has been added to the gallery and will persist after server restarts.",
+        });
+      } else {
+        if (isEditComponentOpen && editingComponent) {
+          setEditingComponent({
+            ...editingComponent,
+            image: imageUrl
+          });
+        } else {
+          setNewComponent({
+            ...newComponent,
+            image: imageUrl
+          });
+        }
+        
+        toast({
+          title: "Image Uploaded",
+          description: "Main image has been uploaded successfully and will persist after server restarts.",
+        });
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast({
+        title: "Upload Failed",
+        description: "Failed to upload image. Please try again.",
+        variant: "destructive"
+      });
+    }
+    
+    // Reset file input value
+    if (event.target) {
+      event.target.value = '';
+    }
+  };
+
+  // Function to save the current component state to ensure changes persist
+  const saveCurrentState = async () => {
+    try {
+      // If in edit mode, save the edited component
+      if (isEditComponentOpen && editingComponent) {
+        // This will update the component in the global state
+        await updateComponent(editingComponent.id as string, editingComponent);
+        
+        // Update the local component list
+        const updatedComponents = components.map(comp => 
+          comp.id === editingComponent.id ? editingComponent : comp
+        );
+        setComponents(updatedComponents);
+        
+        // Trigger backup to CSV
+        await fetch('/api/components/backup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ components: getAllComponents() }),
+        });
+        
+        console.log('Component state saved with persistent storage');
+      }
+      // For new components, we don't need to do anything as they'll be saved when added
+    } catch (error) {
+      console.error('Error saving current state:', error);
+    }
+  };
+
+  const handleRemoveGalleryImage = (index: number) => {
+    if (isEditComponentOpen && editingComponent) {
+      const updatedGallery = [...(editingComponent.imagesGallery || [])];
+      updatedGallery.splice(index, 1);
+      setEditingComponent({
+        ...editingComponent,
+        imagesGallery: updatedGallery
+      });
+      
+      // Save changes after removing an image
+      setTimeout(() => saveCurrentState(), 500);
+    } else {
+      const updatedGallery = [...(newComponent.imagesGallery || [])];
+      updatedGallery.splice(index, 1);
+      setNewComponent({
+        ...newComponent,
+        imagesGallery: updatedGallery
+      });
+    }
+  };
+
+  const addSpecField = () => {
+    const specKey = prompt("Enter specification key (e.g., 'cores', 'frequency'):");
+    if (!specKey) return;
+    
+    const specValue = prompt(`Enter value for ${specKey}:`);
+    if (specValue === null) return;
+    
+    if (isEditComponentOpen && editingComponent) {
+      setEditingComponent({
+        ...editingComponent,
+        specs: {
+          ...editingComponent.specs,
+          [specKey]: specValue
+        }
+      });
+    } else {
+      setNewComponent({
+        ...newComponent,
+        specs: {
+          ...(newComponent.specs || {}),
+          [specKey]: specValue
+        }
+      });
+    }
+  };
+
+  const removeSpecField = (key: string) => {
+    if (isEditComponentOpen && editingComponent) {
+      const updatedSpecs = { ...editingComponent.specs };
+      delete updatedSpecs[key];
+      setEditingComponent({
+        ...editingComponent,
+        specs: updatedSpecs
+      });
+    } else {
+      const updatedSpecs = { ...(newComponent.specs || {}) };
+      delete updatedSpecs[key];
+      setNewComponent({
+        ...newComponent,
+        specs: updatedSpecs
+      });
+    }
+  };
+
+  const renderComponentForm = (isEdit = false) => {
+    const component = isEdit ? editingComponent : newComponent;
+    if (!component) return null;
+    
+    return (
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="category">Category</Label>
+            <Select 
+              value={component.category} 
+              onValueChange={(value) => {
+                if (isEdit) {
+                  setEditingComponent({
+                    ...(editingComponent as PCComponentData),
+                    category: value
+                  });
+                } else {
+                  setNewComponent({
+                    ...newComponent,
+                    category: value
+                  });
+                }
+              }}
+              disabled={isEdit} // Don't allow changing category when editing
+            >
+              <SelectTrigger id="category" className="w-full">
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                {BUILD_STEPS.filter(step => step.id !== 'review').map(step => (
+                  <SelectItem key={step.id} value={step.id}>
+                    {step.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <div>
+            <Label htmlFor="brand">Brand</Label>
+            <Input 
+              id="brand" 
+              value={component.brand} 
+              onChange={(e) => {
+                if (isEdit) {
+                  setEditingComponent({
+                    ...(editingComponent as PCComponentData),
+                    brand: e.target.value
+                  });
+                } else {
+                  setNewComponent({
+                    ...newComponent,
+                    brand: e.target.value
+                  });
+                }
+              }}
+              placeholder="e.g., NVIDIA, AMD, Intel"
+            />
+          </div>
+        </div>
+        
+        <div>
+          <Label htmlFor="name">Name</Label>
+          <Input 
+            id="name" 
+            value={component.name} 
+            onChange={(e) => {
+              if (isEdit) {
+                setEditingComponent({
+                  ...(editingComponent as PCComponentData),
+                  name: e.target.value
+                });
+              } else {
+                setNewComponent({
+                  ...newComponent,
+                  name: e.target.value
+                });
+              }
+            }}
+            placeholder="Component name"
+          />
+        </div>
+        
+        <div>
+          <Label htmlFor="price">Price (£)</Label>
+          <Input 
+            id="price" 
+            type="number" 
+            value={component.price || ''} 
+            onChange={(e) => {
+              const value = e.target.value === '' ? 0 : parseFloat(e.target.value);
+              if (isEdit) {
+                setEditingComponent({
+                  ...(editingComponent as PCComponentData),
+                  price: value
+                });
+              } else {
+                setNewComponent({
+                  ...newComponent,
+                  price: value
+                });
+              }
+            }}
+            placeholder="0.00"
+            min="0"
+            step="0.01"
+          />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="inventoryStatus">Inventory Status</Label>
+            <Select 
+              value={component.inventoryStatus || (component.inStock ? 'in-stock' : 'out-of-stock')} 
+              onValueChange={(value) => {
+                if (isEdit) {
+                  setEditingComponent({
+                    ...(editingComponent as PCComponentData),
+                    inventoryStatus: value as InventoryStatus,
+                    inStock: value === 'in-stock' || value === 'pre-order' // Pre-order counts as "in stock" for selection
+                  });
+                } else {
+                  setNewComponent({
+                    ...newComponent,
+                    inventoryStatus: value as InventoryStatus,
+                    inStock: value === 'in-stock' || value === 'pre-order' // Pre-order counts as "in stock" for selection
+                  });
+                }
+              }}
+            >
+              <SelectTrigger id="inventoryStatus" className="w-full">
+                <SelectValue placeholder="Select inventory status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="in-stock">In Stock</SelectItem>
+                <SelectItem value="out-of-stock">Out of Stock</SelectItem>
+                <SelectItem value="pre-order">Pre Order</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <div>
+            {/* Second column can be used for another field in the future */}
+          </div>
+        </div>
+        
+        <div>
+          <Label htmlFor="description">Description</Label>
+          <Textarea 
+            id="description" 
+            value={component.description} 
+            onChange={(e) => {
+              if (isEdit) {
+                setEditingComponent({
+                  ...(editingComponent as PCComponentData),
+                  description: e.target.value
+                });
+              } else {
+                setNewComponent({
+                  ...newComponent,
+                  description: e.target.value
+                });
+              }
+            }}
+            placeholder="Detailed description of the component"
+            rows={4}
+          />
+        </div>
+        
+        <Separator />
+        
+        <div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Traditional key-value specs */}
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <Label>Key-Value Specifications</Label>
+                <Button 
+                  type="button" 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={addSpecField}
+                  className="text-xs"
+                >
+                  <Plus className="h-3.5 w-3.5 mr-1" />
+                  Add Spec
+                </Button>
+              </div>
+              
+              <div className="bg-gray-50 dark:bg-gray-900/50 rounded-md p-3 space-y-2">
+                {Object.keys(component.specs || {}).length > 0 ? (
+                  Object.entries(component.specs || {}).map(([key, value]) => (
+                    <div key={key} className="flex items-center justify-between gap-2 text-sm">
+                      <div className="flex-1">
+                        <span className="font-medium">{key}:</span> {value.toString()}
+                      </div>
+                      <Button 
+                        type="button" 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => removeSpecField(key)}
+                        className="h-7 w-7 p-0 text-red-500"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-sm text-gray-500 dark:text-gray-400 text-center py-2">
+                    No specifications added
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            {/* HTML specs editor */}
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <Label htmlFor="specsHtml">HTML Specifications</Label>
+                <Button 
+                  type="button" 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-xs"
+                  onClick={() => {
+                    // Insert template HTML
+                    const templateHtml = `<p><strong>Description</strong></p>
+<p>Your description here.</p>
+<p><strong>Specification</strong></p>
+<ul>
+  <li><strong>Category:</strong> Value</li>
+  <li><strong>Feature:</strong> Value</li>
+  <li><strong>Dimension:</strong> Value</li>
+</ul>`;
+                    
+                    if (isEdit) {
+                      setEditingComponent({
+                        ...(editingComponent as PCComponentData),
+                        specsHtml: templateHtml
+                      });
+                    } else {
+                      setNewComponent({
+                        ...newComponent,
+                        specsHtml: templateHtml
+                      });
+                    }
+                  }}
+                >
+                  <FileText className="h-3.5 w-3.5 mr-1" />
+                  Template
+                </Button>
+              </div>
+              
+              <Textarea 
+                id="specsHtml" 
+                value={component.specsHtml || ''} 
+                onChange={(e) => {
+                  if (isEdit) {
+                    setEditingComponent({
+                      ...(editingComponent as PCComponentData),
+                      specsHtml: e.target.value
+                    });
+                  } else {
+                    setNewComponent({
+                      ...newComponent,
+                      specsHtml: e.target.value
+                    });
+                  }
+                }}
+                placeholder="<p><strong>Description</strong></p><p>Content here...</p><p><strong>Specification</strong></p><ul><li><strong>Feature:</strong> Value</li></ul>"
+                className="font-mono text-xs h-64"
+              />
+              
+              <div className="mt-2 p-2 border border-gray-200 dark:border-gray-800 rounded-md bg-white dark:bg-gray-950">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Preview:</p>
+                <div 
+                  className="prose prose-sm max-w-none dark:prose-invert"
+                  dangerouslySetInnerHTML={{ __html: component.specsHtml || '' }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <Separator />
+        
+        <div>
+          <Label htmlFor="mainImage">Main Image</Label>
+          <div className="flex flex-col gap-3 mt-1">
+            {component.image ? (
+              <div className="relative w-full aspect-square bg-gray-100 dark:bg-gray-900 rounded-md overflow-hidden">
+                <img 
+                  src={component.image} 
+                  alt="Main product"
+                  className="w-full h-full object-contain"
+                />
+                <Button 
+                  type="button" 
+                  variant="destructive" 
+                  size="sm" 
+                  className="absolute top-2 right-2 h-8 w-8 p-0"
+                  onClick={() => {
+                    if (isEdit) {
+                      setEditingComponent({
+                        ...(editingComponent as PCComponentData),
+                        image: ''
+                      });
+                    } else {
+                      setNewComponent({
+                        ...newComponent,
+                        image: ''
+                      });
+                    }
+                  }}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center w-full h-32 bg-gray-100 dark:bg-gray-900 rounded-md border-2 border-dashed border-gray-300 dark:border-gray-700">
+                <Image className="h-8 w-8 text-gray-400 mb-1" />
+                <p className="text-sm text-gray-500 dark:text-gray-400">No image uploaded</p>
+              </div>
+            )}
+            
+            <PersistentGalleryUpload
+              componentType={component.category || 'unknown'}
+              componentName={component.name || ''}
+              multiple={false}
+              onImagesUploaded={(imagePaths) => {
+                if (imagePaths.length > 0) {
+                  if (isEdit) {
+                    setEditingComponent({
+                      ...(editingComponent as PCComponentData),
+                      image: imagePaths[0]
+                    });
+                  } else {
+                    setNewComponent({
+                      ...newComponent,
+                      image: imagePaths[0]
+                    });
+                  }
+                  
+                  // Trigger a save to ensure the updates are persisted immediately
+                  setTimeout(() => saveCurrentState(), 500);
+                }
+              }}
+              className="w-full"
+            />
+          </div>
+        </div>
+        
+        <Separator />
+        
+        <div>
+          <div className="flex justify-between items-center mb-2">
+            <Label>Gallery Images</Label>
+            <PersistentGalleryUpload
+              componentType={component.category || 'unknown'}
+              componentName={component.name || ''}
+              multiple={true}
+              onImagesUploaded={(imagePaths) => {
+                if (imagePaths.length > 0) {
+                  if (isEdit && editingComponent) {
+                    const currentGallery = editingComponent.imagesGallery || [];
+                    setEditingComponent({
+                      ...editingComponent,
+                      imagesGallery: [...currentGallery, ...imagePaths]
+                    });
+                  } else {
+                    const currentGallery = newComponent.imagesGallery || [];
+                    setNewComponent({
+                      ...newComponent,
+                      imagesGallery: [...currentGallery, ...imagePaths]
+                    });
+                  }
+                  
+                  // Trigger a save to ensure the updates are persisted immediately
+                  setTimeout(() => saveCurrentState(), 500);
+                }
+              }}
+            />
+          </div>
+          
+          <div className="grid grid-cols-3 gap-2">
+            {(component.imagesGallery || []).length > 0 ? (
+              (component.imagesGallery || []).map((img, index) => (
+                <div key={index} className="relative aspect-square bg-gray-100 dark:bg-gray-900 rounded-md overflow-hidden">
+                  <img 
+                    src={img} 
+                    alt={`Gallery ${index + 1}`}
+                    className="w-full h-full object-contain"
+                  />
+                  <Button 
+                    type="button" 
+                    variant="destructive" 
+                    size="sm" 
+                    className="absolute top-1 right-1 h-6 w-6 p-0"
+                    onClick={() => handleRemoveGalleryImage(index)}
+                  >
+                    <Trash2 className="h-3 w-3" />
+                  </Button>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-3 flex items-center justify-center h-24 bg-gray-100 dark:bg-gray-900 rounded-md border-2 border-dashed border-gray-300 dark:border-gray-700">
+                <p className="text-sm text-gray-500 dark:text-gray-400">No gallery images</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <Helmet>
+        <title>Component Management | RigFreaks Admin</title>
+      </Helmet>
+      
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+        <div>
+          <h1 className="text-2xl font-bold">Component Management</h1>
+          <p className="text-muted-foreground">Add, edit or remove PC components for the builder</p>
+        </div>
+        
+        <div className="flex items-center gap-3">
+          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter by category" />
+            </SelectTrigger>
+            <SelectContent>
+              {BUILD_STEPS.filter(step => step.id !== 'review').map(step => (
+                <SelectItem key={step.id} value={step.id}>
+                  {step.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          
+          <Button variant="outline" onClick={refreshLocalComponents}>
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Refresh
+          </Button>
+          
+          <Button onClick={() => setIsAddComponentOpen(true)}>
+            <Plus className="h-4 w-4 mr-2" />
+            Add Component
+          </Button>
+          
+          <div className="flex gap-2 flex-wrap">
+            <Link href="/admin/components/backup">
+              <Button variant="outline" className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-500/20">
+                <Save className="h-4 w-4 mr-2" />
+                Backup Data
+              </Button>
+            </Link>
+            
+            <Link href="/admin/components/recovery">
+              <Button variant="outline" className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800 hover:bg-blue-500/20">
+                <Upload className="h-4 w-4 mr-2" />
+                Recovery
+              </Button>
+            </Link>
+            
+            <Link href="/admin/components/restore">
+              <Button variant="outline" className="bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800 hover:bg-amber-500/20">
+                <RefreshCw className="h-4 w-4 mr-2" />
+                Restore CSV
+              </Button>
+            </Link>
+            
+            <Link href="/admin/components/debug">
+              <Button variant="outline" className="bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800 hover:bg-yellow-500/20">
+                <Bug className="h-4 w-4 mr-2" />
+                Debug
+              </Button>
+            </Link>
+            
+            <a href="/backups/components.csv" target="_blank" rel="noopener noreferrer">
+              <Button variant="outline" className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800 hover:bg-green-500/20">
+                <FileText className="h-4 w-4 mr-2" />
+                CSV File
+              </Button>
+            </a>
+            
+            <Link href="/admin/components/init-backup">
+              <Button variant="outline" className="bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800 hover:bg-purple-500/20">
+                <Save className="h-4 w-4 mr-2" />
+                Init Auto-Backup
+              </Button>
+            </Link>
+            
+            <Link href="/admin/components/add-ryzen">
+              <Button variant="outline" className="bg-red-500/10 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800 hover:bg-red-500/20">
+                <Cpu className="h-4 w-4 mr-2" />
+                Add Ryzen 9 9950X
+              </Button>
+            </Link>
+          </div>
+          
+          <Button 
+            onClick={() => setIsImportCSVOpen(true)} 
+            variant="outline"
+            className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800"
+          >
+            <FileText className="h-4 w-4 mr-2" />
+            Import CSV/TSV
+          </Button>
+        </div>
+      </div>
+      
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <div className="flex flex-col items-center gap-2">
+            <RefreshCw className="h-8 w-8 animate-spin text-primary" />
+            <p>Loading components...</p>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredComponents.length > 0 ? (
+            filteredComponents.map(component => (
+              <Card key={component.id} className="overflow-hidden">
+                <div className="aspect-square bg-gray-100 dark:bg-gray-900 flex items-center justify-center p-4">
+                  {component.image ? (
+                    <img 
+                      src={component.image} 
+                      alt={component.name}
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  ) : (
+                    <div className="text-6xl text-gray-300 dark:text-gray-700">
+                      {BUILD_STEPS.find(step => step.id === component.category)?.icon}
+                    </div>
+                  )}
+                </div>
+                
+                <CardHeader className="pb-2">
+                  <div className="flex justify-between items-start">
+                    <Badge variant="outline" className="mb-2">
+                      {component.brand}
+                    </Badge>
+                    <div className="flex flex-col gap-1 items-end">
+                      <Badge variant="secondary" className="font-bold">
+                        £{component.price.toFixed(2)}
+                      </Badge>
+                      <Badge 
+                        variant={
+                          component.inventoryStatus === 'in-stock' ? 'success' : 
+                          component.inventoryStatus === 'out-of-stock' ? 'destructive' : 
+                          'outline'
+                        }
+                        className="text-[10px]"
+                      >
+                        {component.inventoryStatus === 'in-stock' ? 'In Stock' : 
+                         component.inventoryStatus === 'out-of-stock' ? 'Out of Stock' : 
+                         component.inventoryStatus === 'pre-order' ? 'Pre Order' :
+                         component.inStock ? 'In Stock' : 'Out of Stock'}
+                      </Badge>
+                    </div>
+                  </div>
+                  <CardTitle className="text-lg">{component.name}</CardTitle>
+                </CardHeader>
+                
+                <CardContent className="text-sm">
+                  <p className="line-clamp-2 text-muted-foreground mb-3">
+                    {component.description}
+                  </p>
+                  
+                  <div className="space-y-1">
+                    {Object.entries(component.specs || {}).slice(0, 3).map(([key, value]) => (
+                      <div key={key} className="flex justify-between text-xs">
+                        <span className="font-medium">{key}:</span>
+                        <span>{value.toString()}</span>
+                      </div>
+                    ))}
+                    {Object.keys(component.specs || {}).length > 3 && (
+                      <div className="text-xs text-right italic text-muted-foreground">
+                        + {Object.keys(component.specs || {}).length - 3} more specs
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+                
+                <CardFooter className="pt-0 flex justify-between gap-2">
+                  <Button 
+                    variant="outline" 
+                    className="flex-1"
+                    onClick={() => {
+                      setEditingComponent(component);
+                      setIsEditComponentOpen(true);
+                    }}
+                  >
+                    <Edit className="h-4 w-4 mr-2" />
+                    Edit
+                  </Button>
+                  <Button 
+                    variant="destructive" 
+                    className="flex-1"
+                    onClick={() => handleDeleteComponent(component.id)}
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Delete
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))
+          ) : (
+            <div className="col-span-full flex flex-col items-center justify-center h-64 bg-gray-100 dark:bg-gray-900/30 rounded-md border-2 border-dashed border-gray-300 dark:border-gray-700">
+              <p className="text-gray-500 dark:text-gray-400 mb-4">No components found for this category</p>
+              <Button onClick={() => setIsAddComponentOpen(true)}>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Component
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
+      
+      {/* Add Component Dialog */}
+      <Dialog open={isAddComponentOpen} onOpenChange={setIsAddComponentOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Add New Component</DialogTitle>
+            <DialogDescription>
+              Add a new component to the PC builder application.
+            </DialogDescription>
+          </DialogHeader>
+          
+          {renderComponentForm(false)}
+          
+          <DialogFooter className="mt-6">
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button onClick={handleAddComponent}>
+              <Save className="h-4 w-4 mr-2" />
+              Save Component
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Edit Component Dialog */}
+      <Dialog open={isEditComponentOpen} onOpenChange={setIsEditComponentOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit Component</DialogTitle>
+            <DialogDescription>
+              Update the details of this component.
+            </DialogDescription>
+          </DialogHeader>
+          
+          {renderComponentForm(true)}
+          
+          <DialogFooter className="mt-6">
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button onClick={handleEditComponent}>
+              <Save className="h-4 w-4 mr-2" />
+              Update Component
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* CSV Import Dialog */}
+      <Dialog open={isImportCSVOpen} onOpenChange={setIsImportCSVOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Import Components from CSV/TSV</DialogTitle>
+            <DialogDescription>
+              Upload a CSV or tab-delimited file with component data to bulk import. 
+              The format will be automatically detected based on the file contents.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 my-4">
+            {/* File input */}
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="csv-file">Select File (CSV or TSV)</Label>
+              <div className="flex items-center gap-2">
+                <Input
+                  id="csv-file"
+                  type="file"
+                  accept=".csv,.tsv,.txt"
+                  onChange={(e) => handleCsvFileChange(e)}
+                  className="flex-1"
+                />
+              </div>
+              {csvFile && (
+                <p className="text-sm text-muted-foreground">
+                  Selected file: {csvFile.name} ({Math.round(csvFile.size / 1024)} KB)
+                </p>
+              )}
+            </div>
+            
+            {/* CSV format example */}
+            <div className="rounded-md bg-muted p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertCircle className="h-4 w-4 text-muted-foreground" />
+                <h3 className="text-sm font-medium">Required CSV Format</h3>
+              </div>
+              <div className="text-xs text-muted-foreground">
+                <p>The CSV/TSV file should include columns like the following:</p>
+                <ul className="list-disc list-inside mt-1 space-y-1">
+                  <li>Component Type: CPU, Motherboard, etc. (maps to category)</li>
+                  <li>Manufacturer: Brand name (maps to brand)</li>
+                  <li>Model: Component model name (maps to name)</li>
+                  <li>Price: Number with or without currency symbol (e.g., £599.99)</li>
+                </ul>
+                <p className="mt-2">Optional columns include: Description, Specifications, Image, Stock Status</p>
+                <p className="mt-1 text-sm text-amber-500 dark:text-amber-400">Both comma-separated (.csv) and tab-delimited files are supported</p>
+              </div>
+            </div>
+            
+            {/* Import status/results */}
+            {csvImportStatus && (
+              <div className={`rounded-md ${csvImportStatus.success ? 'bg-green-50 dark:bg-green-900/20' : 'bg-red-50 dark:bg-red-900/20'} p-4`}>
+                <div className="flex items-center gap-2 mb-2">
+                  {csvImportStatus.success ? (
+                    <Check className="h-4 w-4 text-green-500 dark:text-green-400" />
+                  ) : (
+                    <X className="h-4 w-4 text-red-500 dark:text-red-400" />
+                  )}
+                  <h3 className={`text-sm font-medium ${csvImportStatus.success ? 'text-green-800 dark:text-green-200' : 'text-red-800 dark:text-red-200'}`}>
+                    {csvImportStatus.success ? 'Import Successful' : 'Import Failed'}
+                  </h3>
+                </div>
+                
+                <div className={`text-xs ${csvImportStatus.success ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'}`}>
+                  {csvImportStatus.success ? (
+                    <p>Successfully imported {csvImportStatus.imported} components.</p>
+                  ) : (
+                    <p>Failed to import components. Please check your CSV file format.</p>
+                  )}
+                  
+                  {csvImportStatus.errors.length > 0 && (
+                    <div className="mt-2">
+                      <p className="font-medium">Errors:</p>
+                      <ul className="list-disc list-inside mt-1 space-y-1 max-h-32 overflow-y-auto">
+                        {csvImportStatus.errors.map((error, index) => (
+                          <li key={index}>{error}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button 
+              onClick={() => importCsvFile()}
+              disabled={!csvFile}
+              className="bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800"
+            >
+              <Upload className="h-4 w-4 mr-2" />
+              Import Components
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+export default ComponentAdmin;

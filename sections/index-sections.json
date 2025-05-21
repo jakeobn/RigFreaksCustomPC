@@ -1,0 +1,61 @@
+{
+  "name": "Index Sections",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "home_hero",
+      "name": "Home Hero",
+      "settings": []
+    },
+    {
+      "type": "featured_collections",
+      "name": "Featured Collections",
+      "settings": []
+    },
+    {
+      "type": "featured_products",
+      "name": "Featured Products",
+      "settings": []
+    },
+    {
+      "type": "custom_pc_builder_cta",
+      "name": "Custom PC Builder CTA",
+      "settings": []
+    },
+    {
+      "type": "why_choose_us",
+      "name": "Why Choose Us",
+      "settings": []
+    },
+    {
+      "type": "latest_blog_posts",
+      "name": "Latest Blog Posts",
+      "settings": []
+    }
+  ],
+  "presets": [
+    {
+      "name": "Index Sections",
+      "blocks": [
+        {
+          "type": "home_hero"
+        },
+        {
+          "type": "featured_collections"
+        },
+        {
+          "type": "featured_products"
+        },
+        {
+          "type": "custom_pc_builder_cta"
+        },
+        {
+          "type": "why_choose_us"
+        },
+        {
+          "type": "latest_blog_posts"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,358 @@
+/* Dark gradient background for entire website - a continuous gradient for all sections */
+:root {
+    --global-bg-color: #121212;
+    --global-bg-gradient: linear-gradient(135deg, rgba(18, 18, 18, 0.97) 0%, rgba(18, 18, 18, 0.95) 100%);
+}
+
+html, body {
+    background-color: var(--global-bg-color);
+    background-image: var(--global-bg-gradient);
+    color: rgba(255, 255, 255, 0.85);
+    position: relative;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Force all section backgrounds to be transparent */
+section, .container-fluid, div, .featured-pcs-section, .pc-categories-section, 
+.usp-features-section, .trending-products-section, .shop-components-section,
+.special-offers-section, .testimonials-section, .why-choose-section,
+.blog-section, .cta-section, .features-modern, .page-content, .main-content {
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+/* Create blobs that match the hero section exactly */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.15;
+    background: 
+        /* Match blob-1 from hero */
+        radial-gradient(circle at 90% 10%, 
+            rgba(var(--bs-primary-rgb), 0.5), 
+            transparent 50%) top right no-repeat,
+        /* Match blob-2 from hero */
+        radial-gradient(circle at 10% 90%, 
+            rgba(var(--bs-success-rgb), 0.5),
+            rgba(var(--bs-primary-rgb), 0.5), 
+            transparent 50%) bottom left no-repeat,
+        /* Match blob-3 from hero */
+        radial-gradient(circle at 40% 40%, 
+            rgba(var(--bs-info-rgb), 0.5),
+            rgba(var(--bs-purple-rgb), 0.5), 
+            transparent 50%) center left no-repeat;
+    background-size: 
+        45vw 45vw,  /* blob-1 size */
+        30vw 30vw,  /* blob-2 size */
+        25vw 25vw;  /* blob-3 size */
+}
+
+/* Subtle grid pattern overlay like hero section */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+    background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.7;
+    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
+}
+
+/* Adjust cards and other elements to work with dark background */
+.card, .component-card, .testimonial-card, .featured-pc-card, .product-card, .why-choose-feature-card {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Make card titles and content stand out */
+.card-title, .component-title, .testimonial-author, .product-title, 
+.featured-pc-title, .feature-title-large {
+    color: white !important;
+    font-weight: 600;
+}
+
+.card-text, .testimonial-content, .feature-description, .product-price,
+.product-category, .component-count, .featured-pc-specs {
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Enhance card hover effects */
+.card:hover, .component-card:hover, .testimonial-card:hover, 
+.featured-pc-card:hover, .product-card:hover, .why-choose-feature-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.modal-content {
+    background-color: var(--bs-gray-900);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.modal-header, .modal-footer {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Ensure all text is clearly visible on dark background */
+/* Global text color adjustments for all elements */
+body, p, h1, h2, h3, h4, h5, h6, span, div, a, li, dt, dd, label, 
+.card-title, .card-text, .section-title, .section-subtitle,
+.component-title, .product-title, .featured-pc-title, 
+.offer-title, .offer-text, .testimonial-content, .feature-title-large,
+.feature-description, .cta-title, .cta-text {
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Targeted adjustments for specific elements */
+a:not(.btn), .nav-link, .footer-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+a:hover:not(.btn), .nav-link:hover, .footer-link:hover {
+    color: #ffffff !important;
+    text-decoration: underline;
+}
+
+/* Navigation specific styles */
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-weight: 500;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-item.active .nav-link {
+    color: white !important;
+}
+
+/* Footer links and text */
+.footer {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.footer h5, .footer .footer-title {
+    color: white !important;
+    font-weight: 600;
+}
+
+.footer-link, .footer a {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.footer-link:hover, .footer a:hover {
+    color: white !important;
+}
+
+/* Keep dark text for elements that need it */
+.btn-light, .btn-secondary {
+    color: rgba(33, 37, 41, 0.95) !important;
+}
+
+/* Style dropdown menu items */
+.dropdown-menu {
+    background-color: #121212; /* Consistent solid background */
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.dropdown-item {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white !important;
+}
+
+/* Style buttons with outline for better visibility */
+.btn-outline-primary, .btn-outline-secondary, .btn-outline-success,
+.btn-outline-danger, .btn-outline-warning, .btn-outline-info {
+    border-width: 2px;
+}
+
+.btn-outline-primary {
+    color: var(--bs-primary) !important;
+    border-color: var(--bs-primary);
+}
+
+.btn-outline-primary:hover {
+    color: white !important;
+}
+
+/* Original text classes */
+.text-dark {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.text-muted {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* Adjust alert styles for dark background */
+.alert {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Style form elements for dark background */
+.form-control, .form-select {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--bs-primary);
+    color: white;
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+/* Style tables for dark background */
+.table {
+    color: white;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.table-hover > tbody > tr:hover > * {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.table th {
+    color: white;
+    font-weight: 600;
+}
+
+/* Style form labels for better visibility */
+label {
+    color: white;
+    font-weight: 500;
+}
+
+/* Fix hero section to work with dark background */
+.modern-hero {
+    background: none !important;
+}
+
+/* Make the hero section's blobs match our body blobs */
+.hero-blob.blob-1 {
+    width: 45vw;
+    height: 45vw;
+    background: linear-gradient(125deg, var(--primary-color), var(--info));
+    top: -20%;
+    right: -15%;
+    opacity: 0.15;
+}
+
+.hero-blob.blob-2 {
+    width: 30vw;
+    height: 30vw;
+    background: linear-gradient(220deg, var(--success), var(--primary-color));
+    bottom: -10%;
+    left: -10%;
+    opacity: 0.15;
+}
+
+.hero-blob.blob-3 {
+    width: 25vw;
+    height: 25vw;
+    background: linear-gradient(45deg, var(--info), var(--purple));
+    top: 30%;
+    left: 10%;
+    opacity: 0.15;
+}
+
+/* Adjust feature-card for dark background */
+.feature-card-inner {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Enhanced styling for the Why Choose Us feature cards */
+.why-choose-feature-card {
+    padding: 2rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.08); /* Slightly brighter than regular cards */
+}
+
+.why-choose-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.feature-icon-large {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--bs-primary);
+    background: rgba(var(--bs-primary-rgb), 0.1);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-title-large {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: white !important;
+}
+
+.feature-description {
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.feature-link {
+    display: inline-block;
+    font-weight: 500;
+    margin-top: auto;
+    color: var(--bs-primary) !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
+
+.feature-link:hover {
+    color: white !important;
+    text-decoration: none !important;
+    transform: translateX(5px);
+}
+
+/* Additional spacing utility class */
+.py-6 {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+/* Extra overrides for mobile navigation with highest specificity */
+body header .navbar-collapse#mobileNav, 
+body header .navbar-collapse#mobileNav .mobile-nav-container,
+body header .navbar-collapse#mobileNav .navbar-nav {
+    background-color: #121212 !important;
+}

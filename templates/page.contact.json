@@ -1,0 +1,127 @@
+{
+  "name": "Contact Page",
+  "sections": {
+    "contact-header": {
+      "type": "page-header",
+      "settings": {
+        "show_title": true,
+        "title_size": "large",
+        "text_alignment": "center",
+        "show_breadcrumbs": true,
+        "show_page_image": true,
+        "image_height": "medium",
+        "overlay_opacity": 30,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "main-contact": {
+      "type": "main-contact",
+      "blocks": {
+        "contact-form": {
+          "type": "contact_form",
+          "settings": {
+            "title": "Get In Touch",
+            "subtitle": "We'd love to hear from you",
+            "show_name": true,
+            "name_required": true,
+            "show_email": true,
+            "email_required": true,
+            "show_phone": true,
+            "phone_required": false,
+            "show_subject": true,
+            "subject_required": false,
+            "show_message": true,
+            "message_required": true,
+            "button_text": "Send Message",
+            "success_message": "Thanks for contacting us! We'll get back to you as soon as possible."
+          }
+        },
+        "contact-info": {
+          "type": "contact_info",
+          "settings": {
+            "title": "Contact Information",
+            "show_address": true,
+            "show_phone": true,
+            "show_email": true,
+            "show_hours": true
+          }
+        },
+        "contact-map": {
+          "type": "contact_map",
+          "settings": {
+            "title": "Our Location",
+            "map_address": "",
+            "map_api_key": "",
+            "map_zoom": 14,
+            "map_height": 400
+          }
+        }
+      },
+      "block_order": [
+        "contact-form",
+        "contact-info",
+        "contact-map"
+      ],
+      "settings": {
+        "layout": "split",
+        "max_width": "medium",
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    },
+    "contact-faq": {
+      "type": "faq",
+      "blocks": {
+        "faq-0": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer technical support for my PC?",
+            "answer": "Yes, we offer lifetime technical support for all PC purchases. Our support team is available via phone, email, and live chat."
+          }
+        },
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What are your business hours?",
+            "answer": "Our customer service team is available Monday through Friday from 9am to 6pm Eastern Time, and Saturday from 10am to 4pm."
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does it take to build a custom PC?",
+            "answer": "Most custom builds take 5-7 business days to build, test, and ship. Rush services are available for an additional fee."
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary by location."
+          }
+        }
+      ],
+      "block_order": [
+        "faq-0",
+        "faq-1",
+        "faq-2",
+        "faq-3"
+      ],
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Find quick answers to common questions",
+        "layout": "accordion",
+        "background_color": "#111111",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "contact-header",
+    "main-contact",
+    "contact-faq"
+  ]
+}

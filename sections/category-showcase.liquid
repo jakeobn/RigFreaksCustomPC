@@ -1,0 +1,294 @@
+<section class="category-showcase section-padding">
+  <div class="container">
+    <header class="section-header">
+      {% if section.settings.title != blank %}
+        <h2 class="section-title">{{ section.settings.title }}</h2>
+      {% endif %}
+      
+      {% if section.settings.subtitle != blank %}
+        <div class="section-subtitle">{{ section.settings.subtitle }}</div>
+      {% endif %}
+    </header>
+    
+    <div class="category-grid category-grid--{{ section.settings.layout }}">
+      {% for block in section.blocks %}
+        <div class="category-card category-card--{{ block.settings.bg_color }}" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.link }}" class="category-card-link">
+            <div class="category-card-content">
+              <h3 class="category-card-title">{{ block.settings.title }}</h3>
+              <div class="category-card-text">{{ block.settings.text }}</div>
+              
+              {% if block.settings.button_text != blank %}
+                <div class="category-card-button">
+                  <span class="btn btn-outline">{{ block.settings.button_text }}</span>
+                </div>
+              {% endif %}
+            </div>
+            
+            {% if block.settings.image != blank %}
+              <div class="category-card-image">
+                <img src="{{ block.settings.image | img_url: '600x' }}" 
+                     srcset="{{ block.settings.image | img_url: '600x' }} 600w,
+                             {{ block.settings.image | img_url: '800x' }} 800w"
+                     sizes="(min-width: 768px) 50vw, 100vw"
+                     alt="{{ block.settings.title | escape }}"
+                     loading="lazy">
+              </div>
+            {% endif %}
+            
+            {% if block.settings.icon != blank %}
+              <div class="category-card-icon">
+                {% case block.settings.icon %}
+                  {% when 'cpu' %}
+                    {% render 'icon-cpu' %}
+                  {% when 'gpu' %}
+                    {% render 'icon-gpu' %}
+                  {% when 'motherboard' %}
+                    {% render 'icon-motherboard' %}
+                  {% when 'case' %}
+                    {% render 'icon-case' %}
+                  {% when 'ram' %}
+                    {% render 'icon-ram' %}
+                  {% when 'disk' %}
+                    {% render 'icon-disk' %}
+                  {% when 'power' %}
+                    {% render 'icon-power-supply' %}
+                  {% when 'cooling' %}
+                    {% render 'icon-cooling' %}
+                  {% when 'gaming' %}
+                    {% render 'icon-gaming' %}
+                  {% when 'creator' %}
+                    {% render 'icon-creator' %}
+                  {% when 'workstation' %}
+                    {% render 'icon-workstation' %}
+                  {% when 'customize' %}
+                    {% render 'icon-customize' %}
+                {% endcase %}
+              </div>
+            {% endif %}
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Category Showcase",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "PC Categories"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "<p>Find the perfect system for your computing needs</p>"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "grid-compact",
+          "label": "Compact Grid"
+        },
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        }
+      ],
+      "default": "grid"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Vortex Gaming PC"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Category Description",
+          "default": "<p>Premium high-end gaming systems built for 4K gaming</p>"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "default": "/collections/vortex"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Shop Now"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "cpu",
+              "label": "CPU"
+            },
+            {
+              "value": "gpu",
+              "label": "GPU"
+            },
+            {
+              "value": "motherboard",
+              "label": "Motherboard"
+            },
+            {
+              "value": "case",
+              "label": "Case"
+            },
+            {
+              "value": "ram",
+              "label": "RAM"
+            },
+            {
+              "value": "disk",
+              "label": "Storage"
+            },
+            {
+              "value": "power",
+              "label": "Power Supply"
+            },
+            {
+              "value": "cooling",
+              "label": "Cooling"
+            },
+            {
+              "value": "gaming",
+              "label": "Gaming"
+            },
+            {
+              "value": "creator",
+              "label": "Creator"
+            },
+            {
+              "value": "workstation",
+              "label": "Workstation"
+            },
+            {
+              "value": "customize",
+              "label": "Customize"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "select",
+          "id": "bg_color",
+          "label": "Background Color",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "secondary",
+              "label": "Secondary"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            },
+            {
+              "value": "light",
+              "label": "Light"
+            },
+            {
+              "value": "gradient",
+              "label": "Gradient"
+            }
+          ],
+          "default": "default"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Showcase",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "title": "Vortex Gaming PCs",
+            "text": "<p>Premium high-end gaming systems built for 4K gaming</p>",
+            "link": "/collections/vortex",
+            "button_text": "Shop Now",
+            "icon": "gaming",
+            "bg_color": "primary"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Nova Gaming PCs",
+            "text": "<p>Mid-range gaming systems built for 1080p-1440p gaming</p>",
+            "link": "/collections/nova",
+            "button_text": "Shop Now",
+            "icon": "gaming",
+            "bg_color": "secondary"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Pulse Workstations",
+            "text": "<p>High-performance workstations for professionals and creators</p>",
+            "link": "/collections/pulse",
+            "button_text": "Shop Now",
+            "icon": "creator",
+            "bg_color": "dark"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Custom PC Builder",
+            "text": "<p>Build your own custom PC with our easy-to-use configurator</p>",
+            "link": "/pages/pc-builder",
+            "button_text": "Start Building",
+            "icon": "customize",
+            "bg_color": "gradient"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

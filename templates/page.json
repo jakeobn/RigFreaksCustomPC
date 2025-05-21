@@ -1,0 +1,32 @@
+{
+  "name": "Default Page",
+  "sections": {
+    "page-header": {
+      "type": "page-header",
+      "settings": {
+        "show_title": true,
+        "title_size": "large",
+        "text_alignment": "center",
+        "show_breadcrumbs": true,
+        "show_page_image": true,
+        "image_height": "medium",
+        "overlay_opacity": 30,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "main-page": {
+      "type": "main-page",
+      "settings": {
+        "max_width": "medium",
+        "content_alignment": "left",
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "page-header",
+    "main-page"
+  ]
+}

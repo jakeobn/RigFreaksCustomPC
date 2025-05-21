@@ -1,0 +1,313 @@
+{
+  "name": "Creator Workstations Collection",
+  "sections": {
+    "collection-hero": {
+      "type": "collection-hero",
+      "settings": {
+        "title": "Creator Workstations",
+        "subtitle": "Powerful PCs optimized for content creation and productivity",
+        "description": "Designed for professionals who demand exceptional performance for video editing, 3D rendering, graphic design, and other resource-intensive creative workflows.",
+        "show_collection_image": true,
+        "image_height": "large",
+        "text_alignment": "center",
+        "overlay_opacity": 40,
+        "button_text": "Shop All Workstations",
+        "button_link": "#main-collection",
+        "second_button_text": "Build Custom Workstation",
+        "second_button_link": "/pages/pc-builder",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "collection-subcategories": {
+      "type": "collection-subcategories",
+      "blocks": {
+        "subcategory-0": {
+          "type": "subcategory",
+          "settings": {
+            "title": "Video Editing Workstations",
+            "subtitle": "Optimized for Premier Pro, DaVinci Resolve & Final Cut",
+            "description": "Powerful systems designed for high-resolution video editing and rendering",
+            "image": "",
+            "link": "/collections/video-editing-workstations"
+          }
+        },
+        "subcategory-1": {
+          "type": "subcategory",
+          "settings": {
+            "title": "3D & VFX Workstations",
+            "subtitle": "Ideal for Blender, Cinema 4D & Maya",
+            "description": "High-performance systems for complex 3D modeling and rendering",
+            "image": "",
+            "link": "/collections/3d-vfx-workstations"
+          }
+        },
+        "subcategory-2": {
+          "type": "subcategory",
+          "settings": {
+            "title": "Design Workstations",
+            "subtitle": "Perfect for Photoshop, Illustrator & InDesign",
+            "description": "Optimized for graphic design, photo editing, and digital illustration",
+            "image": "",
+            "link": "/collections/design-workstations"
+          }
+        }
+      ],
+      "block_order": [
+        "subcategory-0",
+        "subcategory-1",
+        "subcategory-2"
+      ],
+      "settings": {
+        "title": "Browse By Profession",
+        "subtitle": "Specialized workstations designed for your creative workflow",
+        "layout": "grid",
+        "columns": 3,
+        "show_description": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "main-collection": {
+      "type": "main-collection",
+      "settings": {
+        "products_per_page": 12,
+        "products_per_row": 4,
+        "image_ratio": "square",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": true,
+        "enable_quick_add": true,
+        "enable_filtering": true,
+        "filter_type": "sidebar",
+        "enable_sorting": true,
+        "enable_color_swatch": true,
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    },
+    "performance-comparison": {
+      "type": "performance-comparison",
+      "blocks": {
+        "app-0": {
+          "type": "application",
+          "settings": {
+            "app_title": "Premier Pro 4K Export",
+            "app_image": "",
+            "high_end": "40% faster",
+            "mid_range": "25% faster",
+            "entry_level": "10% faster"
+          }
+        },
+        "app-1": {
+          "type": "application",
+          "settings": {
+            "app_title": "Blender Scene Rendering",
+            "app_image": "",
+            "high_end": "3x faster",
+            "mid_range": "2x faster",
+            "entry_level": "1.5x faster"
+          }
+        },
+        "app-2": {
+          "type": "application",
+          "settings": {
+            "app_title": "Photoshop Complex Operations",
+            "app_image": "",
+            "high_end": "Instant",
+            "mid_range": "Near-instant",
+            "entry_level": "Very fast"
+          }
+        }
+      ],
+      "block_order": [
+        "app-0",
+        "app-1",
+        "app-2"
+      ],
+      "settings": {
+        "title": "Performance Comparison",
+        "subtitle": "See how our workstations perform compared to standard PCs",
+        "description": "Performance metrics compared to average consumer-grade computers. Results may vary depending on specific workloads and configurations.",
+        "show_app_images": true,
+        "image_position": "left",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "key-components": {
+      "type": "key-components",
+      "blocks": {
+        "component-0": {
+          "type": "component",
+          "settings": {
+            "icon": "cpu",
+            "title": "Professional-Grade CPUs",
+            "text": "Multi-core processors optimized for multi-threaded applications",
+            "image": ""
+          }
+        },
+        "component-1": {
+          "type": "component",
+          "settings": {
+            "icon": "gpu",
+            "title": "Workstation GPUs",
+            "text": "Powerful graphics cards designed for creative software acceleration",
+            "image": ""
+          }
+        },
+        "component-2": {
+          "type": "component",
+          "settings": {
+            "icon": "memory",
+            "title": "ECC Memory",
+            "text": "Error-correcting memory for critical stability in demanding projects",
+            "image": ""
+          }
+        },
+        "component-3": {
+          "type": "component",
+          "settings": {
+            "icon": "hard-drive",
+            "title": "NVMe Storage",
+            "text": "Ultra-fast storage for seamless work with large files",
+            "image": ""
+          }
+        }
+      ],
+      "block_order": [
+        "component-0",
+        "component-1",
+        "component-2",
+        "component-3"
+      ],
+      "settings": {
+        "title": "Key Components for Creators",
+        "subtitle": "The hardware that powers your creative workflow",
+        "layout": "grid",
+        "show_images": true,
+        "background_color": "#111111",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "creator-testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial-0": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "My RigFreaks workstation has cut my render times in half. I can now take on more client work with confidence that my system can handle it.",
+            "author": "Alex T.",
+            "location": "3D Artist",
+            "rating": 5
+          }
+        },
+        "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "As a video editor working with 4K and 8K footage, I needed a system that wouldn't lag or crash. My RigFreaks workstation handles everything I throw at it effortlessly.",
+            "author": "Sarah M.",
+            "location": "Video Producer",
+            "rating": 5
+          }
+        },
+        "testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The custom workstation RigFreaks built for me has transformed my workflow. Complex Photoshop operations that used to take minutes now happen instantly.",
+            "author": "Michael K.",
+            "location": "Graphic Designer",
+            "rating": 5
+          }
+        }
+      ],
+      "block_order": [
+        "testimonial-0",
+        "testimonial-1",
+        "testimonial-2"
+      ],
+      "settings": {
+        "title": "What Creators Say",
+        "subtitle": "Hear from professionals who use our workstations",
+        "layout": "slider",
+        "show_rating": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "creator-faq": {
+      "type": "faq",
+      "blocks": {
+        "faq-0": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What's the difference between a gaming PC and a creator workstation?",
+            "answer": "While there's some overlap, creator workstations prioritize multi-threaded performance, stability, and reliability over pure gaming performance. They typically feature CPUs with more cores, professional-grade GPUs, ECC memory, and redundant storage solutions."
+          }
+        },
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I need a professional GPU for content creation?",
+            "answer": "It depends on your specific workflow. Professional GPUs like NVIDIA Quadro or AMD Radeon Pro can offer better stability and specialized features for certain applications, but many creators work effectively with high-end consumer GPUs. We can help you determine the best option for your needs."
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How much RAM do I need for professional work?",
+            "answer": "For professional creative work, we recommend a minimum of 32GB RAM. For complex 3D rendering, 4K/8K video editing, or running multiple creative applications simultaneously, 64GB or more is often beneficial."
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can you build a workstation for my specific software needs?",
+            "answer": "Absolutely! We specialize in custom workstations optimized for specific software and workflows. Contact us to discuss your requirements, and we'll recommend the perfect configuration for your needs."
+          }
+        }
+      ],
+      "block_order": [
+        "faq-0",
+        "faq-1",
+        "faq-2",
+        "faq-3"
+      ],
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Common questions about our creator workstations",
+        "layout": "accordion",
+        "padding_top": 60,
+        "padding_bottom": 80
+      }
+    },
+    "collection-cta": {
+      "type": "cta",
+      "settings": {
+        "title": "Need a Custom Solution?",
+        "subtitle": "Build your perfect workstation with our custom PC builder",
+        "button_text": "Build Your Workstation",
+        "button_link": "/pages/pc-builder",
+        "second_button_text": "Get Expert Advice",
+        "second_button_link": "/pages/contact",
+        "text_alignment": "center",
+        "background_color": "#00aaff",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "collection-hero",
+    "collection-subcategories",
+    "main-collection",
+    "performance-comparison",
+    "key-components",
+    "creator-testimonials",
+    "creator-faq",
+    "collection-cta"
+  ]
+}

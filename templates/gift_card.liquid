@@ -1,0 +1,64 @@
+{% layout 'gift_card' %}
+
+<div class="gift-card">
+  <div class="gift-card__header">
+    {% if shop.logo %}
+      <div class="gift-card__logo">
+        <img 
+          src="{{ shop.logo | image_url }}" 
+          alt="{{ shop.name }}" 
+          width="180"
+          loading="lazy"
+        >
+      </div>
+    {% else %}
+      <h1 class="gift-card__title">{{ shop.name }}</h1>
+    {% endif %}
+    <h2 class="gift-card__subtitle">{{ 'gift_cards.issued.subtext' | t }}</h2>
+  </div>
+  
+  <div class="gift-card__content">
+    <div class="gift-card__amount">
+      {% if gift_card.balance > 0 %}
+        {{ gift_card.balance | money }}
+      {% endif %}
+    </div>
+    
+    {% if gift_card.enabled %}
+      <div class="gift-card__code-wrapper">
+        <div class="gift-card__code" id="gift-card-code">{{ gift_card.code }}</div>
+        <button id="gift-card-copy" class="gift-card__copy">{{ 'gift_cards.issued.copy_code' | t }}</button>
+      </div>
+      
+      <div class="gift-card__qr">
+        <img
+          src="{{ gift_card.qr_code | image_url }}"
+          alt="{{ 'gift_cards.issued.scan_qr' | t }}"
+          width="200"
+          height="200"
+          loading="lazy"
+        >
+      </div>
+      
+      <div class="gift-card__actions">
+        <a href="{{ shop.url }}" class="gift-card__button">{{ 'gift_cards.issued.shop_link' | t }}</a>
+        <button id="gift-card-print" class="gift-card__button gift-card__button--secondary">{{ 'gift_cards.issued.print' | t }}</button>
+      </div>
+      
+      {% if gift_card.expires_on %}
+        <div class="gift-card__expiry">
+          {{ 'gift_cards.issued.expiry_html' | t: expiry: gift_card.expires_on | date: '%B %d, %Y' }}
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="gift-card__expired">
+        {{ 'gift_cards.issued.expired' | t }}
+      </div>
+    {% endif %}
+  </div>
+  
+  <div class="gift-card__footer">
+    <p>{{ 'gift_cards.issued.gift_card_code' | t }} <strong>{{ gift_card.code }}</strong></p>
+    <p><a href="{{ shop.url }}" class="gift-card__shop-link">{{ shop.name }}</a></p>
+  </div>
+</div>

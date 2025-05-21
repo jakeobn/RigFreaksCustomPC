@@ -1,0 +1,385 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/chillblast-home.css') }}">
+{% endblock %}
+
+{% block content %}
+{% if search_query %}
+<!-- Search Results Section -->
+<section class="search-results py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2 class="section-title">Search Results for "{{ search_query }}"</h2>
+                <p class="text-muted">Showing products matching your search</p>
+            </div>
+        </div>
+        
+        <!-- Search Results Content -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <p class="mb-0">Your search for <strong>"{{ search_query }}"</strong> returned no exact matches in our catalog.</p>
+                        <p class="mb-0">Try using different keywords or browse our categories below.</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-center mt-4">
+                    <a href="{{ url_for('step_builder') }}" class="btn btn-primary me-3">
+                        <i class="fas fa-drafting-compass me-2"></i>Design Your Custom PC
+                    </a>
+                    <a href="{{ url_for('builds.prebuilt_configs') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-th-large me-2"></i>Browse All Collections
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Modern Hero Section with 3D Visual Effects -->
+<section class="modern-hero position-relative overflow-hidden">
+    <!-- Animated background elements -->
+    <div class="hero-bg-elements">
+        <div class="hero-blob blob-1"></div>
+        <div class="hero-blob blob-2"></div>
+        <div class="hero-blob blob-3"></div>
+        <div class="hero-grid"></div>
+    </div>
+    
+    <div class="container position-relative">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-6 hero-content">
+                
+                <!-- Modern typography with animation classes -->
+                <h1 class="display-3 fw-bold hero-title-modern" data-aos="fade-up">
+                    Build Your Dream PC – Your Way
+                </h1>
+                
+                <p class="lead hero-subtitle" data-aos="fade-up" data-aos-delay="100">
+                    Custom-built desktops designed for power, precision, and performance.
+                </p>
+                
+                <p class="hero-description my-4" data-aos="fade-up" data-aos-delay="200">
+                    Whether you're a gamer, creator, or professional, our easy-to-use PC configurator helps you choose the perfect parts with real-time compatibility checks. Get a powerful, hand-assembled machine built to match your needs and delivered to your door.
+                </p>
+                
+                <!-- Modern button design with hover effects -->
+                <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
+                    <a href="{{ url_for('step_builder') }}" class="btn btn-primary btn-hero-modern">
+                        <span class="btn-text">PC Builder</span>
+                        <span class="btn-icon"><i class="fas fa-drafting-compass"></i></span>
+                    </a>
+                    <a href="{{ url_for('builds.prebuilt_configs') }}" class="btn btn-outline btn-hero-modern">
+                        <span class="btn-text">Prebuilt PCs</span>
+                        <span class="btn-icon"><i class="fas fa-th-large"></i></span>
+                    </a>
+                </div>
+                
+
+            </div>
+            
+            <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center">
+                <!-- 3D card with parallax effect -->
+                <div class="hero-3d-card" data-tilt data-tilt-max="10" data-aos="zoom-in" data-aos-delay="200">
+                    <!-- Modern mesh gradient overlay -->
+                    <div class="mesh-gradient-overlay"></div>
+                    
+                    <img src="{{ url_for('static', filename='img/custom/rtx-4090-hero.png') }}" 
+                         alt="Premium Custom PC" class="hero-image-modern">
+                    
+                    <!-- Floating specs cards with glassmorphism -->
+                    <div class="spec-card spec-card-1">
+                        <div class="spec-icon"><i class="fas fa-microchip"></i></div>
+                        <div class="spec-text">
+                            <div class="spec-title">Processor</div>
+                            <div class="spec-value">Intel Core i9 13900K</div>
+                        </div>
+                    </div>
+                    
+                    <div class="spec-card spec-card-2">
+                        <div class="spec-icon"><i class="fas fa-tv"></i></div>
+                        <div class="spec-text">
+                            <div class="spec-title">Graphics</div>
+                            <div class="spec-value">RTX 4090 24GB</div>
+                        </div>
+                    </div>
+                    
+                    <div class="spec-card spec-card-3">
+                        <div class="spec-icon"><i class="fas fa-memory"></i></div>
+                        <div class="spec-text">
+                            <div class="spec-title">Memory</div>
+                            <div class="spec-value">64GB DDR5 6000MHz</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Performance badge with animation -->
+                    <div class="performance-badge">
+                        <div class="perf-ring"></div>
+                        <div class="perf-content">
+                            <div class="perf-score">9800</div>
+                            <div class="perf-label">BENCHMARK</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PC Categories Section (Chillblast-style) -->
+<section class="pc-categories-section py-5 mb-0 mt-0">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title mb-3">PCs For Every Need</h2>
+            <p class="section-subtitle">Browse our specialized PC configurations or design your own</p>
+        </div>
+        
+        <div class="row g-3 g-md-4">
+                <!-- Gaming PC Category -->
+                <div class="col-6 col-md-3">
+                    <a href="{{ url_for('builds.prebuilt_configs') }}" class="pc-category-card">
+                        <div class="pc-category-image">
+                            <img src="{{ url_for('static', filename='img/gaming-pc.jpg') }}" alt="Gaming PC" class="img-fluid">
+                        </div>
+                        <div class="pc-category-overlay">
+                            <h3 class="pc-category-title">Gaming PCs</h3>
+                            <span class="category-btn">Explore</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Workstation PC Category -->
+                <div class="col-6 col-md-3">
+                    <a href="{{ url_for('builds.prebuilt_configs') }}" class="pc-category-card">
+                        <div class="pc-category-image">
+                            <img src="{{ url_for('static', filename='img/workstation-pc.jpg') }}" alt="Workstation PC" class="img-fluid">
+                        </div>
+                        <div class="pc-category-overlay">
+                            <h3 class="pc-category-title">Workstations</h3>
+                            <span class="category-btn">Explore</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Creator PC Category -->
+                <div class="col-6 col-md-3">
+                    <a href="{{ url_for('builds.prebuilt_configs') }}" class="pc-category-card">
+                        <div class="pc-category-image">
+                            <img src="{{ url_for('static', filename='img/creator-pc.jpg') }}" alt="Creator PC" class="img-fluid">
+                        </div>
+                        <div class="pc-category-overlay">
+                            <h3 class="pc-category-title">Creator PCs</h3>
+                            <span class="category-btn">Explore</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Custom PC Category -->
+                <div class="col-6 col-md-3">
+                    <a href="{{ url_for('step_builder') }}" class="pc-category-card">
+                        <div class="pc-category-image">
+                            <img src="{{ url_for('static', filename='img/custom-pc.jpg') }}" alt="Custom PC" class="img-fluid">
+                        </div>
+                        <div class="pc-category-overlay">
+                            <h3 class="pc-category-title">Custom Build</h3>
+                            <span class="category-btn">Design Yours</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Featured PCs Showcase (Chillblast-style) -->
+    <section class="featured-pcs-section py-5">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Featured Systems</h2>
+            </div>
+            
+            <div class="minimal-builds-grid">
+                <!-- Featured PC 1 -->
+                <div class="minimal-pc-card">
+                    <div class="minimal-pc-image">
+                        <img src="{{ url_for('static', filename='img/custom/ryzen-5500-rtx4060-pc.png') }}" alt="Ryzen 5 RTX 4060 Gaming PC">
+                    </div>
+                    <div class="minimal-pc-content">
+                        <h3 class="minimal-pc-title">Ryzen 5 RTX 4060 Gaming PC</h3>
+                        <div class="minimal-pc-specs">
+                            <span>Ryzen 5 5500 · RTX 4060 8GB · 16GB DDR4 · 2TB NVMe</span>
+                        </div>
+                        <div class="minimal-pc-price">
+                            <span class="price">£999</span>
+                        </div>
+                        <div class="minimal-pc-actions">
+                            <a href="{{ url_for('product_detail', config_id=4636) }}" class="minimal-btn">Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Featured PC 2 -->
+                <div class="minimal-pc-card">
+                    <div class="minimal-pc-image">
+                        <img src="{{ url_for('static', filename='img/gaming-pc-1.jpg') }}" alt="Elite Gaming PC">
+                    </div>
+                    <div class="minimal-pc-content">
+                        <h3 class="minimal-pc-title">Elite Gaming PC</h3>
+                        <div class="minimal-pc-specs">
+                            <span>Ryzen 9 7900X · RTX 4080 Super · 32GB DDR5 · 4TB NVMe</span>
+                        </div>
+                        <div class="minimal-pc-price">
+                            <span class="price">£2,399</span>
+                        </div>
+                        <div class="minimal-pc-actions">
+                            <a href="{{ url_for('builds.prebuilt_configs') }}" class="minimal-btn">Configure</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Featured PC 3 -->
+                <div class="minimal-pc-card">
+                    <div class="minimal-pc-image">
+                        <img src="{{ url_for('static', filename='img/gaming-pc-3.jpg') }}" alt="Pro Creator PC">
+                    </div>
+                    <div class="minimal-pc-content">
+                        <h3 class="minimal-pc-title">Pro Creator PC</h3>
+                        <div class="minimal-pc-specs">
+                            <span>Intel i9-14900K · RTX 4070 Ti · 64GB DDR5 · 2TB NVMe</span>
+                        </div>
+                        <div class="minimal-pc-price">
+                            <span class="price">£2,199</span>
+                        </div>
+                        <div class="minimal-pc-actions">
+                            <a href="{{ url_for('builds.prebuilt_configs') }}" class="minimal-btn">Configure</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="{{ url_for('builds.prebuilt_configs') }}" class="minimal-view-all">View all systems</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- USP Features Bar (Chillblast-style) -->
+    <section class="usp-features-section py-4">
+        <div class="container">
+            <div class="row justify-content-between text-center">
+                <div class="col-6 col-md-3 mb-3 mb-md-0">
+                    <div class="usp-feature">
+                        <div class="usp-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h4 class="usp-title">Expert Assembly</h4>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-3 mb-md-0">
+                    <div class="usp-feature">
+                        <div class="usp-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h4 class="usp-title">3-Year Warranty</h4>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="usp-feature">
+                        <div class="usp-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h4 class="usp-title">Free Delivery</h4>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="usp-feature">
+                        <div class="usp-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h4 class="usp-title">Lifetime Support</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Minimal Why Choose Us Section -->
+    <section class="why-choose-us-section py-5">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Why Choose Us</h2>
+            </div>
+            
+            <div class="minimal-features-grid">
+                <!-- Minimal Feature 1 -->
+                <div class="minimal-feature">
+                    <div class="minimal-feature-icon">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <h3 class="minimal-feature-title">Smart Compatibility</h3>
+                    <div class="minimal-feature-desc">
+                        Our intelligent system ensures perfectly matched components for optimal performance.
+                    </div>
+                    <a href="{{ url_for('step_builder') }}" class="minimal-view-all">Try it now</a>
+                </div>
+                
+                <!-- Minimal Feature 2 -->
+                <div class="minimal-feature">
+                    <div class="minimal-feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="minimal-feature-title">Ready to Use</h3>
+                    <div class="minimal-feature-desc">
+                        Systems arrive fully assembled, tested, and optimized with professional cable management.
+                    </div>
+                    <a href="{{ url_for('about') }}" class="minimal-view-all">Learn more</a>
+                </div>
+                
+                <!-- Minimal Feature 3 -->
+                <div class="minimal-feature">
+                    <div class="minimal-feature-icon">
+                        <i class="fas fa-concierge-bell"></i>
+                    </div>
+                    <h3 class="minimal-feature-title">Expert Support</h3>
+                    <div class="minimal-feature-desc">
+                        Our PC building experts provide personalized guidance for your specific requirements.
+                    </div>
+                    <a href="{{ url_for('contact') }}" class="minimal-view-all">Contact us</a>
+                </div>
+                
+                <!-- Minimal Feature 4 -->
+                <div class="minimal-feature">
+                    <div class="minimal-feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3 class="minimal-feature-title">Performance Tested</h3>
+                    <div class="minimal-feature-desc">
+                        Every system is benchmarked under various workloads to ensure consistent performance.
+                    </div>
+                    <a href="{{ url_for('about') }}" class="minimal-view-all">Our process</a>
+                </div>
+                
+                <!-- Minimal Feature 5 -->
+                <div class="minimal-feature">
+                    <div class="minimal-feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="minimal-feature-title">3-Year Warranty</h3>
+                    <div class="minimal-feature-desc">
+                        Comprehensive coverage with quick response times and hassle-free replacements.
+                    </div>
+                    <a href="{{ url_for('terms') }}" class="minimal-view-all">Details</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/homepage.js') }}"></script>
+{% endblock %}

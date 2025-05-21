@@ -1,0 +1,495 @@
+{% layout 'theme.liquid' %}
+
+{% comment %}
+  Product Component Template
+  
+  Used for displaying PC components (CPU, GPU, etc.) with technical specifications
+  and compatibility information.
+{% endcomment %}
+
+<div class="product-component" id="product-{{ product.id }}">
+  <div class="page-width">
+    <nav class="product-breadcrumbs" aria-label="breadcrumbs">
+      <ol class="breadcrumbs__list">
+        <li class="breadcrumbs__item">
+          <a href="{{ routes.root_url }}" class="breadcrumbs__link">{{ 'general.breadcrumbs.home' | t }}</a>
+          {% render 'icon-chevron-right', class: 'breadcrumbs__chevron' %}
+        </li>
+        
+        {% if collection %}
+          <li class="breadcrumbs__item">
+            <a href="{{ collection.url }}" class="breadcrumbs__link">{{ collection.title }}</a>
+            {% render 'icon-chevron-right', class: 'breadcrumbs__chevron' %}
+          </li>
+        {% elsif product.type != blank %}
+          <li class="breadcrumbs__item">
+            <a href="{{ routes.collections_url }}/{{ product.type | handleize }}" class="breadcrumbs__link">{{ product.type }}</a>
+            {% render 'icon-chevron-right', class: 'breadcrumbs__chevron' %}
+          </li>
+        {% endif %}
+        
+        <li class="breadcrumbs__item breadcrumbs__item--current">
+          <span aria-current="page">{{ product.title }}</span>
+        </li>
+      </ol>
+    </nav>
+    
+    <div class="product-component__container">
+      <div class="product-component__media-wrapper">
+        <div class="product-component__media-gallery">
+          <div class="product-component__gallery-main">
+            {% if product.featured_image != blank %}
+              <img
+                srcset="{{ product.featured_image | image_url: width: 500 }} 500w,
+                        {{ product.featured_image | image_url: width: 800 }} 800w,
+                        {{ product.featured_image | image_url: width: 1200 }} 1200w"
+                src="{{ product.featured_image | image_url: width: 800 }}"
+                sizes="(min-width: 1100px) 800px, (min-width: 990px) calc(100vw - 400px), 100vw"
+                alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                id="ProductImage-{{ product.featured_image.id }}"
+                class="product-component__image"
+                loading="eager"
+                width="{{ product.featured_image.width }}"
+                height="{{ product.featured_image.height }}"
+              >
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'product-component__image placeholder-svg' }}
+            {% endif %}
+          </div>
+          
+          {% if product.images.size > 1 %}
+            <div class="product-component__gallery-thumbnails">
+              {% for image in product.images %}
+                <button
+                  class="product-component__thumbnail-button{% if forloop.first %} product-component__thumbnail-button--active{% endif %}"
+                  data-image-id="{{ image.id }}"
+                  data-src="{{ image | image_url: width: 800 }}"
+                  data-srcset="{{ image | image_url: width: 500 }} 500w, {{ image | image_url: width: 800 }} 800w, {{ image | image_url: width: 1200 }} 1200w"
+                  aria-label="{{ 'products.product.gallery_thumbnail_alt' | t: position: forloop.index, title: product.title | escape }}"
+                >
+                  <img
+                    src="{{ image | image_url: width: 150 }}"
+                    alt="{{ image.alt | default: product.title | escape }}"
+                    width="75"
+                    height="75"
+                    loading="lazy"
+                  >
+                </button>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        
+        {% if product.metafields.specs.compatibility_notes %}
+          <div class="product-component__compatibility">
+            <h3 class="product-component__compatibility-title">{{ 'products.component.compatibility' | t }}</h3>
+            <div class="product-component__compatibility-content">
+              {{ product.metafields.specs.compatibility_notes }}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      
+      <div class="product-component__details">
+        <div class="product-component__header">
+          {% if product.vendor != blank %}
+            <div class="product-component__vendor">{{ product.vendor }}</div>
+          {% endif %}
+          
+          <h1 class="product-component__title">{{ product.title }}</h1>
+          
+          <div class="product-component__rating">
+            {% if product.metafields.reviews.rating %}
+              <div class="product-component__stars" style="--rating: {{ product.metafields.reviews.rating.value | divided_by: 5.0 | times: 100 }}%;">★★★★★</div>
+              <div class="product-component__reviews-count">
+                <a href="#product-reviews" class="product-component__reviews-link">
+                  {{ product.metafields.reviews.rating_count }} {{ 'products.product.reviews' | t }}
+                </a>
+              </div>
+            {% endif %}
+          </div>
+          
+          <div class="product-component__pricing">
+            <div class="product-component__price {% if product.compare_at_price > product.price %}product-component__price--sale{% endif %}">
+              {% if product.compare_at_price > product.price %}
+                <span class="product-component__price-regular">{{ product.compare_at_price | money }}</span>
+                <span class="product-component__price-sale">{{ product.price | money }}</span>
+                <span class="product-component__price-savings">
+                  {% assign savings_percentage = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+                  {{ 'products.product.save_percentage' | t: percentage: savings_percentage }}
+                </span>
+              {% else %}
+                <span class="product-component__price-regular">{{ product.price | money }}</span>
+              {% endif %}
+            </div>
+            
+            <div class="product-component__sku">
+              {% if product.selected_or_first_available_variant.sku != blank %}
+                <span class="product-component__sku-label">{{ 'products.product.sku' | t }}:</span>
+                <span class="product-component__sku-value">{{ product.selected_or_first_available_variant.sku }}</span>
+              {% endif %}
+            </div>
+            
+            <div class="product-component__availability">
+              {% if product.available %}
+                <span class="product-component__availability-status product-component__availability-status--in-stock">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="product-component__availability-icon">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  {{ 'products.product.in_stock' | t }}
+                </span>
+              {% else %}
+                <span class="product-component__availability-status product-component__availability-status--out-of-stock">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="product-component__availability-icon">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                  </svg>
+                  {{ 'products.product.out_of_stock' | t }}
+                </span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        
+        <div class="product-component__specifications">
+          <h2 class="product-component__specifications-title">{{ 'products.component.specifications' | t }}</h2>
+          
+          <div class="product-component__specifications-list">
+            {% case product.type %}
+              {% when 'CPU' %}
+                {% if product.metafields.specs.brand %}
+                  <div class="product-component__specification">
+                    <div class="product-component__specification-label">{{ 'products.component.specs.brand' | t }}</div>
+                    <div class="product-component__specification-value">{{ product.metafields.specs.brand }}</div>
+                  </div>
+                {% endif %}
+                
+                {% if product.metafields.specs.socket %}
+                  <div class="product-component__specification">
+                    <div class="product-component__specification-label">{{ 'products.component.specs.socket' | t }}</div>
+                    <div class="product-component__specification-value">{{ product.metafields.specs.socket }}</div>
+                  </div>
+                {% endif %}
+                
+                {% if product.metafields.specs.cores %}
+                  <div class="product-component__specification">
+                    <div class="product-component__specification-label">{{ 'products.component.specs.cores' | t }}</div>
+                    <div class="product-component__specification-value">{{ product.metafields.specs.cores }}</div>
+                  </div>
+                {% endif %}
+                
+                {% if product.metafields.specs.threads %}
+                  <div class="product-component__specification">
+                    <div class="product-component__specification-label">{{ 'products.component.specs.threads' | t }}</div>
+                    <div class="product-component__specification-value">{{ product.metafields.specs.threads }}</div>
+                  </div>
+                {% endif %}
+                
+                {% if product.metafields.specs.base_clock %}
+                  <div class="product-component__specification">
+                    <div class="product-component__specification-label">{{ 'products.component.specs.base_clock' | t }}</div>
+                    <div class="product-component__specification-value">{{ product.metafields.specs.base_clock }}</div>
+                  </div>
+                {% endif %}
+                
+                {% if product.metafields.specs.boost_clock %}
+                  <div class="product-component__specification">
+                    <div class="product-component__specification-label">{{ 'products.component.specs.boost_clock' | t }}</div>
+                    <div class="product-component__specification-value">{{ product.metafields.specs.boost_clock }}</div>
+                  </div>
+                {% endif %}
+                
+                {% if product.metafields.specs.tdp %}
+                  <div class="product-component__specification">
+                    <div class="product-component__specification-label">{{ 'products.component.specs.tdp' | t }}</div>
+                    <div class="product-component__specification-value">{{ product.metafields.specs.tdp }}</div>
+                  </div>
+                {% endif %}
+                
+              {% when 'Graphics Card' or 'GPU' %}
+                {% if product.metafields.specs.brand %}
+                  <div class="product-component__specification">
+                    <div class="product-component__specification-label">{{ 'products.component.specs.brand' | t }}</div>
+                    <div class="product-component__specification-value">{{ product.metafields.specs.brand }}</div>
+                  </div>
+                {% endif %}
+                
+                {% if product.metafields.specs.gpu_model %}
+                  <div class="product-component__specification">
+                    <div class="product-component__specification-label">{{ 'products.component.specs.gpu_model' | t }}</div>
+                    <div class="product-component__specification-value">{{ product.metafields.specs.gpu_model }}</div>
+                  </div>
+                {% endif %}
+                
+                {% if product.metafields.specs.memory %}
+                  <div class="product-component__specification">
+                    <div class="product-component__specification-label">{{ 'products.component.specs.memory' | t }}</div>
+                    <div class="product-component__specification-value">{{ product.metafields.specs.memory }}</div>
+                  </div>
+                {% endif %}
+                
+                {% if product.metafields.specs.memory_type %}
+                  <div class="product-component__specification">
+                    <div class="product-component__specification-label">{{ 'products.component.specs.memory_type' | t }}</div>
+                    <div class="product-component__specification-value">{{ product.metafields.specs.memory_type }}</div>
+                  </div>
+                {% endif %}
+                
+                {% if product.metafields.specs.interface %}
+                  <div class="product-component__specification">
+                    <div class="product-component__specification-label">{{ 'products.component.specs.interface' | t }}</div>
+                    <div class="product-component__specification-value">{{ product.metafields.specs.interface }}</div>
+                  </div>
+                {% endif %}
+                
+              {% else %}
+                {% for tag in product.tags %}
+                  {% assign tag_parts = tag | split: ':' %}
+                  {% if tag_parts.size == 2 %}
+                    <div class="product-component__specification">
+                      <div class="product-component__specification-label">{{ tag_parts[0] | strip }}</div>
+                      <div class="product-component__specification-value">{{ tag_parts[1] | strip }}</div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+                
+                {% if product.metafields.specs %}
+                  {% for spec in product.metafields.specs %}
+                    <div class="product-component__specification">
+                      <div class="product-component__specification-label">{{ spec.first | replace: '_', ' ' | capitalize }}</div>
+                      <div class="product-component__specification-value">{{ spec.last }}</div>
+                    </div>
+                  {% endfor %}
+                {% endif %}
+            {% endcase %}
+          </div>
+        </div>
+        
+        <div class="product-component__form">
+          {% form 'product', product, class: 'product-form', id: 'product-form-{{ product.id }}' %}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            
+            {% if product.variants.size > 1 %}
+              <div class="product-component__variants">
+                <div class="product-component__variant-label">{{ 'products.product.choose_option' | t }}</div>
+                <select name="id" id="ProductSelect-{{ product.id }}" class="product-component__variant-select">
+                  {% for variant in product.variants %}
+                    <option 
+                      value="{{ variant.id }}"
+                      {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}
+                      {% unless variant.available %}disabled="disabled"{% endunless %}
+                    >
+                      {{ variant.title }} - {{ variant.price | money }}{% unless variant.available %} - {{ 'products.product.sold_out' | t }}{% endunless %}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endif %}
+            
+            <div class="product-component__quantity">
+              <label for="Quantity-{{ product.id }}" class="product-component__quantity-label">{{ 'products.product.quantity' | t }}</label>
+              <div class="product-component__quantity-wrapper">
+                <button type="button" class="product-component__quantity-button product-component__quantity-button--minus" aria-label="{{ 'products.product.decrease_quantity' | t }}">
+                  -
+                </button>
+                <input
+                  type="number"
+                  id="Quantity-{{ product.id }}"
+                  name="quantity"
+                  value="1"
+                  min="1"
+                  aria-label="{{ 'products.product.quantity' | t }}"
+                  class="product-component__quantity-input"
+                >
+                <button type="button" class="product-component__quantity-button product-component__quantity-button--plus" aria-label="{{ 'products.product.increase_quantity' | t }}">
+                  +
+                </button>
+              </div>
+            </div>
+            
+            <div class="product-component__actions">
+              <button
+                type="submit"
+                name="add"
+                class="product-component__add-to-cart button button--primary"
+                {% unless product.available %}disabled="disabled"{% endunless %}
+              >
+                {% if product.available %}
+                  {{ 'products.product.add_to_cart' | t }}
+                {% else %}
+                  {{ 'products.product.sold_out' | t }}
+                {% endif %}
+              </button>
+              
+              <button type="button" class="product-component__add-to-build button button--secondary">
+                {{ 'products.component.add_to_build' | t }}
+              </button>
+            </div>
+            
+            <div class="product-component__error-message"></div>
+          {% endform %}
+        </div>
+        
+        <div class="product-component__description">
+          {% if product.description != blank %}
+            <div class="product-component__description-content">
+              {{ product.description }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    
+    {% if product.metafields.pc_builder.compatible_with %}
+      <div class="product-component__compatible-products">
+        <h2 class="product-component__compatible-title">{{ 'products.component.compatible_products' | t }}</h2>
+        
+        <div class="product-component__compatible-list">
+          {% assign compatible_products = product.metafields.pc_builder.compatible_with | split: ',' %}
+          {% for compatible_product_handle in compatible_products %}
+            {% assign compatible_product = all_products[compatible_product_handle] %}
+            {% if compatible_product %}
+              <div class="product-component__compatible-item">
+                <a href="{{ compatible_product.url }}" class="product-component__compatible-link">
+                  <div class="product-component__compatible-image">
+                    {% if compatible_product.featured_image != blank %}
+                      <img
+                        src="{{ compatible_product.featured_image | image_url: width: 150 }}"
+                        alt="{{ compatible_product.featured_image.alt | default: compatible_product.title | escape }}"
+                        width="75"
+                        height="75"
+                        loading="lazy"
+                      >
+                    {% else %}
+                      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg', 'width="75" height="75"' }}
+                    {% endif %}
+                  </div>
+                  
+                  <div class="product-component__compatible-info">
+                    <h3 class="product-component__compatible-name">{{ compatible_product.title }}</h3>
+                    <div class="product-component__compatible-price">{{ compatible_product.price | money }}</div>
+                  </div>
+                </a>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if recommendations %}
+      <div class="product-component__recommendations">
+        <h2 class="product-component__recommendations-title">{{ 'products.product.you_may_also_like' | t }}</h2>
+        
+        <div class="product-component__recommendations-list">
+          {% for recommendation in recommendations.products %}
+            <div class="product-component__recommendation">
+              <a href="{{ recommendation.url }}" class="product-component__recommendation-link">
+                <div class="product-component__recommendation-image">
+                  {% if recommendation.featured_image != blank %}
+                    <img
+                      src="{{ recommendation.featured_image | image_url: width: 300 }}"
+                      alt="{{ recommendation.featured_image.alt | default: recommendation.title | escape }}"
+                      width="150"
+                      height="150"
+                      loading="lazy"
+                    >
+                  {% else %}
+                    {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg', 'width="150" height="150"' }}
+                  {% endif %}
+                </div>
+                
+                <div class="product-component__recommendation-info">
+                  <h3 class="product-component__recommendation-name">{{ recommendation.title }}</h3>
+                  <div class="product-component__recommendation-price">{{ recommendation.price | money }}</div>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Gallery thumbnails functionality
+    const thumbnailButtons = document.querySelectorAll('.product-component__thumbnail-button');
+    const mainImage = document.querySelector('.product-component__image');
+    
+    if (thumbnailButtons.length > 0 && mainImage) {
+      thumbnailButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const src = this.getAttribute('data-src');
+          const srcset = this.getAttribute('data-srcset');
+          const imageId = this.getAttribute('data-image-id');
+          
+          // Update main image
+          mainImage.src = src;
+          mainImage.srcset = srcset;
+          mainImage.id = 'ProductImage-' + imageId;
+          
+          // Update active thumbnail
+          thumbnailButtons.forEach(btn => {
+            btn.classList.remove('product-component__thumbnail-button--active');
+          });
+          this.classList.add('product-component__thumbnail-button--active');
+        });
+      });
+    }
+    
+    // Quantity selector functionality
+    const quantityInput = document.querySelector('.product-component__quantity-input');
+    const decreaseButton = document.querySelector('.product-component__quantity-button--minus');
+    const increaseButton = document.querySelector('.product-component__quantity-button--plus');
+    
+    if (quantityInput && decreaseButton && increaseButton) {
+      decreaseButton.addEventListener('click', function() {
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+          quantityInput.value = currentValue - 1;
+        }
+      });
+      
+      increaseButton.addEventListener('click', function() {
+        const currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+      });
+    }
+    
+    // Variant selector functionality (if applicable)
+    const variantSelect = document.getElementById('ProductSelect-{{ product.id }}');
+    
+    if (variantSelect) {
+      variantSelect.addEventListener('change', function() {
+        const selectedVariant = this.value;
+        const addToCartButton = document.querySelector('.product-component__add-to-cart');
+        
+        // Find if the selected variant is available
+        const selectedOption = this.options[this.selectedIndex];
+        const isAvailable = !selectedOption.disabled;
+        
+        // Update add to cart button
+        if (isAvailable) {
+          addToCartButton.disabled = false;
+          addToCartButton.textContent = '{{ 'products.product.add_to_cart' | t }}';
+        } else {
+          addToCartButton.disabled = true;
+          addToCartButton.textContent = '{{ 'products.product.sold_out' | t }}';
+        }
+      });
+    }
+    
+    // Add to build button functionality
+    const addToBuildButton = document.querySelector('.product-component__add-to-build');
+    
+    if (addToBuildButton) {
+      addToBuildButton.addEventListener('click', function() {
+        window.location.href = '{{ routes.root_url }}pages/pc-builder?add={{ product.id }}';
+      });
+    }
+  });
+</script>

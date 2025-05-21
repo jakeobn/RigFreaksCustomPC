@@ -1,0 +1,574 @@
+<style>
+  .related-products {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  }
+  
+  .related-products__content {
+    max-width: {{ settings.page_width }}px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .related-products__header {
+    text-align: {{ section.settings.text_alignment }};
+    margin-bottom: 2.5rem;
+  }
+  
+  .related-products__title {
+    margin: 0 0 0.75rem;
+    font-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    font-weight: {{ settings.heading_weight }};
+    font-size: 2rem;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .related-products__subtitle {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: {{ section.settings.text_color }};
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .related-products__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.products_per_row }}, 1fr);
+    gap: 2rem;
+  }
+  
+  .product-card {
+    position: relative;
+    border-radius: {{ settings.card_border_radius }}px;
+    background-color: {{ section.settings.card_background_color }};
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-card__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .product-card__image-container {
+    position: relative;
+    padding-top: 100%;
+    overflow: hidden;
+    background-color: {{ section.settings.card_background_color | color_lighten: 5 }};
+  }
+  
+  .product-card__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .product-card:hover .product-card__image {
+    transform: scale(1.05);
+  }
+  
+  .product-card__secondary-image {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .product-card:hover .product-card__secondary-image {
+    opacity: 1;
+  }
+  
+  .product-card__badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: {{ settings.button_border_radius }}px;
+    z-index: 1;
+  }
+  
+  .product-card__badge--on-sale {
+    background-color: {{ section.settings.sale_badge_color }};
+    color: {{ section.settings.sale_badge_text_color }};
+  }
+  
+  .product-card__content {
+    padding: 1.25rem;
+  }
+  
+  .product-card__title {
+    margin: 0 0 0.5rem;
+    font-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    font-weight: {{ settings.heading_weight }};
+    font-size: 1.1rem;
+    line-height: 1.4;
+    color: {{ section.settings.title_color }};
+  }
+  
+  .product-card__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .product-card__price-current {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: {{ section.settings.price_color }};
+  }
+  
+  .product-card__price-compare {
+    font-size: 0.9rem;
+    text-decoration: line-through;
+    color: {{ section.settings.text_color | color_lighten: 30 }};
+  }
+  
+  .product-card__specs {
+    margin: 0 0 1rem;
+    font-size: 0.9rem;
+    color: {{ section.settings.text_color }};
+  }
+  
+  .product-card__spec {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+  }
+  
+  .product-card__spec-label {
+    font-weight: 500;
+  }
+  
+  .product-card__button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: {{ section.settings.button_color }};
+    color: {{ section.settings.button_text_color }};
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    border-radius: {{ settings.button_border_radius }}px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .product-card__button:hover {
+    background-color: {{ section.settings.button_color | color_darken: 10 }};
+  }
+  
+  .related-products__slider-controls {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .related-products__slider-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid {{ section.settings.border_color }};
+    border-radius: 50%;
+    background-color: transparent;
+    color: {{ section.settings.text_color }};
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .related-products__slider-button:hover {
+    background-color: {{ section.settings.button_color }};
+    color: {{ section.settings.button_text_color }};
+    border-color: {{ section.settings.button_color }};
+  }
+  
+  @media screen and (max-width: 990px) {
+    .related-products__content {
+      padding: 0 1.5rem;
+    }
+    
+    .related-products__title {
+      font-size: 1.75rem;
+    }
+    
+    .related-products__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  
+  @media screen and (max-width: 750px) {
+    .related-products__content {
+      padding: 0 1rem;
+    }
+    
+    .related-products__header {
+      margin-bottom: 1.5rem;
+    }
+    
+    .related-products__title {
+      font-size: 1.5rem;
+    }
+    
+    .related-products__subtitle {
+      font-size: 1rem;
+    }
+    
+    .related-products__grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .product-card__content {
+      padding: 1rem;
+    }
+  }
+</style>
+
+<div class="related-products" id="related-products-{{ section.id }}">
+  <div class="related-products__content">
+    <div class="related-products__header">
+      <h2 class="related-products__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <div class="related-products__subtitle">{{ section.settings.subtitle }}</div>
+      {%- endif -%}
+    </div>
+    
+    <div class="related-products__grid">
+      {%- if section.settings.products_source == 'collection' and section.settings.collection != blank -%}
+        {%- assign products = collections[section.settings.collection].products -%}
+      {%- elsif section.settings.products_source == 'related' -%}
+        {%- assign products = product.metafields.related_products.products.value | default: product.collections.first.products -%}
+      {%- else -%}
+        {%- assign products = collections.all.products -%}
+      {%- endif -%}
+      
+      {%- assign current_product = product -%}
+      
+      {%- for related_product in products limit: section.settings.products_count -%}
+        {%- if related_product.handle != current_product.handle or section.settings.products_source == 'collection' -%}
+          <div class="product-card">
+            <a href="{{ related_product.url }}" class="product-card__link">
+              <div class="product-card__image-container">
+                {%- if related_product.featured_image != blank -%}
+                  <img
+                    class="product-card__image"
+                    srcset="{%- if related_product.featured_image.width >= 165 -%}{{ related_product.featured_image | image_url: width: 165 }} 165w,{%- endif -%}
+                            {%- if related_product.featured_image.width >= 360 -%}{{ related_product.featured_image | image_url: width: 360 }} 360w,{%- endif -%}
+                            {%- if related_product.featured_image.width >= 533 -%}{{ related_product.featured_image | image_url: width: 533 }} 533w,{%- endif -%}
+                            {%- if related_product.featured_image.width >= 720 -%}{{ related_product.featured_image | image_url: width: 720 }} 720w,{%- endif -%}
+                            {%- if related_product.featured_image.width >= 940 -%}{{ related_product.featured_image | image_url: width: 940 }} 940w,{%- endif -%}
+                            {{ related_product.featured_image | image_url }} {{ related_product.featured_image.width }}w"
+                    src="{{ related_product.featured_image | image_url: width: 533 }}"
+                    sizes="(min-width: 1200px) calc((1200px - 10rem) / {{ section.settings.products_per_row }}),
+                           (min-width: 750px) calc((100vw - 11.5rem) / min({{ section.settings.products_per_row }}, 2)),
+                           calc(100vw - 4rem)"
+                    loading="lazy"
+                    width="{{ related_product.featured_image.width }}"
+                    height="{{ related_product.featured_image.height }}"
+                    alt="{{ related_product.featured_image.alt | escape }}"
+                  >
+                  
+                  {%- if section.settings.show_secondary_image and related_product.images.size > 1 -%}
+                    {%- assign second_image = related_product.images[1] -%}
+                    <img
+                      class="product-card__image product-card__secondary-image"
+                      srcset="{%- if second_image.width >= 165 -%}{{ second_image | image_url: width: 165 }} 165w,{%- endif -%}
+                              {%- if second_image.width >= 360 -%}{{ second_image | image_url: width: 360 }} 360w,{%- endif -%}
+                              {%- if second_image.width >= 533 -%}{{ second_image | image_url: width: 533 }} 533w,{%- endif -%}
+                              {%- if second_image.width >= 720 -%}{{ second_image | image_url: width: 720 }} 720w,{%- endif -%}
+                              {%- if second_image.width >= 940 -%}{{ second_image | image_url: width: 940 }} 940w,{%- endif -%}
+                              {{ second_image | image_url }} {{ second_image.width }}w"
+                      src="{{ second_image | image_url: width: 533 }}"
+                      sizes="(min-width: 1200px) calc((1200px - 10rem) / {{ section.settings.products_per_row }}),
+                             (min-width: 750px) calc((100vw - 11.5rem) / min({{ section.settings.products_per_row }}, 2)),
+                             calc(100vw - 4rem)"
+                      loading="lazy"
+                      width="{{ second_image.width }}"
+                      height="{{ second_image.height }}"
+                      alt="{{ second_image.alt | escape }}"
+                    >
+                  {%- endif -%}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'product-card__image placeholder-svg' }}
+                {%- endif -%}
+                
+                {%- if related_product.compare_at_price > related_product.price -%}
+                  <div class="product-card__badge product-card__badge--on-sale">{{ 'products.product.on_sale' | t }}</div>
+                {%- endif -%}
+              </div>
+              
+              <div class="product-card__content">
+                <h3 class="product-card__title">{{ related_product.title }}</h3>
+                
+                <div class="product-card__price">
+                  <span class="product-card__price-current">{{ related_product.price | money }}</span>
+                  
+                  {%- if related_product.compare_at_price > related_product.price -%}
+                    <span class="product-card__price-compare">{{ related_product.compare_at_price | money }}</span>
+                  {%- endif -%}
+                </div>
+                
+                {%- if section.settings.show_specs and section.settings.products_source == 'related' -%}
+                  <div class="product-card__specs">
+                    {%- if related_product.metafields.specs.cpu != blank -%}
+                      <div class="product-card__spec">
+                        <span class="product-card__spec-label">{{ 'products.gaming_pc.cpu' | t }}:</span>
+                        <span>{{ related_product.metafields.specs.cpu }}</span>
+                      </div>
+                    {%- endif -%}
+                    
+                    {%- if related_product.metafields.specs.gpu != blank -%}
+                      <div class="product-card__spec">
+                        <span class="product-card__spec-label">{{ 'products.gaming_pc.gpu' | t }}:</span>
+                        <span>{{ related_product.metafields.specs.gpu }}</span>
+                      </div>
+                    {%- endif -%}
+                    
+                    {%- if related_product.metafields.specs.memory != blank -%}
+                      <div class="product-card__spec">
+                        <span class="product-card__spec-label">{{ 'products.gaming_pc.memory' | t }}:</span>
+                        <span>{{ related_product.metafields.specs.memory }}</span>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+                
+                <div class="product-card__button">
+                  {{ 'products.product.view_details' | t }}
+                </div>
+              </div>
+            </a>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    
+    <div class="related-products__slider-controls">
+      <button class="related-products__slider-button related-products__slider-prev" aria-label="{{ 'general.slider.previous' | t }}">
+        {% render 'icon-chevron-left' %}
+      </button>
+      <button class="related-products__slider-button related-products__slider-next" aria-label="{{ 'general.slider.next' | t }}">
+        {% render 'icon-chevron-right' %}
+      </button>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Related Products",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "You May Also Like"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<p>Check out these other great gaming PCs</p>"
+    },
+    {
+      "type": "select",
+      "id": "products_source",
+      "label": "Products source",
+      "options": [
+        {
+          "value": "related",
+          "label": "Related to current product"
+        },
+        {
+          "value": "collection",
+          "label": "From collection"
+        }
+      ],
+      "default": "related"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "If 'From collection' is selected above"
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Products to show"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Products per row"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "label": "Show second image on hover",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_specs",
+      "label": "Show PC specifications",
+      "default": true,
+      "info": "Displays CPU, GPU, and memory specs if available"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Product title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "sale_badge_color",
+      "label": "Sale badge color",
+      "default": "#ff0077"
+    },
+    {
+      "type": "color",
+      "id": "sale_badge_text_color",
+      "label": "Sale badge text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 60,
+      "unit": "px",
+      "label": "Padding top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 60,
+      "unit": "px",
+      "label": "Padding bottom"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Related Products",
+      "settings": {
+        "products_count": 4,
+        "products_per_row": 4,
+        "show_secondary_image": true,
+        "show_specs": true
+      }
+    }
+  ]
+}
+{% endschema %}

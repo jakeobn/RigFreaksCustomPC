@@ -1,0 +1,439 @@
+<link rel="stylesheet" href="{{ 'section-home-hero.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'section-home-hero.css' | asset_url | stylesheet_tag }}</noscript>
+
+<style>
+  .home-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+    background-color: #000000;
+  }
+  
+  .home-hero--small {
+    min-height: 450px;
+  }
+  
+  .home-hero--medium {
+    min-height: 550px;
+  }
+  
+  .home-hero--large {
+    min-height: 650px;
+    height: 80vh;
+  }
+  
+  .home-hero--xlarge {
+    min-height: 750px;
+    height: 90vh;
+  }
+  
+  .home-hero__media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  
+  .home-hero__image,
+  .home-hero__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  .home-hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    z-index: 1;
+  }
+  
+  .home-hero__content {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    padding: 2.5rem;
+    z-index: 2;
+    text-align: {{ section.settings.text_alignment }};
+  }
+  
+  .home-hero__title {
+    margin: 0 0 1rem;
+    font-family: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    font-weight: {{ settings.heading_weight }};
+    font-size: 3.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    color: {% if section.settings.color_scheme == 'dark' %}#ffffff{% else %}{{ settings.color_text }}{% endif %};
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    
+    background: linear-gradient(to right, #ff0077, #00fffc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 20px rgba(255, 0, 119, 0.5), 0 0 20px rgba(0, 255, 252, 0.5);
+  }
+  
+  .home-hero__subtitle {
+    margin: 0 0 2rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: {% if section.settings.color_scheme == 'dark' %}#ffffff{% else %}{{ settings.color_text }}{% endif %};
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    display: inline-block;
+  }
+  
+  .home-hero__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: {% if section.settings.text_alignment == 'center' %}center{% elsif section.settings.text_alignment == 'right' %}flex-end{% else %}flex-start{% endif %};
+  }
+  
+  .home-hero__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
+    padding: 1rem 2rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .home-hero__button--primary {
+    background: linear-gradient(90deg, #ff0077, #ff00e6);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 20px rgba(255, 0, 119, 0.4);
+  }
+  
+  .home-hero__button--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 0, 119, 0.5);
+  }
+  
+  .home-hero__button--secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+  }
+  
+  .home-hero__button--secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+  }
+  
+  @media screen and (max-width: 990px) {
+    .home-hero__title {
+      font-size: 2.5rem;
+    }
+    
+    .home-hero__subtitle {
+      font-size: 1.1rem;
+    }
+    
+    .home-hero__buttons {
+      flex-direction: column;
+      align-items: {% if section.settings.text_alignment == 'center' %}center{% elsif section.settings.text_alignment == 'right' %}flex-end{% else %}flex-start{% endif %};
+    }
+    
+    .home-hero__button {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+  
+  @media screen and (max-width: 750px) {
+    .home-hero__content {
+      padding: 2rem 1.5rem;
+    }
+    
+    .home-hero__title {
+      font-size: 2rem;
+    }
+    
+    .home-hero__subtitle {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+</style>
+
+<div class="home-hero home-hero--{{ section.settings.height }}">
+  <div class="home-hero__media">
+    {%- if section.settings.enable_video and section.settings.video_url != blank -%}
+      {% assign video_id = section.settings.video_url | extract_youtube_id %}
+      
+      <div class="home-hero__video-container">
+        <iframe 
+          class="home-hero__video"
+          src="https://www.youtube.com/embed/{{ video_id }}?controls=0&autoplay=1&mute=1&loop=1&playlist={{ video_id }}&disablekb=1&rel=0&showinfo=0&color=white&iv_load_policy=3&modestbranding=1"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          tabindex="-1"
+        ></iframe>
+      </div>
+    {%- else -%}
+      {%- if section.settings.image != blank -%}
+        <img
+          srcset="{% if section.settings.image.width >= 550 %}{{ section.settings.image | image_url: width: 550 }} 550w,{% endif %}
+            {% if section.settings.image.width >= 1100 %}{{ section.settings.image | image_url: width: 1100 }} 1100w,{% endif %}
+            {% if section.settings.image.width >= 1500 %}{{ section.settings.image | image_url: width: 1500 }} 1500w,{% endif %}
+            {% if section.settings.image.width >= 2200 %}{{ section.settings.image | image_url: width: 2200 }} 2200w,{% endif %}
+            {% if section.settings.image.width >= 3000 %}{{ section.settings.image | image_url: width: 3000 }} 3000w,{% endif %}
+            {{ section.settings.image | image_url }} {{ section.settings.image.width }}w"
+          sizes="100vw"
+          src="{{ section.settings.image | image_url: width: 1500 }}"
+          loading="eager"
+          alt="{{ section.settings.image.alt | escape }}"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}"
+          class="home-hero__image home-hero__image--desktop{% if section.settings.stack_images_on_mobile and section.settings.mobile_image != blank %} small-hide medium-hide{% endif %}"
+        >
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg home-hero__image' }}
+      {%- endif -%}
+      
+      {%- if section.settings.stack_images_on_mobile and section.settings.mobile_image != blank -%}
+        <img
+          srcset="{% if section.settings.mobile_image.width >= 550 %}{{ section.settings.mobile_image | image_url: width: 550 }} 550w,{% endif %}
+            {% if section.settings.mobile_image.width >= 1100 %}{{ section.settings.mobile_image | image_url: width: 1100 }} 1100w,{% endif %}
+            {% if section.settings.mobile_image.width >= 1500 %}{{ section.settings.mobile_image | image_url: width: 1500 }} 1500w,{% endif %}
+            {{ section.settings.mobile_image | image_url }} {{ section.settings.mobile_image.width }}w"
+          sizes="100vw"
+          src="{{ section.settings.mobile_image | image_url: width: 1500 }}"
+          loading="eager"
+          alt="{{ section.settings.mobile_image.alt | escape }}"
+          width="{{ section.settings.mobile_image.width }}"
+          height="{{ section.settings.mobile_image.height }}"
+          class="home-hero__image home-hero__image--mobile large-up-hide"
+        >
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+  
+  {%- if section.settings.overlay_opacity > 0 -%}
+    <div class="home-hero__overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+  {%- endif -%}
+  
+  <div class="home-hero__content">
+    {%- if section.settings.title != blank -%}
+      <h1 class="home-hero__title">{{ section.settings.title }}</h1>
+    {%- endif -%}
+    
+    {%- if section.settings.subtitle != blank -%}
+      <div class="home-hero__subtitle">{{ section.settings.subtitle }}</div>
+    {%- endif -%}
+    
+    {%- if section.settings.button_text != blank or section.settings.second_button_text != blank -%}
+      <div class="home-hero__buttons">
+        {%- if section.settings.button_text != blank -%}
+          <a href="{{ section.settings.button_link }}" class="home-hero__button home-hero__button--primary">
+            {{ section.settings.button_text }}
+          </a>
+        {%- endif -%}
+        
+        {%- if section.settings.second_button_text != blank -%}
+          <a href="{{ section.settings.second_button_link }}" class="home-hero__button home-hero__button--secondary">
+            {{ section.settings.second_button_text }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Build Your Dream Gaming PC"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Powerful Custom PCs & Premium Components"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "second_button_text",
+      "label": "Second button text",
+      "default": "Build Your PC"
+    },
+    {
+      "type": "url",
+      "id": "second_button_link",
+      "label": "Second button link"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image"
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_images_on_mobile",
+      "label": "Use separate mobile image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video",
+      "label": "Enable video",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "YouTube video URL",
+      "info": "Use a YouTube video URL (ex. https://www.youtube.com/watch?v=_9VUPq3SxOc)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "xlarge",
+          "label": "Extra large"
+        }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "light",
+          "label": "Light"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "dark"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner",
+      "settings": {
+        "title": "Build Your Dream Gaming PC",
+        "subtitle": "Powerful Custom PCs & Premium Components",
+        "button_text": "Shop Now",
+        "second_button_text": "Build Your PC",
+        "overlay_opacity": 30,
+        "height": "large",
+        "text_alignment": "center",
+        "color_scheme": "dark"
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

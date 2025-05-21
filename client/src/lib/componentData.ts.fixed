@@ -1,0 +1,118 @@
+// Function to load components from storage sources
+export const loadComponentsFromStorage = (): void => {
+  try {
+    // Create a backup of component data if it exists but hasn't been backed up yet
+    // This ensures we can recover components if something goes wrong
+    const localData = localStorage.getItem('rigfreaks-components');
+    const backupData = localStorage.getItem('rigfreaks-components-backup');
+    
+    // If we have component data but no backup, create one
+    if (localData && !backupData) {
+      localStorage.setItem('rigfreaks-components-backup', localData);
+      console.log('Created component data backup for safety');
+    }
+    
+    // Now try to load the data, with fallback to backup if main data is missing or corrupted
+    const dataToUse = localData || backupData;
+    
+    console.log('Loading components from storage:', dataToUse ? 'Data found' : 'No data');
+    
+    let timestamp: number | null = null;
+    
+    if (dataToUse) {
+      try {
+        const parsedData = JSON.parse(dataToUse);
+        
+        // Check if we're using the new format with timestamp
+        let componentsData = parsedData;
+        
+        // Handle both formats - the new format with timestamp and the old format
+        if (parsedData.components && parsedData.lastUpdated) {
+          componentsData = parsedData.components;
+          timestamp = parsedData.lastUpdated;
+          console.log('Using timestamped data from:', new Date(timestamp).toLocaleString());
+        }
+        
+        // Clear existing data
+        Object.keys(allComponents).forEach(key => {
+          allComponents[key] = [];
+        });
+        
+        // Load data from storage
+        Object.keys(componentsData).forEach(key => {
+          allComponents[key] = componentsData[key];
+        });
+        
+        // Restore main storage from backup if it was missing
+        if (!localData && backupData) {
+          localStorage.setItem('rigfreaks-components', backupData);
+          console.log('Restored component data from backup');
+        }
+        
+        // Set flag indicating we have custom components to preserve
+        localStorage.setItem('rigfreaks-has-custom-components', 'true');
+        
+        // Log the first component from each category to verify data
+        const sampleData: Record<string, { id: string, price: number } | string> = {};
+        Object.keys(allComponents).forEach(key => {
+          if (allComponents[key] && allComponents[key].length > 0) {
+            const sample = allComponents[key][0];
+            sampleData[key] = sample ? { id: sample.id, price: sample.price } : 'No components';
+          }
+        });
+        console.log('Loaded component samples:', sampleData);
+      } catch (parseError) {
+        console.error('Error parsing component data, reverting to defaults:', parseError);
+        // If parsing fails, clear the corrupted data but keep the backup
+        if (localData) {
+          localStorage.removeItem('rigfreaks-components');
+        }
+        // Try to load from backup if available
+        if (backupData) {
+          try {
+            JSON.parse(backupData); // Just to validate it can be parsed
+            localStorage.setItem('rigfreaks-components', backupData);
+            console.log('Recovered from backup after data corruption');
+            // Reload recursively, but only once (to avoid infinite loop)
+            loadComponentsFromStorage();
+            return;
+          } catch (backupError) {
+            console.error('Backup also corrupted, using defaults:', backupError);
+          }
+        }
+      }
+    } else {
+      // No data in storage
+      console.log('No data in storage - loading default components');
+      
+      // Check if user has created custom components before
+      const customComponentsExist = hasCustomComponents();
+      
+      if (customComponentsExist) {
+        console.warn('Custom components flag exists but no data found - possible data loss');
+        // In this case we should not overwrite with defaults - load minimal defaults instead
+        // This could happen if localStorage was cleared but the flag remains
+      }
+      
+      // Always save the component data to ensure there's something in storage
+      // This will either be our default components (first visit) or the current
+      // state of allComponents (which might be empty or have defaults)
+      saveComponentsToStorage();
+      
+      // Set flag to indicate we've loaded once
+      if (typeof window !== 'undefined') {
+        (window as any).__rigfreaksHasLoaded = true;
+      }
+    }
+    
+    // Update the global variable
+    if (typeof window !== 'undefined') {
+      (window as any).__rigfreaksComponents = allComponents;
+      if (timestamp) {
+        (window as any).__rigfreaksComponentsTimestamp = timestamp;
+      }
+    }
+  } catch (error) {
+    console.error('Error loading components from storage:', error);
+  }
+};

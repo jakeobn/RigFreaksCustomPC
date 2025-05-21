@@ -1,0 +1,223 @@
+<div id="SearchModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="SearchModalLabel">
+  <div class="modal__overlay"></div>
+  <div class="modal__content">
+    <div class="modal__header">
+      <h2 id="SearchModalLabel" class="modal__heading">
+        {{ 'general.search.title' | t }}
+      </h2>
+      <button class="modal__close-button" aria-label="{{ 'accessibility.close' | t }}">
+        {% render 'icon-close' %}
+      </button>
+    </div>
+    <div class="modal__body">
+      <div class="modal__search-container">
+        <form action="{{ routes.search_url }}" method="get" role="search" class="search">
+          <div class="search__input-wrapper">
+            <input
+              type="search"
+              name="q"
+              id="Search-In-Modal"
+              class="search__input"
+              value="{{ search.terms | escape }}"
+              placeholder="{{ 'general.search.placeholder' | t }}"
+              aria-label="{{ 'general.search.placeholder' | t }}"
+            >
+            <button type="submit" class="search__button" aria-label="{{ 'general.search.submit' | t }}">
+              {% render 'icon-search' %}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Other modals can be added here -->
+
+<style>
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal--active {
+    display: flex;
+  }
+  
+  .modal__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+  }
+  
+  .modal__content {
+    position: relative;
+    background-color: var(--color-surface);
+    max-width: 90%;
+    width: 600px;
+    max-height: 90%;
+    border-radius: var(--border-radius);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .modal__heading {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  
+  .modal__close-button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: var(--color-base-text);
+  }
+  
+  .modal__body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+  }
+  
+  .modal__search-container {
+    width: 100%;
+  }
+  
+  .search {
+    width: 100%;
+  }
+  
+  .search__input-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  .search__input {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    background-color: var(--color-card);
+    color: var(--color-base-text);
+    font-size: 1rem;
+  }
+  
+  .search__input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-accent);
+  }
+  
+  .search__button {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    color: var(--color-base-text);
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Modal functionality
+    const modals = document.querySelectorAll('.modal');
+    const modalTriggers = document.querySelectorAll('[data-modal]');
+    const modalCloseButtons = document.querySelectorAll('.modal__close-button, .modal__overlay');
+    
+    // Open modal
+    modalTriggers.forEach(trigger => {
+      trigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        const modalId = this.getAttribute('data-modal');
+        const modal = document.getElementById(modalId);
+        
+        if (modal) {
+          modal.classList.add('modal--active');
+          document.body.style.overflow = 'hidden';
+          
+          // Focus the first focusable element
+          const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+          if (focusableElements.length) {
+            focusableElements[0].focus();
+          }
+        }
+      });
+    });
+    
+    // Close modal
+    modalCloseButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const modal = this.closest('.modal');
+        if (modal) {
+          modal.classList.remove('modal--active');
+          document.body.style.overflow = '';
+          
+          // Return focus to trigger
+          const modalId = modal.id;
+          const trigger = document.querySelector(`[data-modal="${modalId}"]`);
+          if (trigger) {
+            trigger.focus();
+          }
+        }
+      });
+    });
+    
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const openModal = document.querySelector('.modal--active');
+        if (openModal) {
+          const closeButton = openModal.querySelector('.modal__close-button');
+          if (closeButton) {
+            closeButton.click();
+          }
+        }
+      }
+    });
+    
+    // Trap focus within modal
+    modals.forEach(modal => {
+      modal.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab' && modal.classList.contains('modal--active')) {
+          const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+          const firstElement = focusableElements[0];
+          const lastElement = focusableElements[focusableElements.length - 1];
+          
+          if (e.shiftKey && document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          } else if (!e.shiftKey && document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      });
+    });
+  });
+</script>

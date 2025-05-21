@@ -1,0 +1,311 @@
+{
+  "name": "Components Collection",
+  "sections": {
+    "collection-hero": {
+      "type": "collection-hero",
+      "settings": {
+        "title": "PC Components",
+        "subtitle": "Premium parts for your custom PC build",
+        "description": "Browse our selection of high-quality components from trusted brands. Whether you're building a new PC or upgrading your existing system, we have the parts you need.",
+        "show_collection_image": true,
+        "image_height": "large",
+        "text_alignment": "center",
+        "overlay_opacity": 40,
+        "button_text": "Shop All Components",
+        "button_link": "#main-collection",
+        "second_button_text": "Build Custom PC",
+        "second_button_link": "/pages/pc-builder",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "component-categories": {
+      "type": "component-categories",
+      "blocks": {
+        "category-0": {
+          "type": "category",
+          "settings": {
+            "title": "Processors (CPUs)",
+            "subtitle": "The brain of your PC",
+            "image": "",
+            "link": "/collections/processors"
+          }
+        },
+        "category-1": {
+          "type": "category",
+          "settings": {
+            "title": "Graphics Cards (GPUs)",
+            "subtitle": "Power your visual experience",
+            "image": "",
+            "link": "/collections/graphics-cards"
+          }
+        },
+        "category-2": {
+          "type": "category",
+          "settings": {
+            "title": "Motherboards",
+            "subtitle": "The foundation of your build",
+            "image": "",
+            "link": "/collections/motherboards"
+          }
+        },
+        "category-3": {
+          "type": "category",
+          "settings": {
+            "title": "Memory (RAM)",
+            "subtitle": "Speed up your system",
+            "image": "",
+            "link": "/collections/memory"
+          }
+        },
+        "category-4": {
+          "type": "category",
+          "settings": {
+            "title": "Storage",
+            "subtitle": "SSDs and hard drives",
+            "image": "",
+            "link": "/collections/storage"
+          }
+        },
+        "category-5": {
+          "type": "category",
+          "settings": {
+            "title": "Power Supplies",
+            "subtitle": "Reliable power delivery",
+            "image": "",
+            "link": "/collections/power-supplies"
+          }
+        },
+        "category-6": {
+          "type": "category",
+          "settings": {
+            "title": "Cases",
+            "subtitle": "House your components",
+            "image": "",
+            "link": "/collections/cases"
+          }
+        },
+        "category-7": {
+          "type": "category",
+          "settings": {
+            "title": "Cooling",
+            "subtitle": "Keep temperatures in check",
+            "image": "",
+            "link": "/collections/cooling"
+          }
+        }
+      },
+      "block_order": [
+        "category-0",
+        "category-1",
+        "category-2",
+        "category-3",
+        "category-4",
+        "category-5",
+        "category-6",
+        "category-7"
+      ],
+      "settings": {
+        "title": "Shop By Component Type",
+        "subtitle": "Find exactly what you need for your build",
+        "layout": "grid",
+        "columns_desktop": 4,
+        "columns_mobile": 2,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "main-collection": {
+      "type": "main-collection",
+      "settings": {
+        "products_per_page": 24,
+        "products_per_row": 4,
+        "image_ratio": "square",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": true,
+        "enable_quick_add": true,
+        "enable_filtering": true,
+        "filter_type": "sidebar",
+        "enable_sorting": true,
+        "enable_color_swatch": true,
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    },
+    "featured-brands": {
+      "type": "featured-brands",
+      "blocks": {
+        "brand-0": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "NVIDIA",
+            "brand_logo": "",
+            "brand_url": "/collections/vendors?q=NVIDIA"
+          }
+        },
+        "brand-1": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "AMD",
+            "brand_logo": "",
+            "brand_url": "/collections/vendors?q=AMD"
+          }
+        },
+        "brand-2": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "Intel",
+            "brand_logo": "",
+            "brand_url": "/collections/vendors?q=Intel"
+          }
+        },
+        "brand-3": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "ASUS",
+            "brand_logo": "",
+            "brand_url": "/collections/vendors?q=ASUS"
+          }
+        },
+        "brand-4": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "MSI",
+            "brand_logo": "",
+            "brand_url": "/collections/vendors?q=MSI"
+          }
+        },
+        "brand-5": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "Corsair",
+            "brand_logo": "",
+            "brand_url": "/collections/vendors?q=Corsair"
+          }
+        },
+        "brand-6": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "NZXT",
+            "brand_logo": "",
+            "brand_url": "/collections/vendors?q=NZXT"
+          }
+        },
+        "brand-7": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "Samsung",
+            "brand_logo": "",
+            "brand_url": "/collections/vendors?q=Samsung"
+          }
+        }
+      },
+      "block_order": [
+        "brand-0",
+        "brand-1",
+        "brand-2",
+        "brand-3",
+        "brand-4",
+        "brand-5",
+        "brand-6",
+        "brand-7"
+      ],
+      "settings": {
+        "title": "Shop By Brand",
+        "subtitle": "We carry components from leading manufacturers",
+        "layout": "slider",
+        "logo_height": 60,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "compatibility-guide": {
+      "type": "text-with-image",
+      "settings": {
+        "title": "Compatibility Guide",
+        "subtitle": "Ensure your components work together",
+        "text": "<p>When building a PC, it's essential that all your components are compatible with each other. Key factors to consider include:</p><ul><li>CPU and motherboard socket compatibility</li><li>RAM compatibility with your motherboard</li><li>Power supply wattage requirements</li><li>Physical dimensions of your case</li><li>Storage interface compatibility</li></ul><p>Not sure if components will work together? Use our <a href=\"/pages/pc-builder\">PC Builder tool</a> for automatic compatibility checking, or <a href=\"/pages/contact\">contact our experts</a> for personalized advice.</p>",
+        "button_text": "Try Our PC Builder",
+        "button_link": "/pages/pc-builder",
+        "image": "",
+        "image_position": "right",
+        "max_width": "medium",
+        "text_alignment": "left",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "component-faq": {
+      "type": "faq",
+      "blocks": {
+        "faq-0": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I know which components are compatible with my system?",
+            "answer": "You can use our PC Builder tool to check compatibility or contact our support team for personalized recommendations. Key factors to consider include socket type for CPUs and motherboards, RAM compatibility, power requirements, and physical dimensions."
+          }
+        },
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer installation services?",
+            "answer": "Yes, we offer professional component installation services. You can add this service to your cart when purchasing components. We also offer complete system building services if you're purchasing multiple components."
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What's your return policy for components?",
+            "answer": "We offer a 30-day return policy for unopened components in their original packaging. For defective items, we offer replacements within the manufacturer's warranty period. Please note that some components may have restocking fees if returned."
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you price match components?",
+            "answer": "Yes, we offer price matching against major retailers. If you find a lower price on an identical item from a qualified retailer, contact us with the details, and we'll match the price if it meets our price match criteria."
+          }
+        }
+      ],
+      "block_order": [
+        "faq-0",
+        "faq-1",
+        "faq-2",
+        "faq-3"
+      ],
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Common questions about PC components",
+        "layout": "accordion",
+        "padding_top": 60,
+        "padding_bottom": 80
+      }
+    },
+    "collection-cta": {
+      "type": "cta",
+      "settings": {
+        "title": "Not Sure What Components You Need?",
+        "subtitle": "Use our PC Builder for a guided experience",
+        "button_text": "Launch PC Builder",
+        "button_link": "/pages/pc-builder",
+        "second_button_text": "Contact an Expert",
+        "second_button_link": "/pages/contact",
+        "text_alignment": "center",
+        "background_color": "#2bff88",
+        "text_color": "#0a0a0a",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "collection-hero",
+    "component-categories",
+    "main-collection",
+    "featured-brands",
+    "compatibility-guide",
+    "component-faq",
+    "collection-cta"
+  ]
+}

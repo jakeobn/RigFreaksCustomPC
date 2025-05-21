@@ -1,0 +1,8 @@
+# Ignore server-side code and unnecessary files
+server/
+migrations/
+scripts/
+backups/
+backups-tmp/
+node_modules/
+package-lock.json

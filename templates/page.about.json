@@ -1,0 +1,215 @@
+{
+  "name": "About Page",
+  "sections": {
+    "about-header": {
+      "type": "page-header",
+      "settings": {
+        "show_title": true,
+        "title_size": "large",
+        "text_alignment": "center",
+        "show_breadcrumbs": true,
+        "show_page_image": true,
+        "image_height": "large",
+        "overlay_opacity": 40,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "about-intro": {
+      "type": "text-with-image",
+      "settings": {
+        "title": "Our Story",
+        "subtitle": "Building PCs since 2015",
+        "text": "<p>RigFreaks was founded by a group of passionate PC enthusiasts who believed that high-performance computing should be accessible to everyone. What started as a small workshop building custom PCs for friends has grown into a leading provider of custom gaming and workstation computers.</p><p>Our mission is to deliver exceptional computing experiences through thoughtfully designed, meticulously crafted, and thoroughly tested systems that exceed our customers' expectations.</p>",
+        "button_text": "",
+        "button_link": "",
+        "image": "",
+        "image_position": "right",
+        "max_width": "medium",
+        "text_alignment": "left",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "about-values": {
+      "type": "value-props",
+      "blocks": {
+        "value-0": {
+          "type": "value",
+          "settings": {
+            "icon": "star",
+            "title": "Quality",
+            "text": "We use only the highest quality components from trusted brands"
+          }
+        },
+        "value-1": {
+          "type": "value",
+          "settings": {
+            "icon": "settings",
+            "title": "Expertise",
+            "text": "Our team of experts has decades of combined experience in PC building"
+          }
+        },
+        "value-2": {
+          "type": "value",
+          "settings": {
+            "icon": "heart",
+            "title": "Passion",
+            "text": "We're enthusiasts who love technology and gaming"
+          }
+        },
+        "value-3": {
+          "type": "value",
+          "settings": {
+            "icon": "users",
+            "title": "Community",
+            "text": "We're building a community of PC enthusiasts and gamers"
+          }
+        }
+      },
+      "block_order": [
+        "value-0",
+        "value-1",
+        "value-2",
+        "value-3"
+      ],
+      "settings": {
+        "title": "Our Values",
+        "subtitle": "What drives everything we do",
+        "layout": "grid",
+        "columns": 4,
+        "background_color": "#111111",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "about-team": {
+      "type": "team",
+      "blocks": {
+        "team-0": {
+          "type": "team_member",
+          "settings": {
+            "name": "John Smith",
+            "title": "Founder & CEO",
+            "bio": "PC enthusiast with over 15 years of experience building custom rigs",
+            "image": ""
+          }
+        },
+        "team-1": {
+          "type": "team_member",
+          "settings": {
+            "name": "Sarah Johnson",
+            "title": "Lead PC Builder",
+            "bio": "Former esports competitor turned PC building expert",
+            "image": ""
+          }
+        },
+        "team-2": {
+          "type": "team_member",
+          "settings": {
+            "name": "David Chen",
+            "title": "Technical Support Manager",
+            "bio": "Certified hardware specialist with a passion for problem-solving",
+            "image": ""
+          }
+        },
+        "team-3": {
+          "type": "team_member",
+          "settings": {
+            "name": "Lisa Rodriguez",
+            "title": "Customer Experience Director",
+            "bio": "Dedicated to ensuring every customer has an amazing experience",
+            "image": ""
+          }
+        }
+      },
+      "block_order": [
+        "team-0",
+        "team-1",
+        "team-2",
+        "team-3"
+      ],
+      "settings": {
+        "title": "Meet Our Team",
+        "subtitle": "The experts behind RigFreaks",
+        "layout": "grid",
+        "columns": 4,
+        "show_social_links": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "about-testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial-0": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "My RigFreaks PC is the best computer I've ever owned. The performance is incredible and the build quality is impeccable.",
+            "author": "Michael P.",
+            "location": "Gaming Enthusiast",
+            "rating": 5
+          }
+        },
+        "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "As a content creator, I needed a powerful workstation that could handle heavy video editing. RigFreaks delivered exactly what I needed.",
+            "author": "Emily R.",
+            "location": "YouTube Creator",
+            "rating": 5
+          }
+        },
+        "testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The custom PC builder tool made it so easy to create exactly the system I wanted. The real-time compatibility checking was a huge help.",
+            "author": "James K.",
+            "location": "Software Developer",
+            "rating": 5
+          }
+        }
+      },
+      "block_order": [
+        "testimonial-0",
+        "testimonial-1",
+        "testimonial-2"
+      ],
+      "settings": {
+        "title": "What Our Customers Say",
+        "subtitle": "Hear from the RigFreaks community",
+        "layout": "slider",
+        "show_rating": true,
+        "background_color": "#0a0a0a",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "about-cta": {
+      "type": "cta",
+      "settings": {
+        "title": "Ready to Experience the RigFreaks Difference?",
+        "subtitle": "Start building your dream PC today",
+        "button_text": "Shop Now",
+        "button_link": "/collections/all",
+        "second_button_text": "Build Custom PC",
+        "second_button_link": "/pages/pc-builder",
+        "text_alignment": "center",
+        "background_color": "#ff0077",
+        "text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "about-header",
+    "about-intro",
+    "about-values",
+    "about-team",
+    "about-testimonials",
+    "about-cta"
+  ]
+}

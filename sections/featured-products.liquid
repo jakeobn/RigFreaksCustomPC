@@ -1,0 +1,224 @@
+{% comment %}
+  Featured Products Section
+  
+  A dynamic section for showing featured products
+  such as prebuilt PC systems and popular components
+{% endcomment %}
+
+<div class="section-featured-products" id="section-{{ section.id }}">
+  <div class="page-width">
+    {% if section.settings.title != blank %}
+      <div class="section-featured-products__header">
+        <h2 class="section-featured-products__title">{{ section.settings.title }}</h2>
+        
+        {% if section.settings.description != blank %}
+          <div class="section-featured-products__description">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+        
+        {% if section.settings.view_all_link != blank and section.settings.view_all_text != blank %}
+          <a href="{{ section.settings.view_all_link }}" class="section-featured-products__view-all">
+            {{ section.settings.view_all_text }}
+            {% render 'icon-chevron-right' %}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    <div class="section-featured-products__grid product-grid product-grid--{{ section.settings.columns_desktop }}-col-desktop">
+      {% assign collection = collections[section.settings.collection] %}
+      
+      {% if collection != blank and collection.products.size > 0 %}
+        {% assign products_to_display = section.settings.products_to_show | at_most: collection.products.size %}
+        
+        {% for product in collection.products limit: products_to_display %}
+          <div class="section-featured-products__product-card">
+            <div class="product-card">
+              <a href="{{ product.url }}" class="product-card__link">
+                <div class="product-card__media">
+                  {% if product.featured_image != blank %}
+                    <img
+                      srcset="{{ product.featured_image | image_url: width: 300 }} 300w,
+                              {{ product.featured_image | image_url: width: 400 }} 400w,
+                              {{ product.featured_image | image_url: width: 500 }} 500w"
+                      src="{{ product.featured_image | image_url: width: 400 }}"
+                      sizes="(min-width: 1200px) {{ 1200 | divided_by: section.settings.columns_desktop }}px, (min-width: 750px) {{ 750 | divided_by: section.settings.columns_tablet }}px, calc(100vw - 30px)"
+                      loading="lazy"
+                      width="{{ product.featured_image.width }}"
+                      height="{{ product.featured_image.height }}"
+                      alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                      class="product-card__image"
+                    >
+                  {% else %}
+                    {{ 'product-1' | placeholder_svg_tag: 'product-card__image placeholder-svg' }}
+                  {% endif %}
+                  
+                  {% if product.compare_at_price > product.price %}
+                    <span class="product-card__badge product-card__badge--sale">
+                      {{ 'products.product.on_sale' | t }}
+                    </span>
+                  {% endif %}
+                  
+                  {% if section.settings.show_quick_buy %}
+                    <div class="product-card__quick-add">
+                      {% form 'product', product, class: 'product-form' %}
+                        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                        
+                        <button
+                          type="submit"
+                          name="add"
+                          class="product-card__quick-add-btn"
+                          {% if product.available == false %}disabled{% endif %}
+                        >
+                          <span class="visually-hidden">{{ 'products.product.add_to_cart' | t }}</span>
+                          {% render 'icon-plus' %}
+                        </button>
+                      {% endform %}
+                    </div>
+                  {% endif %}
+                </div>
+                
+                <div class="product-card__info">
+                  {% if section.settings.show_vendor and product.vendor != blank %}
+                    <span class="product-card__vendor">{{ product.vendor }}</span>
+                  {% endif %}
+                  
+                  <h3 class="product-card__title">{{ product.title }}</h3>
+                  
+                  <div class="product-card__price">
+                    {% if product.compare_at_price > product.price %}
+                      <span class="product-card__price--regular">{{ product.compare_at_price | money }}</span>
+                      <span class="product-card__price--sale">{{ product.price | money }}</span>
+                    {% else %}
+                      <span class="product-card__price--regular">{{ product.price | money }}</span>
+                    {% endif %}
+                  </div>
+                  
+                  {% if section.settings.show_rating and product.metafields.reviews.rating %}
+                    <div class="product-card__rating">
+                      <span class="product-card__rating-stars" style="--rating: {{ product.metafields.reviews.rating.value | divided_by: 5.0 | times: 100 }}%;">★★★★★</span>
+                      <span class="product-card__rating-count">({{ product.metafields.reviews.rating_count }})</span>
+                    </div>
+                  {% endif %}
+                  
+                  {% if product.type == 'Gaming PC' and product.metafields.specs.pc_category %}
+                    <div class="product-card__pc-category product-card__pc-category--{{ product.metafields.specs.pc_category | handleize }}">
+                      {{ product.metafields.specs.pc_category }}
+                    </div>
+                  {% endif %}
+                </div>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="section-featured-products__placeholder">
+          {% for i in (1..section.settings.products_to_show) %}
+            <div class="section-featured-products__product-card">
+              <div class="product-card">
+                <div class="product-card__media">
+                  {{ 'product-' | append: i | placeholder_svg_tag: 'product-card__image placeholder-svg' }}
+                </div>
+                
+                <div class="product-card__info">
+                  <h3 class="product-card__title">{{ 'products.product.product_title' | t }}</h3>
+                  
+                  <div class="product-card__price">
+                    <span class="product-card__price--regular">{{ 1999 | money }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Featured Products",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Products to show"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 4,
+      "label": "Number of columns on desktop"
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2,
+      "label": "Number of columns on tablet"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "Show product vendor"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": true,
+      "label": "Show product rating"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_buy",
+      "default": true,
+      "label": "Show quick add button"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "default": "View all",
+      "label": "View all text"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View all link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

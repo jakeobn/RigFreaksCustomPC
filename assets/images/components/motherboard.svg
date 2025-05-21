@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>Motherboard</title>
+    <g id="Motherboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Board-Base" stroke="#FF00FF" stroke-width="12" fill="#1E1E2E" x="32" y="32" width="448" height="448" rx="8"></rect>
+        <rect id="CPU-Socket" stroke="#00FFFF" stroke-width="8" fill="#1E1E2E" x="96" y="96" width="128" height="128" rx="8"></rect>
+        <rect id="RAM-Slot-1" stroke="#FF00FF" stroke-width="6" fill="#1E1E2E" x="256" y="96" width="192" height="32" rx="4"></rect>
+        <rect id="RAM-Slot-2" stroke="#FF00FF" stroke-width="6" fill="#1E1E2E" x="256" y="144" width="192" height="32" rx="4"></rect>
+        <rect id="RAM-Slot-3" stroke="#FF00FF" stroke-width="6" fill="#1E1E2E" x="256" y="192" width="192" height="32" rx="4"></rect>
+        <rect id="PCIe-x16" stroke="#00FFFF" stroke-width="6" fill="#1E1E2E" x="96" y="256" width="352" height="32" rx="2"></rect>
+        <rect id="PCIe-x1-1" stroke="#00FFFF" stroke-width="6" fill="#1E1E2E" x="96" y="304" width="128" height="16" rx="2"></rect>
+        <rect id="PCIe-x1-2" stroke="#00FFFF" stroke-width="6" fill="#1E1E2E" x="96" y="336" width="128" height="16" rx="2"></rect>
+        <rect id="SATA-1" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="320" y="304" width="32" height="16" rx="2"></rect>
+        <rect id="SATA-2" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="368" y="304" width="32" height="16" rx="2"></rect>
+        <rect id="SATA-3" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="416" y="304" width="32" height="16" rx="2"></rect>
+        <rect id="SATA-4" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="320" y="336" width="32" height="16" rx="2"></rect>
+        <rect id="SATA-5" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="368" y="336" width="32" height="16" rx="2"></rect>
+        <rect id="SATA-6" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="416" y="336" width="32" height="16" rx="2"></rect>
+        <circle id="Capacitor-1" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" cx="96" cy="400" r="16"></circle>
+        <circle id="Capacitor-2" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" cx="136" cy="400" r="16"></circle>
+        <circle id="Capacitor-3" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" cx="176" cy="400" r="16"></circle>
+        <circle id="Capacitor-4" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" cx="96" cy="440" r="16"></circle>
+        <circle id="Capacitor-5" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" cx="136" cy="440" r="16"></circle>
+        <circle id="Capacitor-6" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" cx="176" cy="440" r="16"></circle>
+        <rect id="IO-Panel" stroke="#00FFFF" stroke-width="6" fill="#1E1E2E" x="32" y="32" width="32" height="192" rx="4"></rect>
+        <rect id="Chipset" stroke="#00FFFF" stroke-width="6" fill="#1E1E2E" x="240" y="384" width="80" height="80" rx="4"></rect>
+        <rect id="Power-8pin" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="48" y="96" width="32" height="16" rx="2"></rect>
+        <rect id="Power-24pin" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="224" y="256" width="64" height="24" rx="2"></rect>
+        <rect id="M2-Slot" stroke="#00FFFF" stroke-width="4" fill="#1E1E2E" x="320" y="384" width="128" height="32" rx="2"></rect>
+        <rect id="VRM" stroke="#FF00FF" stroke-width="4" fill="#1E1E2E" x="48" y="144" width="32" height="80" rx="2"></rect>
+        <text id="CPU" font-family="Arial-BoldMT, Arial" font-size="24" font-weight="bold" fill="#00FFFF">
+            <tspan x="128" y="176">CPU</tspan>
+        </text>
+        <text id="MOBO" font-family="Arial-BoldMT, Arial" font-size="20" font-weight="bold" fill="#00FFFF">
+            <tspan x="250" y="433">MOBO</tspan>
+        </text>
+    </g>
+</svg>

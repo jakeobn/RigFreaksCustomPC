@@ -1,0 +1,59 @@
+{%- liquid
+  assign rating_decimal = rating | modulo: 1
+  assign rating_base = rating | minus: rating_decimal
+  assign rating_decimal_floor = rating_decimal | floor
+-%}
+
+<div class="star-rating" style="--star-rating: {{ rating | divided_by: max_rating | times: 100 }}%;" role="img" aria-label="{{ rating | divided_by: max_rating | times: 100 | round }}% rating">
+  {%- for i in (1..max_rating) -%}
+    <span class="star-rating__star">
+      <svg 
+        class="star-rating__icon" 
+        width="18" 
+        height="18" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path 
+          d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" 
+          stroke="currentColor" 
+          stroke-width="2" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+          fill="currentColor"
+        />
+      </svg>
+    </span>
+  {%- endfor -%}
+</div>
+
+<style>
+  .star-rating {
+    display: inline-flex;
+    position: relative;
+    color: #e0e0e0;
+  }
+  
+  .star-rating::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: var(--star-rating);
+    height: 100%;
+    background: linear-gradient(90deg, currentColor var(--star-rating), transparent var(--star-rating));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #ffb800;
+  }
+  
+  .star-rating__star {
+    display: flex;
+  }
+  
+  .star-rating__icon {
+    width: 18px;
+    height: 18px;
+  }
+</style>

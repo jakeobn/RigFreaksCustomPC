@@ -1,0 +1,60 @@
+/* Seamless Blending for the Entire Website */
+
+/* Remove any margin/padding between sections */
+.modern-hero, 
+section, 
+.container-fluid, 
+.main-content > div {
+    margin-bottom: 0 !important;
+    padding-top: 0 !important; 
+    padding-bottom: 0 !important; 
+}
+
+/* Add extra padding to hero section for the header */
+.modern-hero {
+    padding-top: 5rem !important;
+    padding-bottom: 0 !important; /* Remove bottom padding completely */
+}
+
+/* Remove any transitions/gradients that might create visual seams */
+.modern-hero::after,
+.modern-hero::before,
+main.main-content::after {
+    display: none !important;
+}
+
+/* Consistent spacing for content sections */
+section {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+    position: relative;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Universal z-index management */
+.features-modern, 
+.testimonials-modern,
+.featured-systems-carousel,
+.process-steps-modern,
+.pc-categories-section,
+.featured-pcs-section,
+.usp-features-section,
+.trending-products-section,
+.shop-components-section,
+.special-offers-section,
+.testimonials-section,
+.why-choose-section,
+.blog-section,
+.cta-section {
+    position: relative;
+    z-index: 2;
+}
+
+/* Main content container */
+main.main-content {
+    position: relative;
+    z-index: 1;
+    background-color: transparent !important;
+    background-image: none !important;
+}

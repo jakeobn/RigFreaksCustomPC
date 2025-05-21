@@ -1,0 +1,359 @@
+{% comment %}
+  Dawn Theme - Collection Product Grid Section
+  Displays products in a grid or list format with pagination
+{% endcomment %}
+
+<div id="product-grid" class="collection-grid" data-view="{{ section.settings.products_per_row }}">
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    {%- if collection.products.size == 0 -%}
+      <div class="collection-empty">
+        <h2 class="collection-empty__title">{{ 'collections.general.no_matches' | t }}</h2>
+        <p class="collection-empty__text">{{ 'collections.general.suggestions' | t }}</p>
+        <ul class="collection-empty__list">
+          <li>{{ 'collections.general.check_spelling' | t }}</li>
+          <li>{{ 'collections.general.different_keywords' | t }}</li>
+          <li>{{ 'collections.general.fewer_filters' | t }}</li>
+        </ul>
+      </div>
+    {%- else -%}
+      <div class="collection-view-options">
+        <div class="collection-view-count">
+          <p>{{ 'collections.general.showing_items' | t: count: collection.products.size, total: collection.all_products_count }}</p>
+        </div>
+        <div class="collection-view-buttons">
+          <button type="button" class="view-button view-button--grid {% if section.settings.default_view == 'grid' %}active{% endif %}" aria-label="{{ 'collections.general.grid_view' | t }}" data-view="grid">
+            {% render 'icon-grid' %}
+          </button>
+          <button type="button" class="view-button view-button--list {% if section.settings.default_view == 'list' %}active{% endif %}" aria-label="{{ 'collections.general.list_view' | t }}" data-view="list">
+            {% render 'icon-list' %}
+          </button>
+        </div>
+      </div>
+      
+      <ul class="collection-product-list" id="ProductGridContainer">
+        {%- for product in collection.products -%}
+          <li class="collection-product-item">
+            <div class="product-card-wrapper">
+              {% render 'product-card',
+                product: product,
+                show_vendor: section.settings.show_vendor,
+                show_rating: section.settings.show_rating,
+                class: 'product-card--collection',
+                image_ratio: section.settings.image_ratio
+              %}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+      
+      {%- if paginate.pages > 1 -%}
+        {% render 'pagination', paginate: paginate %}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Product grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 16,
+      "label": "Products per page"
+    },
+    {
+      "type": "header",
+      "content": "Grid Settings"
+    },
+    {
+      "type": "select",
+      "id": "products_per_row",
+      "options": [
+        {
+          "value": "2",
+          "label": "2 per row"
+        },
+        {
+          "value": "3",
+          "label": "3 per row"
+        },
+        {
+          "value": "4",
+          "label": "4 per row"
+        },
+        {
+          "value": "5",
+          "label": "5 per row"
+        }
+      ],
+      "default": "4",
+      "label": "Products per row"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape"
+        }
+      ],
+      "default": "square",
+      "label": "Image ratio"
+    },
+    {
+      "type": "select",
+      "id": "default_view",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "list",
+          "label": "List"
+        }
+      ],
+      "default": "grid",
+      "label": "Default view"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": true,
+      "label": "Show product vendor"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": true,
+      "label": "Show product rating"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "default": true,
+      "label": "Show quick add button"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+.collection-grid {
+  position: relative;
+}
+
+.collection-empty {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.collection-empty__title {
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+.collection-empty__text {
+  margin-bottom: 2rem;
+}
+
+.collection-empty__list {
+  list-style-position: inside;
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.collection-view-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.collection-view-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.view-button {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-button.active {
+  background-color: var(--color-background-contrast);
+  color: var(--color-foreground-inverse);
+}
+
+.collection-product-list {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns, 4), 1fr);
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.collection-grid[data-view="2"] .collection-product-list {
+  --grid-columns: 2;
+}
+
+.collection-grid[data-view="3"] .collection-product-list {
+  --grid-columns: 3;
+}
+
+.collection-grid[data-view="4"] .collection-product-list {
+  --grid-columns: 4;
+}
+
+.collection-grid[data-view="5"] .collection-product-list {
+  --grid-columns: 5;
+}
+
+/* List view styles */
+.collection-grid[data-view="list"] .collection-product-list {
+  display: block;
+}
+
+.collection-grid[data-view="list"] .collection-product-item {
+  margin-bottom: 2rem;
+}
+
+.collection-grid[data-view="list"] .product-card {
+  display: flex;
+  align-items: flex-start;
+}
+
+.collection-grid[data-view="list"] .product-card__image-container {
+  width: 30%;
+  flex-shrink: 0;
+}
+
+.collection-grid[data-view="list"] .product-card__info {
+  padding: 0 0 0 2rem;
+  text-align: left;
+}
+
+.collection-grid[data-view="list"] .product-card__title {
+  font-size: 1.4rem;
+}
+
+.collection-grid[data-view="list"] .product-card__vendor {
+  margin-bottom: 1rem;
+}
+
+.collection-grid[data-view="list"] .product-card__description {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+@media screen and (max-width: 989px) {
+  .collection-product-list {
+    --grid-columns: 3;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .collection-product-list {
+    --grid-columns: 2;
+  }
+  
+  .collection-grid[data-view="list"] .product-card {
+    flex-direction: column;
+  }
+  
+  .collection-grid[data-view="list"] .product-card__image-container {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+  
+  .collection-grid[data-view="list"] .product-card__info {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .collection-product-list {
+    --grid-columns: 1;
+  }
+  
+  .collection-view-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+</style>
+
+<script>
+  class ViewSwitcher extends HTMLElement {
+    constructor() {
+      super();
+      this.gridContainer = document.getElementById('product-grid');
+      this.gridButtons = this.querySelectorAll('.view-button');
+      
+      this.gridButtons.forEach(button => {
+        button.addEventListener('click', this.switchView.bind(this));
+      });
+    }
+    
+    switchView(event) {
+      const viewType = event.currentTarget.dataset.view;
+      
+      // Update active state on buttons
+      this.gridButtons.forEach(button => {
+        button.classList.toggle('active', button.dataset.view === viewType);
+      });
+      
+      // Update grid container view
+      this.gridContainer.dataset.view = viewType;
+      
+      // Store the preference in localStorage
+      localStorage.setItem('collection_view_preference', viewType);
+    }
+  }
+  
+  customElements.define('view-switcher', ViewSwitcher);
+  
+  // Initialize view on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    const viewSwitcher = document.querySelector('.collection-view-buttons');
+    if (viewSwitcher) {
+      // Check if user has a saved preference
+      const savedView = localStorage.getItem('collection_view_preference');
+      if (savedView) {
+        const gridContainer = document.getElementById('product-grid');
+        const buttons = viewSwitcher.querySelectorAll('.view-button');
+        
+        // Update view
+        gridContainer.dataset.view = savedView;
+        
+        // Update active button
+        buttons.forEach(button => {
+          button.classList.toggle('active', button.dataset.view === savedView);
+        });
+      }
+    }
+  });
+</script>

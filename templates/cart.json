@@ -1,0 +1,74 @@
+{
+  "name": "Cart",
+  "sections": {
+    "cart-items": {
+      "type": "cart-items",
+      "settings": {
+        "cart_title": "Your Cart",
+        "empty_cart_message": "Your cart is currently empty",
+        "show_vendor": true,
+        "show_product_image": true,
+        "show_quantity_selector": true,
+        "show_cart_notes": true,
+        "cart_notes_placeholder": "Add a note about your order",
+        "show_discount_field": true,
+        "enable_cart_promotion": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "cart-footer": {
+      "type": "cart-footer",
+      "blocks": {
+        "subtotal": {
+          "type": "subtotal",
+          "settings": {
+          }
+        },
+        "shipping-text": {
+          "type": "shipping_text",
+          "settings": {
+            "shipping_text": "Shipping & taxes calculated at checkout"
+          }
+        },
+        "checkout-buttons": {
+          "type": "checkout_buttons",
+          "settings": {
+            "show_checkout_button": true,
+            "checkout_button_text": "Checkout",
+            "show_continue_shopping": true,
+            "continue_shopping_text": "Continue Shopping",
+            "continue_url": "/collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "subtotal",
+        "shipping-text",
+        "checkout-buttons"
+      ],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 40
+      }
+    },
+    "cart-recommendations": {
+      "type": "cart-recommendations",
+      "settings": {
+        "title": "You Might Also Like",
+        "subtitle": "Products frequently bought together",
+        "products_to_show": 4,
+        "products_per_row": 4,
+        "enable_quick_view": true,
+        "enable_quick_buy": true,
+        "padding_top": 40,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "cart-items",
+    "cart-footer",
+    "cart-recommendations"
+  ]
+}
